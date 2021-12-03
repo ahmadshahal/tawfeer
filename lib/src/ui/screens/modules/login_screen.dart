@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/form_status.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/login_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/obscure_text_cubit/obscure_text_cubit.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
@@ -45,7 +47,10 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 45.0),
-                    _form(context),
+                    BlocProvider(
+                      create: (context) => LoginCubit(),
+                      child: _form(context),
+                    ),
                     const SizedBox(height: 5.0),
                     _registerRow(context),
                   ],
@@ -59,48 +64,62 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _form(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          _emailTextFormField(context),
-          const SizedBox(height: 15.0),
-          BlocProvider(
-            create: (context) => ObscureTextCubit(),
-            child: _passwordTextFormField(context),
-          ),
-          const SizedBox(height: 25.0),
-          _materialButton(context),
-        ],
-      ),
-    );
-  }
-
-  Widget _emailTextFormField(BuildContext context) {
-    return MyTextFormField(
-      label: 'Email',
-      textInputType: TextInputType.emailAddress,
-      textController: _emailController,
-      validate: (String? value) {
-        // TODO: Backend validation through the api.
-        if (value == null || value.isEmpty) {
-          return "Email can't be empty";
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state.formStatus is FormStatusSuccess) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Logged In')));
         }
-        return null;
+        else if(state.formStatus is FormStatusFailure) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text((state.formStatus as FormStatusFailure).exception.toString())));
+        }
+      },
+      builder: (context, state) {
+        return Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              _emailTextFormField(context, state),
+              const SizedBox(height: 15.0),
+              BlocProvider(
+                create: (context) => ObscureTextCubit(),
+                child: _passwordTextFormField(context, state),
+              ),
+              const SizedBox(height: 25.0),
+              _materialButton(context, state),
+            ],
+          ),
+        );
       },
     );
   }
 
-  Widget _passwordTextFormField(BuildContext context) {
+  Widget _emailTextFormField(BuildContext context, LoginState loginState) {
+    return MyTextFormField(
+      label: 'Email',
+      textInputType: TextInputType.emailAddress,
+      textController: _emailController,
+      onChanged: (String value) {
+        BlocProvider.of<LoginCubit>(context).emailChanged(email: value);
+      },
+      validate: (String? value) {
+        if(loginState.emailValid) return null;
+        return 'Email Invalid';
+      },
+    );
+  }
+
+  Widget _passwordTextFormField(BuildContext context, LoginState loginState) {
     return BlocBuilder<ObscureTextCubit, ObscureTextState>(
       builder: (context, state) {
         return MyTextFormField(
+          onChanged: (String value) {
+            BlocProvider.of<LoginCubit>(context).passwordChanged(password: value);
+          },
           validate: (String? value) {
-            // TODO: Backend validation through the api.
-            if (value == null || value.isEmpty) {
-              return "Password can't be empty";
-            }
-            return null;
+            if(loginState.passwordValid) return null;
+            return 'Password Invalid';
           },
           obscureText: state.obscureText,
           label: 'Password',
@@ -125,14 +144,17 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _materialButton(BuildContext context) {
+  Widget _materialButton(BuildContext context, LoginState loginState) {
+    if(loginState.formStatus is FormStatusSubmitting) {
+      return const CircularProgressIndicator(
+        strokeWidth: 3.0,
+      );
+    }
     return MyMaterialButton(
       text: 'Login',
       callBack: () {
-        // TODO: Backend validation through the api.
-        if (_formKey.currentState!.validate()) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Logged In')));
+        if(_formKey.currentState!.validate()) {
+          BlocProvider.of<LoginCubit>(context).submit(email: _emailController.text, password: _passwordController.text);
         }
       },
     );

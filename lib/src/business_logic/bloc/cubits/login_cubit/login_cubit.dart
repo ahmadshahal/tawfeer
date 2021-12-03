@@ -9,6 +9,32 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(const LoginState(email: '', password: ''));
   final AuthRepository _authRepository = AuthRepository();
 
+  Future<void> emailChanged({required String email}) async {
+    bool valid = await _authRepository.isEmailValid(email: email);
+    emit(
+      LoginState(
+        email: email,
+        password: state.email,
+        emailValid: valid,
+        passwordValid: state.passwordValid,
+        formStatus: state.formStatus,
+      ),
+    );
+  }
+
+  Future<void> passwordChanged({required String password}) async {
+    bool valid = await _authRepository.isPasswordValid(password: password);
+    emit(
+      LoginState(
+        email: state.email,
+        password: password,
+        emailValid: state.emailValid,
+        passwordValid: valid,
+        formStatus: state.formStatus,
+      ),
+    );
+  }
+
   Future<void> submit({required String email, required String password}) async {
     emit(
       LoginState(
@@ -19,40 +45,25 @@ class LoginCubit extends Cubit<LoginState> {
         formStatus: FormStatusSubmitting(),
       ),
     );
-    bool isEmailValid = await _authRepository.isEmailValid(email: email);
-    bool isPasswordValid = await _authRepository.isPasswordValid(password: password);
-    if (isEmailValid && isPasswordValid) {
-      try {
-        await _authRepository.login(email: email, password: password);
-        emit(
-          LoginState(
-            email: email,
-            password: password,
-            emailValid: isEmailValid,
-            passwordValid: isPasswordValid,
-            formStatus: FormStatusSuccess(),
-          ),
-        );
-      } catch (ex) {
-        emit(
-          LoginState(
-            email: email,
-            password: password,
-            emailValid: isEmailValid,
-            passwordValid: isPasswordValid,
-            formStatus: FormStatusFailure(exception: ex as Exception),
-          ),
-        );
-      }
-    } else {
+    try {
+      await _authRepository.login(email: email, password: password);
       emit(
         LoginState(
           email: email,
           password: password,
-          emailValid: isEmailValid,
-          passwordValid: isPasswordValid,
-          formStatus: FormStatusFailure(
-              exception: Exception('Wrong Email or Password')),
+          emailValid: state.emailValid,
+          passwordValid: state.passwordValid,
+          formStatus: FormStatusSuccess(),
+        ),
+      );
+    } catch (ex) {
+      emit(
+        LoginState(
+          email: email,
+          password: password,
+          emailValid: state.emailValid,
+          passwordValid: state.passwordValid,
+          formStatus: FormStatusFailure(exception: ex as Exception),
         ),
       );
     }
