@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
+import 'package:tawfeer/src/ui/themes/styles/styles.dart';
 
 class MyTextFormField extends StatelessWidget {
   final String label;
@@ -28,9 +29,7 @@ class MyTextFormField extends StatelessWidget {
         Container(
           height: 60.0,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              7,
-            ),
+            borderRadius: BorderRadius.circular(MyStyles.radius),
             color: MyColors.lightGrey,
           ),
         ),
@@ -44,9 +43,7 @@ class MyTextFormField extends StatelessWidget {
             textCapitalization: (textInputType == TextInputType.text)
                 ? TextCapitalization.words
                 : TextCapitalization.none,
-            cursorRadius: const Radius.circular(
-              7.0,
-            ),
+            cursorRadius: const Radius.circular(MyStyles.radius),
             controller: textController,
             style: const TextStyle(
               fontSize: 15.0,

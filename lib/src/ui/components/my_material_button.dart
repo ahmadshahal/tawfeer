@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
+import 'package:tawfeer/src/ui/themes/styles/styles.dart';
 
 class MyMaterialButton extends StatelessWidget {
   final String text;
@@ -19,9 +20,7 @@ class MyMaterialButton extends StatelessWidget {
       width: double.infinity,
       height: 50.0,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          7.0,
-        ),
+        borderRadius: BorderRadius.circular(MyStyles.radius),
       ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: MaterialButton(
