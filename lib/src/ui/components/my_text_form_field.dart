@@ -7,6 +7,7 @@ class MyTextFormField extends StatelessWidget {
   final TextEditingController textController;
   final FormFieldValidator<String>? validate;
   final TextInputType textInputType;
+  final ValueChanged<String>? onChanged;
   final bool obscureText;
   final bool readOnly;
   final IconButton? suffixIconButton;
@@ -16,6 +17,7 @@ class MyTextFormField extends StatelessWidget {
     required this.label,
     required this.textController,
     this.readOnly = false,
+    this.onChanged,
     this.validate,
     this.suffixIconButton,
     this.textInputType = TextInputType.text,
@@ -38,6 +40,7 @@ class MyTextFormField extends StatelessWidget {
               ? const EdgeInsets.only(left: 10.0)
               : const EdgeInsets.symmetric(horizontal: 10.0),
           child: TextFormField(
+            onChanged: onChanged,
             validator: validate,
             readOnly: readOnly,
             textCapitalization: (textInputType == TextInputType.text)
