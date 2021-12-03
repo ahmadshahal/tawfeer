@@ -51,83 +51,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 45.0),
-                      MyTextFormField(
-                        label: 'Email',
-                        textInputType: TextInputType.emailAddress,
-                        textController: _emailController,
-                        validate: (String? value) {
-                          // TODO: Backend validation through the api.
-                          if (value == null || value.isEmpty) {
-                            return "Email can't be empty";
-                          }
-                          return null;
-                        },
-                      ),
+                      _emailTextFormField(context),
                       const SizedBox(height: 15.0),
-                      MyTextFormField(
-                        validate: (String? value) {
-                          // TODO: Backend validation through the api.
-                          if (value == null || value.isEmpty) {
-                            return "Password can't be empty";
-                          }
-                          return null;
-                        },
-                        obscureText: _obscureText,
-                        label: 'Password',
-                        textInputType: TextInputType.visiblePassword,
-                        textController: _passwordController,
-                        suffixIconButton: IconButton(
-                          icon: Icon(
-                            _obscureText
-                                ? Icons.remove_red_eye_outlined
-                                : Icons.visibility_off_outlined,
-                            color: MyColors.darkGrey,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _obscureText = !_obscureText;
-                            });
-                          },
-                          iconSize: 16.0,
-                          splashRadius: 0.1, // Don't want a splash radius :)
-                        ),
-                      ),
+                      _passwordTextFormField(context),
                       const SizedBox(height: 25.0),
-                      MyMaterialButton(
-                        text: 'Login',
-                        callBack: () {
-                          // TODO: Backend validation through the api.
-                          if (_formKey.currentState!.validate()) ;
-                        },
-                      ),
+                      _materialButton(context),
                       const SizedBox(height: 5.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Don't have an account?",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: MyColors.darkGrey,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              // Navigator.pushReplacementNamed(
-                              //   context,
-                              //   '/createAccount',
-                              // );
-                            },
-                            child: const Text(
-                              'Register',
-                              style: TextStyle(
-                                fontSize: 13.0,
-                                color: MyColors.primaryColor,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                      _registerRow(context),
                     ],
                   ),
                 ),
@@ -136,6 +66,94 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _emailTextFormField(BuildContext context) {
+    return MyTextFormField(
+      label: 'Email',
+      textInputType: TextInputType.emailAddress,
+      textController: _emailController,
+      validate: (String? value) {
+        // TODO: Backend validation through the api.
+        if (value == null || value.isEmpty) {
+          return "Email can't be empty";
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _passwordTextFormField(BuildContext context) {
+    return MyTextFormField(
+      validate: (String? value) {
+        // TODO: Backend validation through the api.
+        if (value == null || value.isEmpty) {
+          return "Password can't be empty";
+        }
+        return null;
+      },
+      obscureText: _obscureText,
+      label: 'Password',
+      textInputType: TextInputType.visiblePassword,
+      textController: _passwordController,
+      suffixIconButton: IconButton(
+        icon: Icon(
+          _obscureText
+              ? Icons.remove_red_eye_outlined
+              : Icons.visibility_off_outlined,
+          color: MyColors.darkGrey,
+        ),
+        onPressed: () {
+          setState(() {
+            _obscureText = !_obscureText;
+          });
+        },
+        iconSize: 16.0,
+        splashRadius: 0.1, // Don't want a splash radius :)
+      ),
+    );
+  }
+
+  Widget _materialButton(BuildContext context) {
+    return MyMaterialButton(
+      text: 'Login',
+      callBack: () {
+        // TODO: Backend validation through the api.
+        if (_formKey.currentState!.validate()) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logged In')));
+        }
+      },
+    );
+  }
+
+  Widget _registerRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          "Don't have an account?",
+          style: TextStyle(
+            fontSize: 14.0,
+            color: MyColors.darkGrey,
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            // Navigator.pushReplacementNamed(
+            //   context,
+            //   '/createAccount',
+            // );
+          },
+          child: const Text(
+            'Register',
+            style: TextStyle(
+              fontSize: 13.0,
+              color: MyColors.primaryColor,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
