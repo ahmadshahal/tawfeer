@@ -5,9 +5,7 @@ class MyTextFormField extends StatelessWidget {
   final String label;
   final TextEditingController textController;
   final FormFieldValidator<String>? validate;
-  final bool isPassword;
-  final bool isEmail;
-  final bool isPhoneNumber;
+  final TextInputType textInputType;
   final bool obscureText;
   final bool readOnly;
   final IconButton? suffixIconButton;
@@ -16,12 +14,10 @@ class MyTextFormField extends StatelessWidget {
     Key? key,
     required this.label,
     required this.textController,
-    this.isPassword = false,
     this.readOnly = false,
     this.validate,
     this.suffixIconButton,
-    this.isEmail = false,
-    this.isPhoneNumber = false,
+    this.textInputType = TextInputType.text,
     this.obscureText = false,
   }) : super(key: key);
 
@@ -39,13 +35,13 @@ class MyTextFormField extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(
-            left: 10.0,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10.0,
           ),
           child: TextFormField(
             validator: validate,
             readOnly: readOnly,
-            textCapitalization: (determineInputType() == TextInputType.text)
+            textCapitalization: (textInputType == TextInputType.text)
                 ? TextCapitalization.words
                 : TextCapitalization.none,
             cursorRadius: const Radius.circular(
@@ -56,13 +52,13 @@ class MyTextFormField extends StatelessWidget {
               fontSize: 15.0,
             ),
             obscureText: obscureText,
-            keyboardType: determineInputType(),
+            keyboardType: textInputType,
             decoration: InputDecoration(
               suffixIcon: suffixIconButton,
               border: InputBorder.none,
               label: Text(
                 label,
-                style: TextStyle(
+                style: const TextStyle(
                   color: MyColors.darkGrey,
                   fontSize: 15.0,
                 ),
@@ -72,17 +68,5 @@ class MyTextFormField extends StatelessWidget {
         ),
       ],
     );
-  }
-  TextInputType determineInputType() {
-    if (isEmail) {
-      return TextInputType.emailAddress;
-    }
-    if (isPassword) {
-      return TextInputType.visiblePassword;
-    }
-    if (isPhoneNumber) {
-      return TextInputType.phone;
-    }
-    return TextInputType.text;
   }
 }
