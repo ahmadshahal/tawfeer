@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tawfeer/src/ui/screens/modules/login_screen.dart';
+import 'package:tawfeer/src/ui/themes/styles/colors.dart';
+import 'package:tawfeer/src/ui/utils/utility.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,13 +15,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tawfeer',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Tawfeer',
-          ),
+      theme: ThemeData(
+        primarySwatch: Utility.createMaterialColor(
+          MyColors.primaryColor,
         ),
+        fontFamily: 'Saira',
       ),
+      home: const LoginScreen(),
     );
   }
 }
