@@ -35,9 +35,9 @@ class MyTextFormField extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10.0,
-          ),
+          padding: textInputType == TextInputType.visiblePassword // Has a suffix IconButton
+              ? const EdgeInsets.only(left: 10.0)
+              : const EdgeInsets.symmetric(horizontal: 10.0),
           child: TextFormField(
             validator: validate,
             readOnly: readOnly,
