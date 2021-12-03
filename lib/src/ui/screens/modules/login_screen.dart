@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/obscure_text_cubit/obscure_text_cubit.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatelessWidget {
+  LoginScreen({Key? key}) : super(key: key);
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +65,10 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           _emailTextFormField(context),
           const SizedBox(height: 15.0),
-          _passwordTextFormField(context),
+          BlocProvider(
+            create: (context) => ObscureTextCubit(),
+            child: _passwordTextFormField(context),
+          ),
           const SizedBox(height: 25.0),
           _materialButton(context),
         ],
@@ -93,33 +92,36 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _passwordTextFormField(BuildContext context) {
-    return MyTextFormField(
-      validate: (String? value) {
-        // TODO: Backend validation through the api.
-        if (value == null || value.isEmpty) {
-          return "Password can't be empty";
-        }
-        return null;
+    return BlocBuilder<ObscureTextCubit, ObscureTextState>(
+      builder: (context, state) {
+        return MyTextFormField(
+          validate: (String? value) {
+            // TODO: Backend validation through the api.
+            if (value == null || value.isEmpty) {
+              return "Password can't be empty";
+            }
+            return null;
+          },
+          obscureText: state.obscureText,
+          label: 'Password',
+          textInputType: TextInputType.visiblePassword,
+          textController: _passwordController,
+          suffixIconButton: IconButton(
+            icon: Icon(
+              state.obscureText
+                  ? Icons.remove_red_eye_outlined
+                  : Icons.visibility_off_outlined,
+              color: MyColors.darkGrey,
+            ),
+            onPressed: () {
+              BlocProvider.of<ObscureTextCubit>(context)
+                  .changeObscureValue(value: !state.obscureText);
+            },
+            iconSize: 16.0,
+            splashRadius: 0.1, // Don't want a splash radius :)
+          ),
+        );
       },
-      obscureText: _obscureText,
-      label: 'Password',
-      textInputType: TextInputType.visiblePassword,
-      textController: _passwordController,
-      suffixIconButton: IconButton(
-        icon: Icon(
-          _obscureText
-              ? Icons.remove_red_eye_outlined
-              : Icons.visibility_off_outlined,
-          color: MyColors.darkGrey,
-        ),
-        onPressed: () {
-          setState(() {
-            _obscureText = !_obscureText;
-          });
-        },
-        iconSize: 16.0,
-        splashRadius: 0.1, // Don't want a splash radius :)
-      ),
     );
   }
 
@@ -129,7 +131,8 @@ class _LoginScreenState extends State<LoginScreen> {
       callBack: () {
         // TODO: Backend validation through the api.
         if (_formKey.currentState!.validate()) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logged In')));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Logged In')));
         }
       },
     );

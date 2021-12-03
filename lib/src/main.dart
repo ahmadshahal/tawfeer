@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Saira',
       ),
-      home: const LoginScreen(),
+      home: LoginScreen(),
     );
   }
 }
