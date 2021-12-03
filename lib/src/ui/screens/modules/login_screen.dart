@@ -27,44 +27,52 @@ class _LoginScreenState extends State<LoginScreen> {
             child: ScrollConfiguration(
               behavior: NonGlowScrollBehavior(),
               child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/tawfeer.png',
-                        width: 220.0,
-                        height: 160.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/tawfeer.png',
+                      width: 220.0,
+                      height: 160.0,
+                    ),
+                    const SizedBox(height: 40.0),
+                    const Text(
+                      'Welcome to Tawfeer!',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Spend your money wisely!',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: MyColors.darkGrey,
                       ),
-                      const SizedBox(height: 40.0),
-                      const Text(
-                        'Welcome to Tawfeer!',
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'Spend your money wisely!',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: MyColors.darkGrey,
-                        ),
-                      ),
-                      const SizedBox(height: 45.0),
-                      _emailTextFormField(context),
-                      const SizedBox(height: 15.0),
-                      _passwordTextFormField(context),
-                      const SizedBox(height: 25.0),
-                      _materialButton(context),
-                      const SizedBox(height: 5.0),
-                      _registerRow(context),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 45.0),
+                    _form(context),
+                    const SizedBox(height: 5.0),
+                    _registerRow(context),
+                  ],
                 ),
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _form(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          _emailTextFormField(context),
+          const SizedBox(height: 15.0),
+          _passwordTextFormField(context),
+          const SizedBox(height: 25.0),
+          _materialButton(context),
+        ],
       ),
     );
   }
