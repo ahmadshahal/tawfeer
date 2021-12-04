@@ -7,14 +7,14 @@ class ValidationUtility {
     return null;
   }
 
-  static String? loginValidatePassword(String password) {
+  static String? validateLoginPassword(String password) {
     if(password.isEmpty) {
       return "Password can't be empty";
     }
     return null;
   }
 
-  static String? registerValidatePassword(String password) {
+  static String? validateRegisterPassword(String password) {
     if(password.isEmpty) {
       return "Password can't be empty";
     }
@@ -27,14 +27,14 @@ class ValidationUtility {
     return null;
   }
 
-  static String? registerValidateFullName(String fullName) {
+  static String? validateRegisterFullName(String fullName) {
     if(fullName.isEmpty) {
       return "Full Name can't be empty";
     }
     return null;
   }
 
-  static String? registerValidatePhoneNumber(String phoneNumber) {
+  static String? validateRegisterPhoneNumber(String phoneNumber) {
     if(phoneNumber.length != 9) {
       return "Invalid phone number";
     }

@@ -116,7 +116,7 @@ class LoginScreen extends StatelessWidget {
       builder: (context, state) {
         return MyTextFormField(
           validate: (String? value) {
-            return ValidationUtility.loginValidatePassword(value ?? "");
+            return ValidationUtility.validateLoginPassword(value ?? "");
           },
           obscureText: state.obscureText,
           label: 'Password',
