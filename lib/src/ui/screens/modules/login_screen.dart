@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/login_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/obscure_text_cubit/obscure_text_cubit.dart';
 import 'package:tawfeer/src/business_logic/utils/validation_utility.dart';
+import 'package:tawfeer/src/ui/components/loading_dialog.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
@@ -53,12 +54,11 @@ class LoginScreen extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
+                              return const LoadingDialog();
                             },
                           );
                         } else if (state is LoginSuccess) {
+                          // TODO: Enter to the app.
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Logged In')));

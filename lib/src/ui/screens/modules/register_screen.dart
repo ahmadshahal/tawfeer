@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/obscure_text_cubit/obscure_text_cubit.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/register_cubit/register_cubit.dart';
 import 'package:tawfeer/src/business_logic/utils/validation_utility.dart';
+import 'package:tawfeer/src/ui/components/loading_dialog.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
@@ -33,7 +35,28 @@ class RegisterScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20.0),
                     ),
                     const SizedBox(height: 60.0),
-                    _form(context),
+                    BlocListener<RegisterCubit, RegisterState>(
+                      listener: (context, state) {
+                        if (state is RegisterSubmitting) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const LoadingDialog();
+                            },
+                          );
+                        } else if (state is RegisterSuccess) {
+                          // TODO: Enter to the app.
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Registered')));
+                        } else if (state is RegisterFailure) {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text((state.exception.toString()))));
+                        }
+                      },
+                      child: _form(context),
+                    ),
                     const SizedBox(height: 5.0),
                     _loginRow(context),
                   ],
@@ -137,8 +160,14 @@ class RegisterScreen extends StatelessWidget {
     return MyMaterialButton(
       text: 'Register',
       callBack: () {
-        // TODO
-        if (_formKey.currentState!.validate()) ;
+        if (_formKey.currentState!.validate()) {
+          BlocProvider.of<RegisterCubit>(context).submit(
+            fullName: _fullNameController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            phoneNumber: _phoneNumberController.text,
+          );
+        }
       },
     );
   }
