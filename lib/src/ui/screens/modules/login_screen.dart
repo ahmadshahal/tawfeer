@@ -106,7 +106,7 @@ class LoginScreen extends StatelessWidget {
       textInputType: TextInputType.emailAddress,
       textController: _emailController,
       validate: (String? value) {
-        return ValidationUtility.loginValidateEmail(value ?? "");
+        return ValidationUtility.validateEmail(value ?? "");
       },
     );
   }
