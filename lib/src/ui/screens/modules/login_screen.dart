@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/form_status.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/login_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/obscure_text_cubit/obscure_text_cubit.dart';
+import 'package:tawfeer/src/business_logic/utils/validation_utility.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
@@ -47,8 +47,27 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 45.0),
-                    BlocProvider(
-                      create: (context) => LoginCubit(),
+                    BlocListener<LoginCubit, LoginState>(
+                      listener: (context, state) {
+                        if (state is LoginSubmitting) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                          );
+                        } else if (state is LoginSuccess) {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Logged In')));
+                        } else if (state is LoginFailure) {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text((state.exception.toString()))));
+                        }
+                      },
                       child: _form(context),
                     ),
                     const SizedBox(height: 5.0),
@@ -64,62 +83,40 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _form(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(
-      listener: (context, state) {
-        if (state.formStatus is FormStatusSuccess) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Logged In')));
-        }
-        else if(state.formStatus is FormStatusFailure) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text((state.formStatus as FormStatusFailure).exception.toString())));
-        }
-      },
-      builder: (context, state) {
-        return Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              _emailTextFormField(context, state),
-              const SizedBox(height: 15.0),
-              BlocProvider(
-                create: (context) => ObscureTextCubit(),
-                child: _passwordTextFormField(context, state),
-              ),
-              const SizedBox(height: 25.0),
-              _materialButton(context, state),
-            ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          _emailTextFormField(context),
+          const SizedBox(height: 15.0),
+          BlocProvider(
+            create: (context) => ObscureTextCubit(),
+            child: _passwordTextFormField(context),
           ),
-        );
-      },
+          const SizedBox(height: 25.0),
+          _materialButton(context),
+        ],
+      ),
     );
   }
 
-  Widget _emailTextFormField(BuildContext context, LoginState loginState) {
+  Widget _emailTextFormField(BuildContext context) {
     return MyTextFormField(
       label: 'Email',
       textInputType: TextInputType.emailAddress,
       textController: _emailController,
-      onChanged: (String value) {
-        BlocProvider.of<LoginCubit>(context).emailChanged(email: value);
-      },
       validate: (String? value) {
-        if(loginState.emailValid) return null;
-        return 'Email Invalid';
+        return ValidationUtility.loginValidateEmail(value ?? "");
       },
     );
   }
 
-  Widget _passwordTextFormField(BuildContext context, LoginState loginState) {
+  Widget _passwordTextFormField(BuildContext context) {
     return BlocBuilder<ObscureTextCubit, ObscureTextState>(
       builder: (context, state) {
         return MyTextFormField(
-          onChanged: (String value) {
-            BlocProvider.of<LoginCubit>(context).passwordChanged(password: value);
-          },
           validate: (String? value) {
-            if(loginState.passwordValid) return null;
-            return 'Password Invalid';
+            return ValidationUtility.loginValidatePassword(value ?? "");
           },
           obscureText: state.obscureText,
           label: 'Password',
@@ -144,17 +141,13 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _materialButton(BuildContext context, LoginState loginState) {
-    if(loginState.formStatus is FormStatusSubmitting) {
-      return const CircularProgressIndicator(
-        strokeWidth: 3.0,
-      );
-    }
+  Widget _materialButton(BuildContext context) {
     return MyMaterialButton(
       text: 'Login',
       callBack: () {
-        if(_formKey.currentState!.validate()) {
-          BlocProvider.of<LoginCubit>(context).submit(email: _emailController.text, password: _passwordController.text);
+        if (_formKey.currentState!.validate()) {
+          BlocProvider.of<LoginCubit>(context).submit(
+              email: _emailController.text, password: _passwordController.text);
         }
       },
     );

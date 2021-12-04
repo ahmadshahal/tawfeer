@@ -3,14 +3,4 @@ class AuthRepository {
     await Future.delayed(const Duration(seconds: 3));
     // throw Exception('Failed');
   }
-
-  Future<bool> isEmailValid({required String email}) async {
-    await Future.delayed(const Duration(seconds: 0));
-    return true;
-  }
-
-  Future<bool> isPasswordValid({required String password}) async {
-    await Future.delayed(const Duration(seconds: 0));
-    return true;
-  }
 }
