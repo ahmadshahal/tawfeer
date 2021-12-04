@@ -10,6 +10,8 @@ class MyTextFormField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final bool obscureText;
   final bool readOnly;
+  final String? hint;
+  final String? prefixText;
   final IconButton? suffixIconButton;
 
   const MyTextFormField({
@@ -18,6 +20,8 @@ class MyTextFormField extends StatelessWidget {
     required this.textController,
     this.readOnly = false,
     this.onChanged,
+    this.hint,
+    this.prefixText,
     this.validate,
     this.suffixIconButton,
     this.textInputType = TextInputType.text,
@@ -36,7 +40,8 @@ class MyTextFormField extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: textInputType == TextInputType.visiblePassword // Has a suffix IconButton
+          padding: textInputType ==
+                  TextInputType.visiblePassword // Has a suffix IconButton
               ? const EdgeInsets.only(left: 10.0)
               : const EdgeInsets.symmetric(horizontal: 10.0),
           child: TextFormField(
@@ -55,6 +60,16 @@ class MyTextFormField extends StatelessWidget {
             keyboardType: textInputType,
             decoration: InputDecoration(
               suffixIcon: suffixIconButton,
+              hintText: hint,
+              prefixText: prefixText,
+              prefixStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 15.0,
+              ),
+              hintStyle: const TextStyle(
+                color: Colors.grey,
+                fontSize: 15.0,
+              ),
               border: InputBorder.none,
               label: Text(
                 label,

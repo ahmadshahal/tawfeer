@@ -108,7 +108,8 @@ class RegisterScreen extends StatelessWidget {
               color: MyColors.darkGrey,
             ),
             onPressed: () {
-              BlocProvider.of<ObscureTextCubit>(context).changeObscureValue(value: !state.obscureText);
+              BlocProvider.of<ObscureTextCubit>(context)
+                  .changeObscureValue(value: !state.obscureText);
             },
             iconSize: 16.0,
             splashRadius: 0.1, // Change this
@@ -121,6 +122,8 @@ class RegisterScreen extends StatelessWidget {
   Widget _phoneNumberTextFormField(BuildContext context) {
     return MyTextFormField(
       label: 'Phone Number',
+      hint: '934256783',
+      prefixText: '+963',
       textInputType: TextInputType.phone,
       textController: _phoneNumberController,
       validate: (String? value) {
@@ -133,8 +136,8 @@ class RegisterScreen extends StatelessWidget {
     return MyMaterialButton(
       text: 'Register',
       callBack: () {
-        // TODO.
-        if (_formKey.currentState!.validate());
+        // TODO
+        if (_formKey.currentState!.validate()) ;
       },
     );
   }
@@ -165,5 +168,4 @@ class RegisterScreen extends StatelessWidget {
       ],
     );
   }
-
 }
