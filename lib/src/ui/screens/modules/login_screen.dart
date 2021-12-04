@@ -58,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                             },
                           );
                         } else if (state is LoginSuccess) {
-                          // TODO: Enter to the app.
+                          // TODO: Enter the app.
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Logged In')));
