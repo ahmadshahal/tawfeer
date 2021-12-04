@@ -27,14 +27,14 @@ class ValidationUtility {
     return null;
   }
 
-  static String? registerFullName(String fullName) {
+  static String? registerValidateFullName(String fullName) {
     if(fullName.isEmpty) {
       return "Full Name can't be empty";
     }
     return null;
   }
 
-  static String? registerPhoneNumber(String phoneNumber) {
+  static String? registerValidatePhoneNumber(String phoneNumber) {
     if(phoneNumber.length != 9) {
       return "Invalid phone number";
     }
