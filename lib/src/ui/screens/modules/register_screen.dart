@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/obscure_text_cubit/obscure_text_cubit.dart';
+import 'package:tawfeer/src/business_logic/utils/validation_utility.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
@@ -73,7 +74,7 @@ class RegisterScreen extends StatelessWidget {
       textInputType: TextInputType.text,
       textController: _fullNameController,
       validate: (String? value) {
-        return null;
+        return ValidationUtility.validateRegisterFullName(value ?? "");
       },
     );
   }
@@ -84,7 +85,7 @@ class RegisterScreen extends StatelessWidget {
       textInputType: TextInputType.emailAddress,
       textController: _emailController,
       validate: (String? value) {
-        return null;
+        return ValidationUtility.validateEmail(value ?? "");
       },
     );
   }
@@ -94,7 +95,7 @@ class RegisterScreen extends StatelessWidget {
       builder: (context, state) {
         return MyTextFormField(
           validate: (String? value) {
-            return null;
+            return ValidationUtility.validateRegisterPassword(value ?? "");
           },
           obscureText: state.obscureText,
           label: 'Password',
@@ -127,7 +128,7 @@ class RegisterScreen extends StatelessWidget {
       textInputType: TextInputType.phone,
       textController: _phoneNumberController,
       validate: (String? value) {
-        return null;
+        return ValidationUtility.validateRegisterPhoneNumber(value ?? "");
       },
     );
   }
