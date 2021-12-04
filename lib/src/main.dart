@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/login_cubit.dart';
 import 'package:tawfeer/src/ui/screens/modules/login_screen.dart';
+import 'package:tawfeer/src/ui/screens/modules/register_screen.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/utility.dart';
 
@@ -23,10 +24,18 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Saira',
       ),
-      home: BlocProvider(
-        create: (context) => LoginCubit(),
-        child: LoginScreen(),
-      ),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) {
+          return BlocProvider(
+            create: (context) => LoginCubit(),
+            child: LoginScreen(),
+          );
+        },
+        '/register': (context) {
+          return RegisterScreen();
+        }
+      },
     );
   }
 }

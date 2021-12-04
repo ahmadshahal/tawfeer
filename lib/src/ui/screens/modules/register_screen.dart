@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/login_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/obscure_text_cubit/obscure_text_cubit.dart';
-import 'package:tawfeer/src/business_logic/utils/validation_utility.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
-
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({Key? key}) : super(key: key);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,50 +27,14 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/tawfeer.png',
-                      width: 220.0,
-                      height: 160.0,
-                    ),
-                    const SizedBox(height: 40.0),
                     const Text(
-                      'Welcome to Tawfeer!',
+                      'Create an account',
                       style: TextStyle(fontSize: 20.0),
                     ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Spend your money wisely!',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: MyColors.darkGrey,
-                      ),
-                    ),
-                    const SizedBox(height: 45.0),
-                    BlocListener<LoginCubit, LoginState>(
-                      listener: (context, state) {
-                        if (state is LoginSubmitting) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                          );
-                        } else if (state is LoginSuccess) {
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Logged In')));
-                        } else if (state is LoginFailure) {
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text((state.exception.toString()))));
-                        }
-                      },
-                      child: _form(context),
-                    ),
+                    const SizedBox(height: 60.0),
+                    _form(context),
                     const SizedBox(height: 5.0),
-                    _registerRow(context),
+                    _loginRow(context),
                   ],
                 ),
               ),
@@ -87,16 +50,31 @@ class LoginScreen extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: [
+          _fullNameTextFormField(context),
+          const SizedBox(height: 15.0),
           _emailTextFormField(context),
           const SizedBox(height: 15.0),
           BlocProvider(
             create: (context) => ObscureTextCubit(),
             child: _passwordTextFormField(context),
           ),
+          const SizedBox(height: 15.0),
+          _phoneNumberTextFormField(context),
           const SizedBox(height: 25.0),
           _materialButton(context),
         ],
       ),
+    );
+  }
+
+  Widget _fullNameTextFormField(BuildContext context) {
+    return MyTextFormField(
+      label: 'Full Name',
+      textInputType: TextInputType.text,
+      textController: _fullNameController,
+      validate: (String? value) {
+        return null;
+      },
     );
   }
 
@@ -106,7 +84,7 @@ class LoginScreen extends StatelessWidget {
       textInputType: TextInputType.emailAddress,
       textController: _emailController,
       validate: (String? value) {
-        return ValidationUtility.loginValidateEmail(value ?? "");
+        return null;
       },
     );
   }
@@ -116,7 +94,7 @@ class LoginScreen extends StatelessWidget {
       builder: (context, state) {
         return MyTextFormField(
           validate: (String? value) {
-            return ValidationUtility.loginValidatePassword(value ?? "");
+            return null;
           },
           obscureText: state.obscureText,
           label: 'Password',
@@ -130,35 +108,43 @@ class LoginScreen extends StatelessWidget {
               color: MyColors.darkGrey,
             ),
             onPressed: () {
-              BlocProvider.of<ObscureTextCubit>(context)
-                  .changeObscureValue(value: !state.obscureText);
+              BlocProvider.of<ObscureTextCubit>(context).changeObscureValue(value: !state.obscureText);
             },
             iconSize: 16.0,
-            splashRadius: 0.1, // Don't want a splash radius :)
+            splashRadius: 0.1, // Change this
           ),
         );
       },
     );
   }
 
-  Widget _materialButton(BuildContext context) {
-    return MyMaterialButton(
-      text: 'Login',
-      callBack: () {
-        if (_formKey.currentState!.validate()) {
-          BlocProvider.of<LoginCubit>(context).submit(
-              email: _emailController.text, password: _passwordController.text);
-        }
+  Widget _phoneNumberTextFormField(BuildContext context) {
+    return MyTextFormField(
+      label: 'Phone Number',
+      textInputType: TextInputType.phone,
+      textController: _phoneNumberController,
+      validate: (String? value) {
+        return null;
       },
     );
   }
 
-  Widget _registerRow(BuildContext context) {
+  Widget _materialButton(BuildContext context) {
+    return MyMaterialButton(
+      text: 'Register',
+      callBack: () {
+        // TODO.
+        if (_formKey.currentState!.validate());
+      },
+    );
+  }
+
+  Widget _loginRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-          "Don't have an account?",
+          'Already have an account?',
           style: TextStyle(
             fontSize: 14.0,
             color: MyColors.darkGrey,
@@ -166,13 +152,10 @@ class LoginScreen extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            Navigator.pushReplacementNamed(
-              context,
-              '/register',
-            );
+            Navigator.pushReplacementNamed(context, '/login');
           },
           child: const Text(
-            'Register',
+            'Login',
             style: TextStyle(
               fontSize: 13.0,
               color: MyColors.primaryColor,
@@ -182,4 +165,5 @@ class LoginScreen extends StatelessWidget {
       ],
     );
   }
+
 }
