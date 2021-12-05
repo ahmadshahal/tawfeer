@@ -45,10 +45,10 @@ class RegisterScreen extends StatelessWidget {
                             },
                           );
                         } else if (state is RegisterSuccess) {
-                          // TODO: Enter the app.
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Registered')));
+                          Navigator.pushReplacementNamed(context, '/home');
                         } else if (state is RegisterFailure) {
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

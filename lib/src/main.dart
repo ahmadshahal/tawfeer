@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/login_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/register_cubit/register_cubit.dart';
+import 'package:tawfeer/src/ui/screens/layouts/home_layout.dart';
 import 'package:tawfeer/src/ui/screens/modules/login_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/register_screen.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
             create: (context) => RegisterCubit(),
             child: RegisterScreen(),
           );
+        },
+        '/home': (context) {
+          return const HomeLayout();
         }
       },
     );
