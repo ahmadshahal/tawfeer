@@ -11,7 +11,7 @@ class ProductsScreen extends StatelessWidget {
           'Products Screen',
         style: TextStyle(
           fontSize: 17.0,
-          color: MyColors.darkBlue,
+          color: MyColors.secondaryColor,
         ),
       ),
     );

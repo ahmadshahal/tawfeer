@@ -11,7 +11,7 @@ class SearchScreen extends StatelessWidget {
         'Search Screen',
         style: TextStyle(
           fontSize: 17.0,
-          color: MyColors.darkBlue,
+          color: MyColors.secondaryColor,
         ),
       ),
     );

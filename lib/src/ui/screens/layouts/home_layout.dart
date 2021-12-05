@@ -47,7 +47,7 @@ class HomeLayout extends StatelessWidget {
               BlocProvider.of<HomeNavCubit>(context).changeIndex(index: index);
             },
             selectedFontSize: 12,
-            elevation: 6.0,
+            elevation: 15.0,
             currentIndex: state.index,
           ),
         );
@@ -58,20 +58,24 @@ class HomeLayout extends StatelessWidget {
   PreferredSizeWidget _appBar(BuildContext context, HomeNavState state) {
     return AppBar(
       elevation: 2.0,
-      // centerTitle: true,
-      backgroundColor: Theme
-          .of(context)
-          .scaffoldBackgroundColor,
+      backgroundColor: MyColors.secondaryColor,
       title: Text(
         titles[state.index],
         style: const TextStyle(
-          fontSize: 16.0,
-          color: MyColors.darkBlue,
+          fontSize: 17.0,
+          color: MyColors.white,
         ),
       ),
       leading: Padding(
-        padding: const EdgeInsets.only(left: 16.0),
-        child: Image.asset('assets/images/tawfeer.png'),
+        padding: const EdgeInsets.only(left: 18.0),
+        child: CircleAvatar(
+          radius: 2.0,
+          backgroundColor: MyColors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Image.asset('assets/images/tawfeer.png'),
+          ),
+        ),
       ),
       actions: [
         IconButton(
@@ -80,7 +84,7 @@ class HomeLayout extends StatelessWidget {
           },
           icon: const Icon(
             Icons.more_vert,
-            color: MyColors.darkBlue,
+            color: MyColors.white,
           ),
           splashRadius: 18.0,
         ),
