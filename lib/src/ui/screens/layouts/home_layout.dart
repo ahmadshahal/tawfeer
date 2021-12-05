@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/ui/components/my_drawer.dart';
-import 'package:tawfeer/src/ui/screens/modules/products_screen.dart';
+import 'package:tawfeer/src/ui/components/products_list_item.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 
 class HomeLayout extends StatelessWidget {
@@ -10,7 +11,10 @@ class HomeLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
-      body: const ProductsScreen(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: _listView(context),
+      ),
       floatingActionButton: _floatingActionButton(context),
       drawer: const MyDrawer(),
     );
@@ -21,7 +25,7 @@ class HomeLayout extends StatelessWidget {
       elevation: 2.0,
       backgroundColor: MyColors.secondaryColor,
       title: const Text(
-        'Products',
+        'Tawfeer',
         style: TextStyle(
           fontSize: 17.0,
           color: MyColors.white,
@@ -58,6 +62,30 @@ class HomeLayout extends StatelessWidget {
         // TODO
       },
       child: const Icon(Icons.add),
+    );
+  }
+
+  Widget _listView(BuildContext context) {
+    return ListView.separated(
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return ProductsListItem(
+          product: Product(
+            productName: "Pepsi can 330 ML",
+            description: "Hello World",
+            oldPrice: 16,
+            newPrice: 12,
+            expireDate: "04 March 2021",
+            category: "Drinks",
+            quantity: 300,
+            imgUrl: 'https://cdn.pixabay.com/photo/2020/05/10/05/14/pepsi-5152332_1280.jpg',
+          ),
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const SizedBox(height: 15.0);
+      },
+      itemCount: 8,
     );
   }
 }
