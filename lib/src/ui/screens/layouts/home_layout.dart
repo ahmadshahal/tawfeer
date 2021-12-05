@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/home_nav_cubit/home_nav_cubit.dart';
+import 'package:tawfeer/src/ui/components/my_drawer.dart';
 import 'package:tawfeer/src/ui/screens/modules/products_screen.dart';
-import 'package:tawfeer/src/ui/screens/modules/profile_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/search_screen.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 
@@ -12,13 +12,11 @@ class HomeLayout extends StatelessWidget {
   final List<Widget> screens = [
     const ProductsScreen(),
     const SearchScreen(),
-    const ProfileScreen(),
   ];
 
   final List<String> titles = [
     'Products',
     'Search',
-    'Profile',
   ];
 
   @override
@@ -28,6 +26,7 @@ class HomeLayout extends StatelessWidget {
         return Scaffold(
           appBar: _appBar(context, state),
           body: screens[state.index],
+          floatingActionButton: _floatingActionButton(context),
           bottomNavigationBar: BottomNavigationBar(
             items: const [
               BottomNavigationBarItem(
@@ -38,10 +37,6 @@ class HomeLayout extends StatelessWidget {
                 icon: Icon(Icons.search),
                 label: 'Search',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle),
-                label: 'Profile',
-              ),
             ],
             onTap: (int index) {
               BlocProvider.of<HomeNavCubit>(context).changeIndex(index: index);
@@ -50,6 +45,7 @@ class HomeLayout extends StatelessWidget {
             elevation: 15.0,
             currentIndex: state.index,
           ),
+          drawer: const MyDrawer(),
         );
       },
     );
@@ -66,17 +62,6 @@ class HomeLayout extends StatelessWidget {
           color: MyColors.white,
         ),
       ),
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 18.0),
-        child: CircleAvatar(
-          radius: 2.0,
-          backgroundColor: MyColors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: Image.asset('assets/images/tawfeer.png'),
-          ),
-        ),
-      ),
       actions: [
         IconButton(
           onPressed: () {
@@ -86,9 +71,18 @@ class HomeLayout extends StatelessWidget {
             Icons.more_vert,
             color: MyColors.white,
           ),
-          splashRadius: 18.0,
+          splashRadius: 20.0,
         ),
       ],
+    );
+  }
+
+  Widget _floatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        // TODO
+      },
+      child: const Icon(Icons.add),
     );
   }
 }
