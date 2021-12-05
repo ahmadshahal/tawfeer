@@ -76,7 +76,7 @@ class ProductsListItem extends StatelessWidget {
         ),
         const SizedBox(width: 20.0),
         Text(
-          '\$${product.newPrice}.00',
+          '\$${product.oldPrice}.00',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: MyColors.darkGrey,

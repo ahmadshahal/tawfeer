@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/home_layout_cubit/home_layout_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/ui/components/my_drawer.dart';
 import 'package:tawfeer/src/ui/components/products_list_item.dart';
@@ -11,20 +13,54 @@ class HomeLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              const SizedBox(height: 15.0),
-              _listView(context),
-            ],
-          ),
-        ),
+      body: BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
+        builder: (context, state) {
+          if (state is HomeLayoutLoading) {
+            return _loading(context);
+          } else if (state is HomeLayoutFailure) {
+            return _failure(context);
+          }
+          if((state as HomeLayoutSuccess).list.isEmpty) {
+            return _successEmptyList(context);
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  const SizedBox(height: 15.0),
+                  _listView(context, state.list),
+                ],
+              ),
+            ),
+          );
+        },
       ),
       floatingActionButton: _floatingActionButton(context),
       drawer: const MyDrawer(),
+    );
+  }
+
+  Widget _loading(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
+  }
+
+  Widget _successEmptyList(BuildContext context) {
+    return const Center(
+      child: Text(
+        'Empty List',
+        style: TextStyle(fontSize: 18),
+      ),
+    );
+  }
+
+  Widget _failure(BuildContext context) {
+    return const Center(
+      child: Text(
+        'Something went wrong',
+        style: TextStyle(fontSize: 18),
+      ),
     );
   }
 
@@ -73,28 +109,17 @@ class HomeLayout extends StatelessWidget {
     );
   }
 
-  Widget _listView(BuildContext context) {
+  Widget _listView(BuildContext context, List<Product> list) {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        return ProductsListItem(
-          product: Product(
-            productName: "Pepsi can 330 ML",
-            description: "Hello World",
-            oldPrice: 16,
-            newPrice: 12,
-            expireDate: "04 March 2021",
-            category: "Drinks",
-            quantity: 300,
-            imgUrl: 'https://cdn.pixabay.com/photo/2020/05/10/05/14/pepsi-5152332_1280.jpg',
-          ),
-        );
+        return ProductsListItem(product: list[index]);
       },
       separatorBuilder: (BuildContext context, int index) {
         return const SizedBox(height: 15.0);
       },
-      itemCount: 8,
+      itemCount: list.length,
     );
   }
 }
