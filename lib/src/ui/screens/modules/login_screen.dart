@@ -59,8 +59,6 @@ class LoginScreen extends StatelessWidget {
                           );
                         } else if (state is LoginSuccess) {
                           Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Logged In')));
                           Navigator.pushReplacementNamed(context, '/home');
                         } else if (state is LoginFailure) {
                           Navigator.pop(context);
