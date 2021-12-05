@@ -30,8 +30,7 @@ class ProductsListItem extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: MyColors.darkGrey,
+                    color: Colors.black,
                     fontSize: 13.0,
                   ),
                 ),
@@ -70,7 +69,7 @@ class ProductsListItem extends StatelessWidget {
         Text(
           '\$${product.newPrice}.00',
           style: const TextStyle(
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.bold,
             color: MyColors.primaryColor,
             fontSize: 13.0,
           ),
@@ -79,7 +78,7 @@ class ProductsListItem extends StatelessWidget {
         Text(
           '\$${product.newPrice}.00',
           style: const TextStyle(
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.bold,
             color: MyColors.darkGrey,
             decoration: TextDecoration.lineThrough,
             fontSize: 13.0,
@@ -103,7 +102,6 @@ class ProductsListItem extends StatelessWidget {
             text: product.expireDate,
             style: const TextStyle(
               color: MyColors.darkGrey,
-              fontWeight: FontWeight.w400,
             ),
           ),
         ],

@@ -13,7 +13,15 @@ class HomeLayout extends StatelessWidget {
       appBar: _appBar(context),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: _listView(context),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              const SizedBox(height: 15.0),
+              _listView(context),
+            ],
+          ),
+        ),
       ),
       floatingActionButton: _floatingActionButton(context),
       drawer: const MyDrawer(),
@@ -67,7 +75,8 @@ class HomeLayout extends StatelessWidget {
 
   Widget _listView(BuildContext context) {
     return ListView.separated(
-      physics: const BouncingScrollPhysics(),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return ProductsListItem(
           product: Product(

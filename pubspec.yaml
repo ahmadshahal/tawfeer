@@ -76,11 +76,7 @@ flutter:
     - family: Saira
       fonts:
         - asset: assets/fonts/Saira-Regular.ttf
-#        - asset: assets/fonts/Saira-Bold.ttf
-        - asset: assets/fonts/Saira-SemiBold.ttf
-          weight: 700
-        - asset: assets/fonts/Saira-Medium.ttf
-          weight: 400
+        - asset: assets/fonts/Saira-Bold.ttf
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
