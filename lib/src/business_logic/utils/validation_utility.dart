@@ -1,7 +1,9 @@
 class ValidationUtility {
+
+  static final RegExp emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
   static String? validateEmail(String email) {
-    if (email.length <= 10 ||
-        email.substring(email.length - 10) != "@gmail.com"){
+    if (email.isEmpty || (!emailRegExp.hasMatch(email))){
       return "Invalid Email";
     }
     return null;
