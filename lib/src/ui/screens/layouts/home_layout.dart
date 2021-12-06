@@ -32,7 +32,9 @@ class HomeLayout extends StatelessWidget {
                 return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
               },
               child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
                 child: Column(
                   children: [
                     const SizedBox(height: 15.0),
@@ -172,5 +174,4 @@ class HomeLayout extends StatelessWidget {
       ),
     );
   }
-
 }
