@@ -1,4 +1,5 @@
 class Product {
+  late int id;
   late String productName;
   late String description;
   late int oldPrice;
@@ -10,6 +11,7 @@ class Product {
   late int seens;
 
   Product({
+    required this.id,
     required this.productName,
     required this.description,
     required this.oldPrice,
@@ -22,6 +24,7 @@ class Product {
   });
 
   Product.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     productName = json['productName'];
     oldPrice = json['oldPrice'];
     newPrice = json['newPrice'];

@@ -7,6 +7,7 @@ class ProductsRepository {
     return await Future.delayed(const Duration(seconds: 3), () {
       return [
         Product(
+          id: 1,
           productName: "Pepsi 330 ML",
           description: "Just a Pepsi",
           oldPrice: 16,
@@ -18,6 +19,7 @@ class ProductsRepository {
           seens: 15,
         ),
         Product(
+          id: 2,
           productName: "Pantene shampoo for smooth hair",
           description: "The best shampoo ever",
           oldPrice: 16,
@@ -29,6 +31,7 @@ class ProductsRepository {
           seens: 532,
         ),
         Product(
+          id: 3,
           productName: "Pepsi 330 ML",
           description: "Just a Pepsi",
           oldPrice: 16,
@@ -40,6 +43,7 @@ class ProductsRepository {
           seens: 412,
         ),
         Product(
+          id: 4,
           productName: "Pantene shampoo for smooth hair",
           description: "The best shampoo ever",
           oldPrice: 16,
@@ -51,6 +55,7 @@ class ProductsRepository {
           seens: 13,
         ),
         Product(
+          id: 5,
           productName: "Pepsi 330 ML",
           description: "Just a Pepsi",
           oldPrice: 16,
@@ -62,6 +67,7 @@ class ProductsRepository {
           seens: 0,
         ),
         Product(
+          id: 6,
           productName: "Pantene shampoo for smooth hair",
           description: "The best shampoo ever",
           oldPrice: 16,
@@ -73,6 +79,7 @@ class ProductsRepository {
           seens: 31,
         ),
         Product(
+          id: 7,
           productName: "Pantene shampoo for smooth hair",
           description: "The best shampoo ever",
           oldPrice: 16,
