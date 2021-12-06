@@ -20,7 +20,7 @@ class HomeLayout extends StatelessWidget {
           } else if (state is HomeLayoutFailure) {
             return _failure(context);
           }
-          if((state as HomeLayoutSuccess).list.isEmpty) {
+          if ((state as HomeLayoutSuccess).list.isEmpty) {
             return _successEmptyList(context);
           }
           return Padding(
@@ -74,6 +74,20 @@ class HomeLayout extends StatelessWidget {
           fontSize: 17.0,
           color: MyColors.white,
         ),
+      ),
+      // The Builder widget is used to create a new context, that is the
+      // Scaffold's, context, not the context that is sent to the HomeLayout
+      // widget. Check the implementation of the Builder widget for more.
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            icon: const Icon(Icons.menu),
+            splashRadius: 20.0,
+          );
+        }
       ),
       actions: [
         IconButton(
