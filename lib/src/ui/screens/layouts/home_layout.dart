@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/home_layout_cubit/home_layout_cubit.dart';
-import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/ui/components/loading.dart';
 import 'package:tawfeer/src/ui/components/my_drawer.dart';
-import 'package:tawfeer/src/ui/components/products_list_item.dart';
+import 'package:tawfeer/src/ui/components/my_list_view.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 
@@ -55,7 +54,7 @@ class HomeLayout extends StatelessWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: 15.0),
-                      _listView(context, state.list),
+                      MyListView(list: state.list),
                       const SizedBox(height: 15.0),
                     ],
                   ),
@@ -127,17 +126,4 @@ class HomeLayout extends StatelessWidget {
     );
   }
 
-  Widget _listView(BuildContext context, List<Product> list) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        return ProductsListItem(product: list[index]);
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(height: 15.0);
-      },
-      itemCount: list.length,
-    );
-  }
 }
