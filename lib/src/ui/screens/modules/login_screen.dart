@@ -31,10 +31,10 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     Image.asset(
                       'assets/images/tawfeer.png',
-                      width: 220.0,
+                      width: 210.0,
                       height: 160.0,
                     ),
-                    const SizedBox(height: 40.0),
+                    const SizedBox(height: 35.0),
                     const Text(
                       'Welcome to Tawfeer!',
                       style: TextStyle(fontSize: 20.0),
