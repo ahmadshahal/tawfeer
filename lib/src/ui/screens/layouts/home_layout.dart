@@ -105,7 +105,7 @@ class HomeLayout extends StatelessWidget {
         ),
         IconButton(
           onPressed: () {
-            // TODO
+            _showMenu(context);
           },
           icon: const Icon(
             Icons.more_vert,
@@ -126,4 +126,45 @@ class HomeLayout extends StatelessWidget {
     );
   }
 
+  void _showMenu(BuildContext context) {
+    HomeLayoutCubit cubit = BlocProvider.of<HomeLayoutCubit>(context);
+    showMenu<int>(
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
+      position: const RelativeRect.fromLTRB(20.0, 0.0, 0.0, 0.0),
+      items: [
+        _popMenuItem(context, 'Sort by price', 0, cubit),
+        _popMenuItem(context, 'Sort by views', 1, cubit),
+        _popMenuItem(context, 'Sort by date', 2, cubit),
+      ],
+    ).then(
+      (int? value) {
+        if (value == null) return;
+        cubit.sortIndex = value;
+        cubit.fetchData();
+      },
+    );
+  }
+
+  PopupMenuItem<int> _popMenuItem(
+      BuildContext context, String text, int value, HomeLayoutCubit cubit) {
+    return PopupMenuItem<int>(
+      value: value,
+      padding: const EdgeInsets.symmetric(horizontal: 3.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Radio(
+            value: value,
+            groupValue: cubit.sortIndex,
+            onChanged: (value) {},
+          ),
+          Text(
+            text,
+            style: const TextStyle(fontSize: 15),
+          ),
+        ],
+      ),
+    );
+  }
 }
