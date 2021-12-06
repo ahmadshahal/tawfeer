@@ -56,10 +56,44 @@ class HomeLayout extends StatelessWidget {
   }
 
   Widget _failure(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Something went wrong',
-        style: TextStyle(fontSize: 18),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.warning_rounded,
+            size: 55,
+            color: MyColors.secondaryColor,
+          ),
+          const SizedBox(height: 20.0),
+          const Text(
+            'Something went wrong',
+            style: TextStyle(
+              fontSize: 17,
+              color: MyColors.secondaryColor,
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(7),
+            ),
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: MaterialButton(
+              onPressed: () {
+                BlocProvider.of<HomeLayoutCubit>(context).fetchData();
+              },
+              child: const Text(
+                'Try Again',
+                style: TextStyle(
+                  color: MyColors.white,
+                  fontSize: 14,
+                ),
+              ),
+              color: MyColors.primaryColor,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -78,17 +112,15 @@ class HomeLayout extends StatelessWidget {
       // The Builder widget is used to create a new context, that is the
       // Scaffold's, context, not the context that is sent to the HomeLayout
       // widget. Check the implementation of the Builder widget for more.
-      leading: Builder(
-        builder: (context) {
-          return IconButton(
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-            icon: const Icon(Icons.menu),
-            splashRadius: 20.0,
-          );
-        }
-      ),
+      leading: Builder(builder: (context) {
+        return IconButton(
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+          icon: const Icon(Icons.menu),
+          splashRadius: 20.0,
+        );
+      }),
       actions: [
         IconButton(
           onPressed: () {
