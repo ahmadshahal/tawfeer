@@ -23,7 +23,7 @@ class MyDrawer extends StatelessWidget {
             ListTile(
               title: const Text('My Products'),
               onTap: () {
-                // TODO
+                Navigator.pushNamed(context, '/myProducts');
               },
               leading: const Icon(
                 Icons.format_list_bulleted_rounded,
