@@ -89,24 +89,13 @@ class ProductsListItem extends StatelessWidget {
   }
 
   Widget _dateText(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        text: 'Expires in ',
-        style: const TextStyle(
-          color: MyColors.darkGrey,
-          fontFamily: 'Saira',
-          fontSize: 13.0,
-        ),
-        children: [
-          TextSpan(
-            text: product.expireDate,
-            style: const TextStyle(
-              color: MyColors.darkGrey,
-            ),
-          ),
-        ],
+    return Text(
+      'Expires in ${product.expireDate}',
+      style: const TextStyle(
+        color: MyColors.darkGrey,
+        fontFamily: 'Saira',
+        fontSize: 13.0,
       ),
     );
   }
 }
-

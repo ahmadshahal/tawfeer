@@ -18,10 +18,10 @@ class HomeLayout extends StatelessWidget {
           if (state is HomeLayoutLoading) {
             return _loading(context);
           } else if (state is HomeLayoutFailure) {
-            return _failure(context);
+            return _userMsg(context, Icons.warning_rounded, 'Something went wrong..', 'Try Again');
           }
           if ((state as HomeLayoutSuccess).list.isEmpty) {
-            return _successEmptyList(context);
+            return _userMsg(context, Icons.list_rounded, 'No products for now..', 'Refresh');
           }
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -46,58 +46,6 @@ class HomeLayout extends StatelessWidget {
     return const Center(child: CircularProgressIndicator());
   }
 
-  Widget _successEmptyList(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Empty List',
-        style: TextStyle(fontSize: 18),
-      ),
-    );
-  }
-
-  Widget _failure(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.warning_rounded,
-            size: 55,
-            color: MyColors.secondaryColor,
-          ),
-          const SizedBox(height: 20.0),
-          const Text(
-            'Something went wrong',
-            style: TextStyle(
-              fontSize: 17,
-              color: MyColors.secondaryColor,
-            ),
-          ),
-          const SizedBox(height: 20.0),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(7),
-            ),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: MaterialButton(
-              onPressed: () {
-                BlocProvider.of<HomeLayoutCubit>(context).fetchData();
-              },
-              child: const Text(
-                'Try Again',
-                style: TextStyle(
-                  color: MyColors.white,
-                  fontSize: 14,
-                ),
-              ),
-              color: MyColors.primaryColor,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
       elevation: 2.0,
@@ -117,7 +65,7 @@ class HomeLayout extends StatelessWidget {
           onPressed: () {
             Scaffold.of(context).openDrawer();
           },
-          icon: const Icon(Icons.menu),
+          icon: const Icon(Icons.menu_rounded),
           splashRadius: 20.0,
         );
       }),
@@ -127,7 +75,7 @@ class HomeLayout extends StatelessWidget {
             // TODO
           },
           icon: const Icon(
-            Icons.search,
+            Icons.search_rounded,
             color: MyColors.white,
           ),
           splashRadius: 20.0,
@@ -166,6 +114,50 @@ class HomeLayout extends StatelessWidget {
         return const SizedBox(height: 15.0);
       },
       itemCount: list.length,
+    );
+  }
+
+  Widget _userMsg(BuildContext context, IconData icon, String text, String buttonText) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 60,
+            color: MyColors.secondaryColor,
+          ),
+          const SizedBox(height: 20.0),
+          Text(
+            text,
+            style: const TextStyle(
+              fontSize: 19,
+              color: MyColors.secondaryColor,
+            ),
+          ),
+          const SizedBox(height: 37.0),
+          Container(
+            height: 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(7),
+            ),
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: MaterialButton(
+              onPressed: () {
+                BlocProvider.of<HomeLayoutCubit>(context).fetchData();
+              },
+              child: Text(
+                buttonText,
+                style: const TextStyle(
+                  color: MyColors.white,
+                  fontSize: 14,
+                ),
+              ),
+              color: MyColors.primaryColor,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
