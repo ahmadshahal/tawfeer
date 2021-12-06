@@ -5,6 +5,7 @@ import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/ui/components/my_drawer.dart';
 import 'package:tawfeer/src/ui/components/products_list_item.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
+import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
 class HomeLayout extends StatelessWidget {
   const HomeLayout({Key? key}) : super(key: key);
@@ -13,19 +14,19 @@ class HomeLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
-      body: BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
-        builder: (context, state) {
-          if (state is HomeLayoutLoading) {
-            return _loading(context);
-          } else if (state is HomeLayoutFailure) {
-            return _userMsg(context, Icons.warning_rounded, 'Something went wrong..', 'Try Again');
-          }
-          if ((state as HomeLayoutSuccess).list.isEmpty) {
-            return _userMsg(context, Icons.list_rounded, 'No products for now..', 'Refresh');
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: RefreshIndicator(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
+          builder: (context, state) {
+            if (state is HomeLayoutLoading) {
+              return _loading(context);
+            } else if (state is HomeLayoutFailure) {
+              return _failure(context);
+            }
+            if ((state as HomeLayoutSuccess).list.isEmpty) {
+              return _emptyList(context);
+            }
+            return RefreshIndicator(
               strokeWidth: 2.0,
               onRefresh: () {
                 return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
@@ -40,12 +41,38 @@ class HomeLayout extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
       floatingActionButton: _floatingActionButton(context),
       drawer: const MyDrawer(),
+    );
+  }
+
+  Widget _failure(BuildContext context) {
+    return RefreshIndicator(
+      child: _userMsg(
+        context,
+        'assets/images/error404.png',
+        'Something went wrong, swipe to refresh.',
+      ),
+      onRefresh: () {
+        return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
+      },
+    );
+  }
+
+  Widget _emptyList(BuildContext context) {
+    return RefreshIndicator(
+      child: _userMsg(
+        context,
+        'assets/images/no_items.png',
+        'No products for now, swipe to refresh.',
+      ),
+      onRefresh: () {
+        return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
+      },
     );
   }
 
@@ -124,47 +151,26 @@ class HomeLayout extends StatelessWidget {
     );
   }
 
-  Widget _userMsg(BuildContext context, IconData icon, String text, String buttonText) {
+  Widget _userMsg(BuildContext context, String imgUrl, String text) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 60,
-            color: MyColors.secondaryColor,
-          ),
-          const SizedBox(height: 20.0),
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 19,
-              color: MyColors.secondaryColor,
-            ),
-          ),
-          const SizedBox(height: 37.0),
-          Container(
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(7),
-            ),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: MaterialButton(
-              onPressed: () {
-                BlocProvider.of<HomeLayoutCubit>(context).fetchData();
-              },
-              child: Text(
-                buttonText,
-                style: const TextStyle(
-                  color: MyColors.white,
-                  fontSize: 14,
-                ),
+      child: ScrollConfiguration(
+        behavior: NonGlowScrollBehavior(),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                imgUrl,
+                height: 350,
+                width: 350,
               ),
-              color: MyColors.primaryColor,
-            ),
+              Text(text),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
+
 }
