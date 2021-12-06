@@ -95,7 +95,8 @@ class ProductsRepository {
   }
 
   Future<List<Product>> myProducts({required int id}) async {
-    // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    /*
     // return await Future.delayed(const Duration(seconds: 3), () => []);
     return await Future.delayed(const Duration(seconds: 3), () {
       return [
@@ -137,5 +138,6 @@ class ProductsRepository {
         ),
       ];
     });
+     */
   }
 }
