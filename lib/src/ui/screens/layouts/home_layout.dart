@@ -25,13 +25,20 @@ class HomeLayout extends StatelessWidget {
           }
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  const SizedBox(height: 15.0),
-                  _listView(context, state.list),
-                ],
+            child: RefreshIndicator(
+              strokeWidth: 2.0,
+              onRefresh: () {
+                return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
+              },
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 15.0),
+                    _listView(context, state.list),
+                    const SizedBox(height: 15.0),
+                  ],
+                ),
               ),
             ),
           );
