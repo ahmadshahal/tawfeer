@@ -41,6 +41,8 @@ class ProductsListItem extends StatelessWidget {
               ],
             ),
           ),
+          _seensColumn(context),
+          const SizedBox(width: 20),
         ],
       ),
     );
@@ -96,6 +98,26 @@ class ProductsListItem extends StatelessWidget {
         fontFamily: 'Saira',
         fontSize: 13.0,
       ),
+    );
+  }
+
+  Widget _seensColumn(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(
+          Icons.remove_red_eye_rounded,
+          color: MyColors.darkGrey,
+          size: 15,
+        ),
+        Text(
+          '${product.seens}',
+          style: const TextStyle(
+              fontSize: 11.0,
+              color: MyColors.darkGrey
+          ),
+        ),
+      ],
     );
   }
 }

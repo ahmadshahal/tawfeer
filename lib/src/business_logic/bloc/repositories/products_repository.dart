@@ -15,6 +15,7 @@ class ProductsRepository {
           category: "Drinks",
           quantity: 55,
           imgUrl: 'https://cdn.pixabay.com/photo/2020/05/10/05/14/pepsi-5152332_1280.jpg',
+          seens: 15,
         ),
         Product(
           productName: "Pantene shampoo for smooth hair",
@@ -25,6 +26,7 @@ class ProductsRepository {
           category: "Shampoos",
           quantity: 30,
           imgUrl: 'https://www.byrdie.com/thmb/cof_0J6XFN4Jh6I4LMUSBJi9oms=/3024x3024/filters:no_upscale()/pantenebeautifullengthsshampooproductshot-88c6d10c1bd4435a87d983aa56ba06eb.jpg',
+          seens: 532,
         ),
         Product(
           productName: "Pepsi 330 ML",
@@ -35,6 +37,7 @@ class ProductsRepository {
           category: "Drinks",
           quantity: 55,
           imgUrl: 'https://cdn.pixabay.com/photo/2020/05/10/05/14/pepsi-5152332_1280.jpg',
+          seens: 412,
         ),
         Product(
           productName: "Pantene shampoo for smooth hair",
@@ -45,6 +48,7 @@ class ProductsRepository {
           category: "Shampoos",
           quantity: 30,
           imgUrl: 'https://www.byrdie.com/thmb/cof_0J6XFN4Jh6I4LMUSBJi9oms=/3024x3024/filters:no_upscale()/pantenebeautifullengthsshampooproductshot-88c6d10c1bd4435a87d983aa56ba06eb.jpg',
+          seens: 13,
         ),
         Product(
           productName: "Pepsi 330 ML",
@@ -55,6 +59,7 @@ class ProductsRepository {
           category: "Drinks",
           quantity: 55,
           imgUrl: 'https://cdn.pixabay.com/photo/2020/05/10/05/14/pepsi-5152332_1280.jpg',
+          seens: 0,
         ),
         Product(
           productName: "Pantene shampoo for smooth hair",
@@ -65,6 +70,7 @@ class ProductsRepository {
           category: "Shampoos",
           quantity: 30,
           imgUrl: 'https://www.byrdie.com/thmb/cof_0J6XFN4Jh6I4LMUSBJi9oms=/3024x3024/filters:no_upscale()/pantenebeautifullengthsshampooproductshot-88c6d10c1bd4435a87d983aa56ba06eb.jpg',
+          seens: 31,
         ),
         Product(
           productName: "Pantene shampoo for smooth hair",
@@ -75,6 +81,7 @@ class ProductsRepository {
           category: "Shampoos",
           quantity: 30,
           imgUrl: 'https://www.byrdie.com/thmb/cof_0J6XFN4Jh6I4LMUSBJi9oms=/3024x3024/filters:no_upscale()/pantenebeautifullengthsshampooproductshot-88c6d10c1bd4435a87d983aa56ba06eb.jpg',
+          seens: 31,
         ),
       ];
     });

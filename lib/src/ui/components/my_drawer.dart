@@ -44,14 +44,20 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               // TODO
             },
-            leading: const Icon(Icons.format_list_bulleted_outlined),
+            leading: const Icon(
+              Icons.format_list_bulleted_rounded,
+              color: MyColors.primaryColor,
+            ),
           ),
           ListTile(
             title: const Text('Logout'),
             onTap: () {
               // TODO
             },
-            leading: const Icon(Icons.logout),
+            leading: const Icon(
+              Icons.logout,
+              color: MyColors.primaryColor,
+            ),
           ),
         ],
       ),
