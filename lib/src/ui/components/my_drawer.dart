@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tawfeer/src/business_logic/shared/my_user.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
@@ -16,7 +17,7 @@ class MyDrawer extends StatelessWidget {
               height: 218,
               child: DrawerHeader(
                 margin: const EdgeInsets.only(top: 20),
-                child: _userDateColumn(context),
+                child: _userDataColumn(context),
               ),
             ),
             ListTile(
@@ -45,25 +46,23 @@ class MyDrawer extends StatelessWidget {
     );
   }
 
-  Widget _userDateColumn(BuildContext context) {
+  Widget _userDataColumn(BuildContext context) {
     return Column(
-      children: const [
+      children: [
         CircleAvatar(
           radius: 45,
-          backgroundImage: NetworkImage(
-            'https://scontent.flca1-1.fna.fbcdn.net/v/t1.6435-9/66344627_1304933179673247_145168880992518144_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=orZ-ALdojNoAX_I8gpt&_nc_ht=scontent.flca1-1.fna&oh=3e36c5d41417eb3f54b7e31c7e8eb1cc&oe=61D42B5A',
-          ),
+          backgroundImage: NetworkImage(MyUser.myUser!.imgUrl),
           backgroundColor: MyColors.lightGrey,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         Text(
-          'Ahmad Al-Shahal',
-          style: TextStyle(fontSize: 16.0),
+          MyUser.myUser!.fullName,
+          style: const TextStyle(fontSize: 16.0),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Text(
-          'ahmad.alshahal2@gmail.com',
-          style: TextStyle(fontSize: 14.0),
+          MyUser.myUser!.email,
+          style: const TextStyle(fontSize: 14.0),
         ),
       ],
     );
