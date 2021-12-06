@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/my_products_cubit/my_products_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/ui/components/loading.dart';
 import 'package:tawfeer/src/ui/components/products_list_item.dart';
+import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
-import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
 class MyProductsScreen extends StatelessWidget {
   const MyProductsScreen({Key? key}) : super(key: key);
@@ -18,12 +19,24 @@ class MyProductsScreen extends StatelessWidget {
         child: BlocBuilder<MyProductsCubit, MyProductsState>(
           builder: (context, state) {
             if (state is MyProductsLoading) {
-              return _loading(context);
+              return const Loading();
             } else if (state is MyProductsFailure) {
-              return _failure(context);
+              return UserMsg(
+                text: 'Something went wrong, swipe to refresh.',
+                imgUrl: 'assets/images/error404.png',
+                onRefresh: () {
+                  return BlocProvider.of<MyProductsCubit>(context).fetchData();
+                },
+              );
             }
             if ((state as MyProductsSuccess).list.isEmpty) {
-              return _emptyList(context);
+              return UserMsg(
+                text: 'No products for now, swipe to refresh',
+                imgUrl: 'assets/images/no_items.png',
+                onRefresh: () {
+                  return BlocProvider.of<MyProductsCubit>(context).fetchData();
+                },
+              );
             }
             return RefreshIndicator(
               strokeWidth: 2.0,
@@ -39,7 +52,6 @@ class MyProductsScreen extends StatelessWidget {
                     parent: AlwaysScrollableScrollPhysics(),
                   ),
                   child: Column(
-                    mainAxisSize: MainAxisSize.max,
                     children: [
                       const SizedBox(height: 15.0),
                       _listView(context, state.list),
@@ -53,36 +65,6 @@ class MyProductsScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget _failure(BuildContext context) {
-    return RefreshIndicator(
-      child: _userMsg(
-        context,
-        'assets/images/error404.png',
-        'Something went wrong, swipe to refresh.',
-      ),
-      onRefresh: () {
-        return BlocProvider.of<MyProductsCubit>(context).fetchData();
-      },
-    );
-  }
-
-  Widget _emptyList(BuildContext context) {
-    return RefreshIndicator(
-      child: _userMsg(
-        context,
-        'assets/images/no_items.png',
-        'No products for now, swipe to refresh.',
-      ),
-      onRefresh: () {
-        return BlocProvider.of<MyProductsCubit>(context).fetchData();
-      },
-    );
-  }
-
-  Widget _loading(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
   }
 
   PreferredSizeWidget _appBar(BuildContext context) {
@@ -129,28 +111,6 @@ class MyProductsScreen extends StatelessWidget {
         return const SizedBox(height: 15.0);
       },
       itemCount: list.length,
-    );
-  }
-
-  Widget _userMsg(BuildContext context, String imgUrl, String text) {
-    return Center(
-      child: ScrollConfiguration(
-        behavior: NonGlowScrollBehavior(),
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                imgUrl,
-                height: 350,
-                width: 350,
-              ),
-              Text(text),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

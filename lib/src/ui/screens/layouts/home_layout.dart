@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/home_layout_cubit/home_layout_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/ui/components/loading.dart';
 import 'package:tawfeer/src/ui/components/my_drawer.dart';
 import 'package:tawfeer/src/ui/components/products_list_item.dart';
+import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
-import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
 class HomeLayout extends StatelessWidget {
   const HomeLayout({Key? key}) : super(key: key);
@@ -19,12 +20,24 @@ class HomeLayout extends StatelessWidget {
         child: BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
           builder: (context, state) {
             if (state is HomeLayoutLoading) {
-              return _loading(context);
+              return const Loading();
             } else if (state is HomeLayoutFailure) {
-              return _failure(context);
+              return UserMsg(
+                text: 'Something went wrong, swipe to refresh.',
+                imgUrl: 'assets/images/error404.png',
+                onRefresh: () {
+                  return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
+                },
+              );
             }
             if ((state as HomeLayoutSuccess).list.isEmpty) {
-              return _emptyList(context);
+              return UserMsg(
+                text: 'No products for now, swipe to refresh',
+                imgUrl: 'assets/images/no_items.png',
+                onRefresh: () {
+                  return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
+                },
+              );
             }
             return RefreshIndicator(
               strokeWidth: 2.0,
@@ -55,36 +68,6 @@ class HomeLayout extends StatelessWidget {
       floatingActionButton: _floatingActionButton(context),
       drawer: const MyDrawer(),
     );
-  }
-
-  Widget _failure(BuildContext context) {
-    return RefreshIndicator(
-      child: _userMsg(
-        context,
-        'assets/images/error404.png',
-        'Something went wrong, swipe to refresh.',
-      ),
-      onRefresh: () {
-        return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
-      },
-    );
-  }
-
-  Widget _emptyList(BuildContext context) {
-    return RefreshIndicator(
-      child: _userMsg(
-        context,
-        'assets/images/no_items.png',
-        'No products for now, swipe to refresh.',
-      ),
-      onRefresh: () {
-        return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
-      },
-    );
-  }
-
-  Widget _loading(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
   }
 
   PreferredSizeWidget _appBar(BuildContext context) {
@@ -155,28 +138,6 @@ class HomeLayout extends StatelessWidget {
         return const SizedBox(height: 15.0);
       },
       itemCount: list.length,
-    );
-  }
-
-  Widget _userMsg(BuildContext context, String imgUrl, String text) {
-    return Center(
-      child: ScrollConfiguration(
-        behavior: NonGlowScrollBehavior(),
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                imgUrl,
-                height: 350,
-                width: 350,
-              ),
-              Text(text),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
