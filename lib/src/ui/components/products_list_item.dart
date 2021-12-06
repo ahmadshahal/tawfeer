@@ -41,6 +41,7 @@ class ProductsListItem extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(width: 20),
           _seensColumn(context),
           const SizedBox(width: 20),
         ],
@@ -50,7 +51,12 @@ class ProductsListItem extends StatelessWidget {
 
   Widget _productImage(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(9.0),
+      padding: const EdgeInsets.only(
+        left: 9.0,
+        top: 9.0,
+        bottom: 9.0,
+        right: 12,
+      ),
       child: Container(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
@@ -112,10 +118,7 @@ class ProductsListItem extends StatelessWidget {
         ),
         Text(
           '${product.seens}',
-          style: const TextStyle(
-              fontSize: 11.0,
-              color: MyColors.darkGrey
-          ),
+          style: const TextStyle(fontSize: 11.0, color: MyColors.darkGrey),
         ),
       ],
     );
