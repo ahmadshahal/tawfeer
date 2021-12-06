@@ -50,7 +50,7 @@ class ProductsListItem extends StatelessWidget {
 
   Widget _productImage(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(11.0),
+      padding: const EdgeInsets.all(9.0),
       child: Container(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
@@ -58,8 +58,8 @@ class ProductsListItem extends StatelessWidget {
         ),
         child: Image.network(
           product.imgUrl,
-          height: 70,
-          width: 70,
+          height: 65,
+          width: 65,
         ),
       ),
     );
@@ -73,17 +73,17 @@ class ProductsListItem extends StatelessWidget {
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: MyColors.primaryColor,
-            fontSize: 13.0,
+            fontSize: 12.0,
           ),
         ),
-        const SizedBox(width: 20.0),
+        const SizedBox(width: 15.0),
         Text(
           '\$${product.oldPrice}.00',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: MyColors.darkGrey,
             decoration: TextDecoration.lineThrough,
-            fontSize: 13.0,
+            fontSize: 12.0,
           ),
         ),
       ],
@@ -96,7 +96,7 @@ class ProductsListItem extends StatelessWidget {
       style: const TextStyle(
         color: MyColors.darkGrey,
         fontFamily: 'Saira',
-        fontSize: 13.0,
+        fontSize: 12.0,
       ),
     );
   }
