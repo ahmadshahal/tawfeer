@@ -33,7 +33,7 @@ class MyDrawer extends StatelessWidget {
             ListTile(
               title: const Text('Logout'),
               onTap: () {
-                // TODO
+                showDialog(context: context, builder: _logoutDialog);
               },
               leading: const Icon(
                 Icons.logout,
@@ -63,6 +63,29 @@ class MyDrawer extends StatelessWidget {
         Text(
           MyUser.myUser!.email,
           style: const TextStyle(fontSize: 14.0),
+        ),
+      ],
+    );
+  }
+
+  AlertDialog _logoutDialog(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
+      title: const Text('Logout?'),
+      content: const Text('You will be returned to the login screen.'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            // TODO: Delete token.
+            Navigator.of(context).pushReplacementNamed('/login');
+          },
+          child: const Text('Logout'),
         ),
       ],
     );
