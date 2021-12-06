@@ -31,16 +31,21 @@ class HomeLayout extends StatelessWidget {
               onRefresh: () {
                 return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
               },
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 15.0),
-                    _listView(context, state.list),
-                    const SizedBox(height: 15.0),
-                  ],
+              child: SizedBox(
+                // To make the single child scroll view go to the end
+                // without something clipped when scrolling.
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 15.0),
+                      _listView(context, state.list),
+                      const SizedBox(height: 15.0),
+                    ],
+                  ),
                 ),
               ),
             );
