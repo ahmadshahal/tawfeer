@@ -9,7 +9,9 @@ class UserMsg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SizedBox(
+      height: double.infinity,
+      width: double.infinity,
       child: ScrollConfiguration(
         behavior: NonGlowScrollBehavior(),
         child: SingleChildScrollView(
@@ -17,6 +19,8 @@ class UserMsg extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // TODO: Not the best solution, change it.
+              const SizedBox(height: 140.0),
               Image.asset(
                 imgUrl,
                 height: 350,
