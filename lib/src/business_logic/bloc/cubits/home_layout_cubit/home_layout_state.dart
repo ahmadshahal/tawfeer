@@ -5,7 +5,7 @@ abstract class HomeLayoutState {
   const HomeLayoutState();
 }
 
-class HomeLayoutLoading extends HomeLayoutState {}
+class HomeLayoutInitial extends HomeLayoutState {}
 
 class HomeLayoutSuccess extends HomeLayoutState {
   final List<Product> list;

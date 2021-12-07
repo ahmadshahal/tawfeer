@@ -7,12 +7,11 @@ import 'package:tawfeer/src/business_logic/shared/my_user.dart';
 part 'my_products_state.dart';
 
 class MyProductsCubit extends Cubit<MyProductsState> {
-  MyProductsCubit() : super(MyProductsLoading());
+  MyProductsCubit() : super(MyProductsInitial());
 
   final ProductsRepository _productsRepository = ProductsRepository();
 
   Future<void> fetchData() async {
-    emit(MyProductsLoading());
     try{
       List<Product> list = await _productsRepository.myProducts(id: MyUser.myUser!.id);
       emit(MyProductsSuccess(list: list));

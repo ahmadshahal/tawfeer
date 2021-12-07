@@ -5,7 +5,7 @@ abstract class MyProductsState {
   const MyProductsState();
 }
 
-class MyProductsLoading extends MyProductsState {}
+class MyProductsInitial extends MyProductsState {}
 
 class MyProductsSuccess extends MyProductsState {
   final List<Product> list;

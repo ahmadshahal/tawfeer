@@ -16,34 +16,27 @@ class HomeLayout extends StatelessWidget {
       appBar: _appBar(context),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
-          builder: (context, state) {
-            if (state is HomeLayoutLoading) {
-              return const Loading();
-            } else if (state is HomeLayoutFailure) {
-              return UserMsg(
-                text: 'Something went wrong, swipe to refresh.',
-                imgUrl: 'assets/images/error404.png',
-                onRefresh: () {
-                  return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
-                },
-              );
-            }
-            if ((state as HomeLayoutSuccess).list.isEmpty) {
-              return UserMsg(
-                text: 'No products for now, swipe to refresh',
-                imgUrl: 'assets/images/no_items.png',
-                onRefresh: () {
-                  return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
-                },
-              );
-            }
-            return RefreshIndicator(
-              strokeWidth: 2.0,
-              onRefresh: () {
-                return BlocProvider.of<HomeLayoutCubit>(context).fetchData();
-              },
-              child: SizedBox(
+        child: RefreshIndicator(
+          onRefresh: () =>
+              BlocProvider.of<HomeLayoutCubit>(context).fetchData(),
+          child: BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
+            builder: (context, state) {
+              if (state is HomeLayoutInitial) {
+                return const Loading();
+              }
+              if (state is HomeLayoutFailure) {
+                return const UserMsg(
+                  text: 'Something went wrong, swipe to refresh.',
+                  imgUrl: 'assets/images/error404.png',
+                );
+              }
+              if ((state as HomeLayoutSuccess).list.isEmpty) {
+                return const UserMsg(
+                  text: 'No products for now, swipe to refresh',
+                  imgUrl: 'assets/images/no_items.png',
+                );
+              }
+              return SizedBox(
                 // To make the single child scroll view go to the end
                 // without something clipped when scrolling.
                 height: double.infinity,
@@ -59,9 +52,9 @@ class HomeLayout extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
       floatingActionButton: _floatingActionButton(context),

@@ -15,34 +15,27 @@ class MyProductsScreen extends StatelessWidget {
       appBar: _appBar(context),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: BlocBuilder<MyProductsCubit, MyProductsState>(
-          builder: (context, state) {
-            if (state is MyProductsLoading) {
-              return const Loading();
-            } else if (state is MyProductsFailure) {
-              return UserMsg(
-                text: 'Something went wrong, swipe to refresh.',
-                imgUrl: 'assets/images/error404.png',
-                onRefresh: () {
-                  return BlocProvider.of<MyProductsCubit>(context).fetchData();
-                },
-              );
-            }
-            if ((state as MyProductsSuccess).list.isEmpty) {
-              return UserMsg(
-                text: 'No products for now, swipe to refresh',
-                imgUrl: 'assets/images/no_items.png',
-                onRefresh: () {
-                  return BlocProvider.of<MyProductsCubit>(context).fetchData();
-                },
-              );
-            }
-            return RefreshIndicator(
-              strokeWidth: 2.0,
-              onRefresh: () {
-                return BlocProvider.of<MyProductsCubit>(context).fetchData();
-              },
-              child: SizedBox(
+        child: RefreshIndicator(
+          onRefresh: () =>
+              BlocProvider.of<MyProductsCubit>(context).fetchData(),
+          child: BlocBuilder<MyProductsCubit, MyProductsState>(
+            builder: (context, state) {
+              if (state is MyProductsInitial) {
+                return const Loading();
+              }
+              if (state is MyProductsFailure) {
+                return const UserMsg(
+                  text: 'Something went wrong, swipe to refresh.',
+                  imgUrl: 'assets/images/error404.png',
+                );
+              }
+              if ((state as MyProductsSuccess).list.isEmpty) {
+                return const UserMsg(
+                  text: 'No products for now, swipe to refresh',
+                  imgUrl: 'assets/images/no_items.png',
+                );
+              }
+              return SizedBox(
                 // To make the single child scroll view go to the end
                 // without something clipped when scrolling.
                 height: double.infinity,
@@ -58,9 +51,9 @@ class MyProductsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -84,19 +77,6 @@ class MyProductsScreen extends StatelessWidget {
         icon: const Icon(Icons.arrow_back_rounded),
         splashRadius: 20.0,
       ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            // TODO
-          },
-          icon: const Icon(
-            Icons.more_vert,
-            color: MyColors.white,
-          ),
-          splashRadius: 20.0,
-        ),
-      ],
     );
   }
-
 }

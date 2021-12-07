@@ -7,12 +7,11 @@ import 'package:tawfeer/src/business_logic/utils/sorting_utility.dart';
 part 'home_layout_state.dart';
 
 class HomeLayoutCubit extends Cubit<HomeLayoutState> {
-  HomeLayoutCubit() : super(HomeLayoutLoading());
+  HomeLayoutCubit() : super(HomeLayoutInitial());
   final ProductsRepository _productsRepository = ProductsRepository();
   int sortIndex = 0;
 
   Future<void> fetchData() async {
-    emit(HomeLayoutLoading());
     try{
       List<Product> list = await _productsRepository.index();
       if(sortIndex == 0) {
