@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 
@@ -98,7 +99,8 @@ class ProductsListItem extends StatelessWidget {
 
   Widget _dateText(BuildContext context) {
     return Text(
-      'Expires in ${product.expireDate}',
+      // !: DateFormat("yyyy-MM-dd") to return it as 2020-05-03
+      'Expires in ${DateFormat.yMMMd().format(product.expireDate)}',
       style: const TextStyle(
         color: MyColors.darkGrey,
         fontFamily: 'Saira',

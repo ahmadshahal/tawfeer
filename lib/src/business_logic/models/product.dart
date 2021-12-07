@@ -4,7 +4,7 @@ class Product {
   late String description;
   late int oldPrice;
   late int newPrice;
-  late String expireDate;
+  late DateTime expireDate;
   late String category;
   late int quantity;
   late String imgUrl;
@@ -29,7 +29,7 @@ class Product {
     oldPrice = json['oldPrice'];
     newPrice = json['newPrice'];
     description = json['description'];
-    expireDate = json['expireDate'];
+    expireDate = DateTime.parse(json['expireDate']);
     imgUrl = json['imgUrl'];
     category = json['category'];
     quantity = json['quantity'];

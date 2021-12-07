@@ -25,7 +25,11 @@ class SortingUtility {
       });
       return list.reversed.toList();
     }
-    // TODO: sortByDate
+    else {
+      list.sort((Product a, Product b) {
+        return a.expireDate.compareTo(b.expireDate);
+      });
+    }
     return list;
   }
 }
