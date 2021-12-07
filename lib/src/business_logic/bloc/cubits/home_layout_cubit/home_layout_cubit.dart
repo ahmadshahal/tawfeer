@@ -7,23 +7,34 @@ import 'package:tawfeer/src/business_logic/utils/sorting_utility.dart';
 part 'home_layout_state.dart';
 
 class HomeLayoutCubit extends Cubit<HomeLayoutState> {
-  HomeLayoutCubit() : super(HomeLayoutInitial());
+
   final ProductsRepository _productsRepository = ProductsRepository();
-  int sortIndex = 0;
+
+  // 0 -> by price, 1 -> by views, 2 -> by date.
+  int _sortIndex = 0;
+  List<Product> _list = [];
+
+  int get sortIndex {
+    return _sortIndex;
+  }
+
+  HomeLayoutCubit() : super(HomeLayoutInitial());
 
   Future<void> fetchData() async {
-    try{
-      List<Product> list = await _productsRepository.index();
-      if(sortIndex == 0) {
-        list = SortingUtility.sortByPrice(list);
-      }
-      else if(sortIndex == 1) {
-        list = SortingUtility.sortByViews(list);
-      }
-      // TODO: sort by date.
-      emit(HomeLayoutSuccess(list: list));
-    }catch(ex) {
+    try {
+      _list = await _productsRepository.index();
+      _list = SortingUtility.sortBy(_list, _sortIndex);
+      emit(HomeLayoutSuccess(list: _list));
+    } catch (ex) {
       emit(HomeLayoutFailure(exception: ex as Exception));
+    }
+  }
+
+  void updateSortIndex({required int sortIndex}) {
+    _sortIndex = sortIndex;
+    if (state is HomeLayoutSuccess) {
+      _list = SortingUtility.sortBy(_list, _sortIndex);
+      emit(HomeLayoutSuccess(list: _list));
     }
   }
 }

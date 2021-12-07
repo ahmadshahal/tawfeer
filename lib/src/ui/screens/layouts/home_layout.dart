@@ -74,7 +74,7 @@ class HomeLayout extends StatelessWidget {
         ),
       ),
       // The Builder widget is used to create a new context, that is the
-      // Scaffold's, context, not the context that is sent to the HomeLayout
+      // Scaffold's context, not the context that is sent to the HomeLayout
       // widget. Check the implementation of the Builder widget for more.
       leading: Builder(builder: (context) {
         return IconButton(
@@ -133,8 +133,7 @@ class HomeLayout extends StatelessWidget {
     ).then(
       (int? value) {
         if (value == null) return;
-        cubit.sortIndex = value;
-        cubit.fetchData();
+        cubit.updateSortIndex(sortIndex: value);
       },
     );
   }
