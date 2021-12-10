@@ -73,10 +73,12 @@ class MyTextFormField extends StatelessWidget {
               border: InputBorder.none,
               label: Text(
                 label,
-                style: const TextStyle(
-                  color: MyColors.darkGrey,
-                  fontSize: 15.0,
-                ),
+              ),
+              labelStyle:
+                  const TextStyle(fontSize: 14, color: MyColors.darkGrey),
+              floatingLabelStyle: const TextStyle(
+                fontSize: 15,
+                color: MyColors.darkGrey,
               ),
             ),
           ),
