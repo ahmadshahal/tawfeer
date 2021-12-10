@@ -113,7 +113,7 @@ class HomeLayout extends StatelessWidget {
   Widget _floatingActionButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        // TODO
+        Navigator.pushNamed(context, '/add_product');
       },
       child: const Icon(Icons.add),
     );

@@ -5,6 +5,7 @@ import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/login_cubit.d
 import 'package:tawfeer/src/business_logic/bloc/cubits/my_products_cubit/my_products_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/register_cubit/register_cubit.dart';
 import 'package:tawfeer/src/ui/screens/layouts/home_layout.dart';
+import 'package:tawfeer/src/ui/screens/modules/add_product_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/login_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/my_products_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/register_screen.dart';
@@ -54,6 +55,9 @@ class MyApp extends StatelessWidget {
             create: (context) => MyProductsCubit()..fetchData(),
             child: const MyProductsScreen(),
           );
+        },
+        '/add_product': (context) {
+          return AddProductScreen();
         },
       },
     );
