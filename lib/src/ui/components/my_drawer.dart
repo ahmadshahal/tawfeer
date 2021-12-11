@@ -83,6 +83,7 @@ class MyDrawer extends StatelessWidget {
         TextButton(
           onPressed: () {
             // TODO: Delete token.
+            Navigator.pop(context);
             Navigator.of(context).pushReplacementNamed('/login');
           },
           child: const Text('Logout'),
