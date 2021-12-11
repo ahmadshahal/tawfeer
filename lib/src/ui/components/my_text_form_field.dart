@@ -49,7 +49,7 @@ class MyTextFormField extends StatelessWidget {
             validator: validate,
             readOnly: readOnly,
             textCapitalization: (textInputType == TextInputType.text)
-                ? TextCapitalization.words
+                ? TextCapitalization.sentences
                 : TextCapitalization.none,
             cursorRadius: const Radius.circular(MyStyles.radius),
             controller: textController,
