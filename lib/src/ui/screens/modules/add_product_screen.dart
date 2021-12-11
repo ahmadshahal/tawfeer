@@ -7,22 +7,20 @@ import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 class AddProductScreen extends StatelessWidget {
   AddProductScreen({Key? key}) : super(key: key);
 
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController categoryController = TextEditingController();
-  final TextEditingController quantityController = TextEditingController();
-  final TextEditingController expireDateController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-  final TextEditingController firstDiscountDateController =
-      TextEditingController();
-  final TextEditingController firstDiscountController = TextEditingController();
-  final TextEditingController secondDiscountDateController =
-      TextEditingController();
-  final TextEditingController secondDiscountController =
-      TextEditingController();
-  final TextEditingController thirdDiscountDateController =
-      TextEditingController();
-  final TextEditingController thirdDiscountController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  final Map<String, TextEditingController> controllers = {
+    'title': TextEditingController(),
+    'category': TextEditingController(),
+    'quantity': TextEditingController(),
+    'expireDate': TextEditingController(),
+    'price': TextEditingController(),
+    'firstDisDate': TextEditingController(),
+    'firstDis': TextEditingController(),
+    'secondDisDate': TextEditingController(),
+    'secondDis': TextEditingController(),
+    'thirdDisDate': TextEditingController(),
+    'thirdDis': TextEditingController(),
+    'description': TextEditingController(),
+  };
 
   // TODO: Add validators.
 
@@ -101,7 +99,7 @@ class AddProductScreen extends StatelessWidget {
   Widget _titleField() {
     return MyTextFormField(
       label: 'Title',
-      textController: titleController,
+      textController: controllers['title']!,
       textInputType: TextInputType.text,
     );
   }
@@ -113,7 +111,7 @@ class AddProductScreen extends StatelessWidget {
           flex: 2,
           child: MyTextFormField(
             label: 'Category',
-            textController: categoryController,
+            textController: controllers['category']!,
             textInputType: TextInputType.text,
           ),
         ),
@@ -122,7 +120,7 @@ class AddProductScreen extends StatelessWidget {
           flex: 1,
           child: MyTextFormField(
             label: 'Quantity',
-            textController: quantityController,
+            textController: controllers['quantity']!,
             textInputType: TextInputType.number,
           ),
         ),
@@ -138,7 +136,7 @@ class AddProductScreen extends StatelessWidget {
           flex: 2,
           child: MyTextFormField(
             label: 'Expire Date',
-            textController: expireDateController,
+            textController: controllers['expireDate']!,
             textInputType: TextInputType.text,
           ),
         ),
@@ -147,7 +145,8 @@ class AddProductScreen extends StatelessWidget {
           flex: 1,
           child: MyTextFormField(
             label: 'Price',
-            textController: priceController,
+            textController: controllers['price']!,
+            prefixText: '\$',
             textInputType: TextInputType.number,
           ),
         ),
@@ -175,6 +174,7 @@ class AddProductScreen extends StatelessWidget {
           flex: 1,
           child: MyTextFormField(
             label: 'Discount',
+            prefixText: '%',
             textController: discountController,
             textInputType: TextInputType.number,
           ),
@@ -188,20 +188,20 @@ class AddProductScreen extends StatelessWidget {
       children: [
         _discountDateRow(
           context,
-          firstDiscountDateController,
-          firstDiscountController,
+          controllers['firstDisDate']!,
+          controllers['firstDis']!,
         ),
         const SizedBox(height: 20),
         _discountDateRow(
           context,
-          secondDiscountDateController,
-          secondDiscountController,
+          controllers['secondDisDate']!,
+          controllers['secondDis']!,
         ),
         const SizedBox(height: 20),
         _discountDateRow(
           context,
-          thirdDiscountDateController,
-          thirdDiscountController,
+          controllers['thirdDisDate']!,
+          controllers['thirdDis']!,
         ),
       ],
     );
@@ -211,19 +211,13 @@ class AddProductScreen extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: MyMaterialButton(
-            text: 'Add Product',
-            callBack: () {},
-          ),
+          child: _outlinedButton(context),
         ),
         const SizedBox(width: 25),
         Expanded(
           child: MyMaterialButton(
-            text: 'Cancel',
-            callBack: () {
-              Navigator.pop(context);
-            },
-            color: MyColors.red,
+            text: 'Add Product',
+            callBack: () {},
           ),
         ),
       ],
@@ -233,8 +227,28 @@ class AddProductScreen extends StatelessWidget {
   Widget _descriptionField(BuildContext context) {
     return MyTextFormField(
       label: 'Description',
-      textController: descriptionController,
+      textController: controllers['description']!,
       textInputType: TextInputType.text,
+    );
+  }
+
+  Widget _outlinedButton(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: OutlinedButton(
+        child: const Text('Cancel'),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(7.0),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
