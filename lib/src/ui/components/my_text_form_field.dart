@@ -10,6 +10,7 @@ class MyTextFormField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final bool obscureText;
   final bool readOnly;
+  final bool enabled;
   final GestureTapCallback? onTap;
   final String? hint;
   final String? prefixText;
@@ -22,6 +23,7 @@ class MyTextFormField extends StatelessWidget {
     this.readOnly = false,
     this.onChanged,
     this.hint,
+    this.enabled = true,
     this.prefixText,
     this.onTap,
     this.validate,
@@ -48,6 +50,7 @@ class MyTextFormField extends StatelessWidget {
               : const EdgeInsets.symmetric(horizontal: 10.0),
           child: TextFormField(
             onChanged: onChanged,
+            enabled: enabled,
             onTap: onTap,
             validator: validate,
             readOnly: readOnly,
