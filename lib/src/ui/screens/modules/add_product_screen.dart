@@ -243,10 +243,9 @@ class AddProductScreen extends StatelessWidget {
   }
 
   Widget _descriptionField(BuildContext context) {
-    return MyTextFormField(
+    return DescriptionTextFormField(
       label: 'Description',
       textController: _controllers[descriptionKey]!,
-      textInputType: TextInputType.text,
     );
   }
 

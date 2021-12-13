@@ -93,3 +93,57 @@ class MyTextFormField extends StatelessWidget {
     );
   }
 }
+
+class DescriptionTextFormField extends StatelessWidget {
+  final String label;
+  final TextEditingController textController;
+
+  const DescriptionTextFormField({
+    Key? key,
+    required this.label,
+    required this.textController,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(MyStyles.radius),
+        color: MyColors.lightGrey,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: TextFormField(
+          maxLines: null,
+          textCapitalization: TextCapitalization.sentences,
+          cursorRadius: const Radius.circular(MyStyles.radius),
+          controller: textController,
+          style: const TextStyle(
+            fontSize: 15.0,
+          ),
+          keyboardType: TextInputType.multiline,
+          decoration: InputDecoration(
+            prefixStyle: const TextStyle(
+              color: Colors.black,
+              fontSize: 15.0,
+            ),
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+              fontSize: 15.0,
+            ),
+            border: InputBorder.none,
+            label: Text(
+              label,
+            ),
+            labelStyle:
+            const TextStyle(fontSize: 14, color: MyColors.darkGrey),
+            floatingLabelStyle: const TextStyle(
+              fontSize: 15,
+              color: MyColors.darkGrey,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
