@@ -4,22 +4,34 @@ import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
+const String titleKey = 'title';
+const String categoryKey = 'category';
+const String quantityKey = 'quantity';
+const String expireDateKey = 'expireDate';
+const String priceKey = 'price';
+const String firstDiscountDateKey = 'firstDiscountDate';
+const String firstDiscountKey = 'firstDiscount';
+const String secondDiscountDateKey = 'secondDiscountDate';
+const String secondDiscountKey = 'secondDiscount';
+const String thirdDiscountDateKey = 'thirdDiscountDate';
+const String thirdDiscountKey = 'thirdDiscount';
+const String descriptionKey = 'description';
+
 class AddProductScreen extends StatelessWidget {
   AddProductScreen({Key? key}) : super(key: key);
-
-  final Map<String, TextEditingController> controllers = {
-    'title': TextEditingController(),
-    'category': TextEditingController(),
-    'quantity': TextEditingController(),
-    'expireDate': TextEditingController(),
-    'price': TextEditingController(),
-    'firstDisDate': TextEditingController(),
-    'firstDis': TextEditingController(),
-    'secondDisDate': TextEditingController(),
-    'secondDis': TextEditingController(),
-    'thirdDisDate': TextEditingController(),
-    'thirdDis': TextEditingController(),
-    'description': TextEditingController(),
+  final Map<String, TextEditingController> _controllers = {
+    titleKey: TextEditingController(),
+    categoryKey: TextEditingController(),
+    quantityKey: TextEditingController(),
+    expireDateKey: TextEditingController(),
+    priceKey: TextEditingController(),
+    firstDiscountDateKey: TextEditingController(),
+    firstDiscountKey: TextEditingController(),
+    secondDiscountDateKey: TextEditingController(),
+    secondDiscountKey: TextEditingController(),
+    thirdDiscountDateKey: TextEditingController(),
+    thirdDiscountKey: TextEditingController(),
+    descriptionKey: TextEditingController(),
   };
 
   // TODO: Add validators.
@@ -48,7 +60,10 @@ class AddProductScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 _descriptionField(context),
                 const SizedBox(height: 20),
-                _buttonsRow(context),
+                MyMaterialButton(
+                  text: 'Done',
+                  callBack: () {},
+                ),
                 const SizedBox(height: 40),
               ],
             ),
@@ -99,7 +114,7 @@ class AddProductScreen extends StatelessWidget {
   Widget _titleField() {
     return MyTextFormField(
       label: 'Title',
-      textController: controllers['title']!,
+      textController: _controllers[titleKey]!,
       textInputType: TextInputType.text,
     );
   }
@@ -111,7 +126,7 @@ class AddProductScreen extends StatelessWidget {
           flex: 2,
           child: MyTextFormField(
             label: 'Category',
-            textController: controllers['category']!,
+            textController: _controllers[categoryKey]!,
             textInputType: TextInputType.text,
           ),
         ),
@@ -120,7 +135,7 @@ class AddProductScreen extends StatelessWidget {
           flex: 1,
           child: MyTextFormField(
             label: 'Quantity',
-            textController: controllers['quantity']!,
+            textController: _controllers[quantityKey]!,
             textInputType: TextInputType.number,
           ),
         ),
@@ -136,7 +151,7 @@ class AddProductScreen extends StatelessWidget {
           flex: 2,
           child: MyTextFormField(
             label: 'Expire Date',
-            textController: controllers['expireDate']!,
+            textController: _controllers[expireDateKey]!,
             textInputType: TextInputType.text,
           ),
         ),
@@ -145,10 +160,34 @@ class AddProductScreen extends StatelessWidget {
           flex: 1,
           child: MyTextFormField(
             label: 'Price',
-            textController: controllers['price']!,
+            textController: _controllers[priceKey]!,
             prefixText: '\$',
             textInputType: TextInputType.number,
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _discountDatesColumn(BuildContext context) {
+    return Column(
+      children: [
+        _discountDateRow(
+          context,
+          _controllers[firstDiscountDateKey]!,
+          _controllers[firstDiscountKey]!,
+        ),
+        const SizedBox(height: 20),
+        _discountDateRow(
+          context,
+          _controllers[secondDiscountDateKey]!,
+          _controllers[secondDiscountKey]!,
+        ),
+        const SizedBox(height: 20),
+        _discountDateRow(
+          context,
+          _controllers[thirdDiscountDateKey]!,
+          _controllers[thirdDiscountKey]!,
         ),
       ],
     );
@@ -183,72 +222,11 @@ class AddProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _discountDatesColumn(BuildContext context) {
-    return Column(
-      children: [
-        _discountDateRow(
-          context,
-          controllers['firstDisDate']!,
-          controllers['firstDis']!,
-        ),
-        const SizedBox(height: 20),
-        _discountDateRow(
-          context,
-          controllers['secondDisDate']!,
-          controllers['secondDis']!,
-        ),
-        const SizedBox(height: 20),
-        _discountDateRow(
-          context,
-          controllers['thirdDisDate']!,
-          controllers['thirdDis']!,
-        ),
-      ],
-    );
-  }
-
-  Widget _buttonsRow(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: _outlinedButton(context),
-        ),
-        const SizedBox(width: 25),
-        Expanded(
-          child: MyMaterialButton(
-            text: 'Add Product',
-            callBack: () {},
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _descriptionField(BuildContext context) {
     return MyTextFormField(
       label: 'Description',
-      textController: controllers['description']!,
+      textController: _controllers[descriptionKey]!,
       textInputType: TextInputType.text,
-    );
-  }
-
-  Widget _outlinedButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 50,
-      child: OutlinedButton(
-        child: const Text('Cancel'),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7.0),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
