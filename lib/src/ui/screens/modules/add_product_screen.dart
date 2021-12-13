@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/expire_date_field_cubit/expire_date_cubit.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
@@ -152,11 +154,7 @@ class AddProductScreen extends StatelessWidget {
           flex: 2,
           child: MyTextFormField(
             onTap: () {
-              _showDatePicker(
-                context,
-                _controllers[expireDateKey]!,
-                DateTime(2025),
-              );
+              _showExpireDatePicker(context);
             },
             label: 'Expire Date',
             textController: _controllers[expireDateKey]!,
@@ -211,23 +209,23 @@ class AddProductScreen extends StatelessWidget {
       children: [
         Expanded(
           flex: 2,
-          child: MyTextFormField(
-            label: 'Discount Start Date',
-            textController: dateController,
-            readOnly: true,
-            enabled: false,
-            // TODO: Enable when ExpireDate field isn't empty.
-            onTap: () {
-              if (_controllers[expireDateKey]!.text.isEmpty) {
-                return;
-              }
-              _showDatePicker(
-                context,
-                dateController,
-                DateFormat.yMMMd().parse(_controllers[expireDateKey]!.text),
+          child: BlocBuilder<ExpireDateCubit, bool>(
+            builder: (context, state) {
+              return MyTextFormField(
+                label: 'Discount Start Date',
+                textController: dateController,
+                readOnly: true,
+                enabled: state,
+                onTap: () {
+                  _showDatePicker(
+                    context,
+                    dateController,
+                    DateFormat.yMMMd().parse(_controllers[expireDateKey]!.text),
+                  );
+                },
+                textInputType: TextInputType.text,
               );
             },
-            textInputType: TextInputType.text,
           ),
         ),
         const SizedBox(width: 25),
@@ -266,6 +264,21 @@ class AddProductScreen extends StatelessWidget {
       (DateTime? value) {
         if (value == null) return;
         controller.text = DateFormat.yMMMd().format(value);
+      },
+    );
+  }
+
+  void _showExpireDatePicker(BuildContext context) {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025),
+    ).then(
+      (DateTime? value) {
+        if (value == null) return;
+        _controllers[expireDateKey]!.text = DateFormat.yMMMd().format(value);
+        BlocProvider.of<ExpireDateCubit>(context).expireDateFilled();
       },
     );
   }
