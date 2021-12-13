@@ -10,6 +10,7 @@ class MyTextFormField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final bool obscureText;
   final bool readOnly;
+  final GestureTapCallback? onTap;
   final String? hint;
   final String? prefixText;
   final IconButton? suffixIconButton;
@@ -22,6 +23,7 @@ class MyTextFormField extends StatelessWidget {
     this.onChanged,
     this.hint,
     this.prefixText,
+    this.onTap,
     this.validate,
     this.suffixIconButton,
     this.textInputType = TextInputType.text,
@@ -46,6 +48,7 @@ class MyTextFormField extends StatelessWidget {
               : const EdgeInsets.symmetric(horizontal: 10.0),
           child: TextFormField(
             onChanged: onChanged,
+            onTap: onTap,
             validator: validate,
             readOnly: readOnly,
             textCapitalization: (textInputType == TextInputType.text)
