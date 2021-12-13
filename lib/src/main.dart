@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/expire_date_field_cubit/expire_date_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/home_layout_cubit/home_layout_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/login_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/my_products_cubit/my_products_cubit.dart';
@@ -57,7 +58,10 @@ class MyApp extends StatelessWidget {
           );
         },
         '/add_product': (context) {
-          return AddProductScreen();
+          return BlocProvider(
+            create: (context) => ExpireDateCubit(),
+            child: AddProductScreen(),
+          );
         },
       },
     );
