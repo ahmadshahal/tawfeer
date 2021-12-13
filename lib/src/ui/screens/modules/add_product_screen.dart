@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
@@ -47,14 +48,14 @@ class AddProductScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
                 _productImage(context),
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
                 _titleField(),
                 const SizedBox(height: 20),
                 _categoryQuantityRow(context),
                 const SizedBox(height: 20),
-                _expireDatePrice(context),
+                _expireDatePriceRow(context),
                 const SizedBox(height: 20),
                 _discountDatesColumn(context),
                 const SizedBox(height: 20),
@@ -64,7 +65,7 @@ class AddProductScreen extends StatelessWidget {
                   text: 'Done',
                   callBack: () {},
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -127,6 +128,7 @@ class AddProductScreen extends StatelessWidget {
           child: MyTextFormField(
             label: 'Category',
             textController: _controllers[categoryKey]!,
+            hint: 'Food, Drinks, etc..',
             textInputType: TextInputType.text,
           ),
         ),
@@ -143,16 +145,23 @@ class AddProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _expireDatePrice(BuildContext context) {
+  Widget _expireDatePriceRow(BuildContext context) {
     return Row(
       children: [
         Expanded(
-          // TODO: Show date picker.
           flex: 2,
           child: MyTextFormField(
+            onTap: () {
+              _showDatePicker(
+                context,
+                _controllers[expireDateKey]!,
+                DateTime(2025),
+              );
+            },
             label: 'Expire Date',
             textController: _controllers[expireDateKey]!,
             textInputType: TextInputType.text,
+            readOnly: true,
           ),
         ),
         const SizedBox(width: 25),
@@ -194,17 +203,30 @@ class AddProductScreen extends StatelessWidget {
   }
 
   Widget _discountDateRow(
-      BuildContext context,
-      TextEditingController dateController,
-      TextEditingController discountController) {
+    BuildContext context,
+    TextEditingController dateController,
+    TextEditingController discountController,
+  ) {
     return Row(
       children: [
         Expanded(
-          // TODO: Show date picker.
           flex: 2,
           child: MyTextFormField(
             label: 'Discount Start Date',
             textController: dateController,
+            readOnly: true,
+            enabled: false,
+            // TODO: Enable when ExpireDate field isn't empty.
+            onTap: () {
+              if (_controllers[expireDateKey]!.text.isEmpty) {
+                return;
+              }
+              _showDatePicker(
+                context,
+                dateController,
+                DateFormat.yMMMd().parse(_controllers[expireDateKey]!.text),
+              );
+            },
             textInputType: TextInputType.text,
           ),
         ),
@@ -227,6 +249,24 @@ class AddProductScreen extends StatelessWidget {
       label: 'Description',
       textController: _controllers[descriptionKey]!,
       textInputType: TextInputType.text,
+    );
+  }
+
+  void _showDatePicker(
+    BuildContext context,
+    TextEditingController controller,
+    DateTime lastDate,
+  ) {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: lastDate,
+    ).then(
+      (DateTime? value) {
+        if (value == null) return;
+        controller.text = DateFormat.yMMMd().format(value);
+      },
     );
   }
 }
