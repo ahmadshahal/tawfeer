@@ -146,6 +146,7 @@ class RegisterScreen extends StatelessWidget {
       label: 'Phone Number',
       hint: '934256783',
       prefixText: '+963',
+      maxLength: 9,
       textInputType: TextInputType.phone,
       textController: _phoneNumberController,
       validate: (String? value) {

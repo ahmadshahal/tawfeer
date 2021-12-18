@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/themes/styles/styles.dart';
 
@@ -11,6 +12,7 @@ class MyTextFormField extends StatelessWidget {
   final bool obscureText;
   final bool readOnly;
   final bool enabled;
+  final int? maxLength;
   final GestureTapCallback? onTap;
   final String? hint;
   final String? prefixText;
@@ -24,6 +26,7 @@ class MyTextFormField extends StatelessWidget {
     this.onChanged,
     this.hint,
     this.enabled = true,
+    this.maxLength,
     this.prefixText,
     this.onTap,
     this.validate,
@@ -49,6 +52,7 @@ class MyTextFormField extends StatelessWidget {
               ? const EdgeInsets.only(left: 10.0)
               : const EdgeInsets.symmetric(horizontal: 10.0),
           child: TextFormField(
+            maxLength: maxLength,
             onChanged: onChanged,
             enabled: enabled,
             onTap: onTap,
@@ -65,6 +69,7 @@ class MyTextFormField extends StatelessWidget {
             obscureText: obscureText,
             keyboardType: textInputType,
             decoration: InputDecoration(
+              counterText: "",
               suffixIcon: suffixIconButton,
               hintText: hint,
               prefixText: prefixText,
