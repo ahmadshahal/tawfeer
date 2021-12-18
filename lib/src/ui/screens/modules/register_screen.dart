@@ -39,6 +39,7 @@ class RegisterScreen extends StatelessWidget {
                       listener: (context, state) {
                         if (state is RegisterSubmitting) {
                           showDialog(
+                            barrierDismissible: false,
                             context: context,
                             builder: (context) {
                               return const LoadingDialog();

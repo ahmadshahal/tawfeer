@@ -52,6 +52,7 @@ class LoginScreen extends StatelessWidget {
                       listener: (context, state) {
                         if (state is LoginSubmitting) {
                           showDialog(
+                            barrierDismissible: false,
                             context: context,
                             builder: (context) {
                               return const LoadingDialog();
