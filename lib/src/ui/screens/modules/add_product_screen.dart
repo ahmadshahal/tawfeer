@@ -200,22 +200,21 @@ class AddProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _discountDateRow(
-    BuildContext context,
-    TextEditingController dateController,
-    TextEditingController discountController,
-  ) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 2,
-          child: BlocBuilder<ExpireDateCubit, bool>(
-            builder: (context, state) {
-              return MyTextFormField(
+  Widget _discountDateRow(BuildContext context,
+      TextEditingController dateController,
+      TextEditingController discountController,) {
+    return BlocBuilder<ExpireDateCubit, bool>(
+      builder: (context, state) {
+        return Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: MyTextFormField(
                 label: 'Discount Start Date',
                 textController: dateController,
                 readOnly: true,
                 enabled: state,
+                textColor: state ? MyColors.darkGrey : Colors.grey[500],
                 onTap: () {
                   _showDatePicker(
                     context,
@@ -224,21 +223,23 @@ class AddProductScreen extends StatelessWidget {
                   );
                 },
                 textInputType: TextInputType.text,
-              );
-            },
-          ),
-        ),
-        const SizedBox(width: 25),
-        Expanded(
-          flex: 1,
-          child: MyTextFormField(
-            label: 'Discount',
-            prefixText: '%',
-            textController: discountController,
-            textInputType: TextInputType.number,
-          ),
-        ),
-      ],
+              ),
+            ),
+            const SizedBox(width: 25),
+            Expanded(
+              flex: 1,
+              child: MyTextFormField(
+                label: 'Discount',
+                prefixText: '%',
+                enabled: state,
+                textColor: state ? MyColors.darkGrey : Colors.grey[500],
+                textController: discountController,
+                textInputType: TextInputType.number,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -249,18 +250,16 @@ class AddProductScreen extends StatelessWidget {
     );
   }
 
-  void _showDatePicker(
-    BuildContext context,
-    TextEditingController controller,
-    DateTime lastDate,
-  ) {
+  void _showDatePicker(BuildContext context,
+      TextEditingController controller,
+      DateTime lastDate,) {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: lastDate,
     ).then(
-      (DateTime? value) {
+          (DateTime? value) {
         if (value == null) return;
         controller.text = DateFormat.yMMMd().format(value);
       },
@@ -274,7 +273,7 @@ class AddProductScreen extends StatelessWidget {
       firstDate: DateTime.now(),
       lastDate: DateTime(2025),
     ).then(
-      (DateTime? value) {
+          (DateTime? value) {
         if (value == null) return;
         _controllers[expireDateKey]!.text = DateFormat.yMMMd().format(value);
         BlocProvider.of<ExpireDateCubit>(context).expireDateFilled();

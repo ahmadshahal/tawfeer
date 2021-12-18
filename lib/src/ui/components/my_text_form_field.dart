@@ -12,6 +12,7 @@ class MyTextFormField extends StatelessWidget {
   final bool obscureText;
   final bool readOnly;
   final bool enabled;
+  final Color? textColor;
   final int? maxLength;
   final GestureTapCallback? onTap;
   final String? hint;
@@ -26,6 +27,7 @@ class MyTextFormField extends StatelessWidget {
     this.onChanged,
     this.hint,
     this.enabled = true,
+    this.textColor = MyColors.darkGrey,
     this.maxLength,
     this.prefixText,
     this.onTap,
@@ -85,11 +87,13 @@ class MyTextFormField extends StatelessWidget {
               label: Text(
                 label,
               ),
-              labelStyle:
-                  const TextStyle(fontSize: 14, color: MyColors.darkGrey),
-              floatingLabelStyle: const TextStyle(
+              labelStyle: TextStyle(
+                fontSize: 14,
+                color: textColor,
+              ),
+              floatingLabelStyle: TextStyle(
                 fontSize: 15,
-                color: MyColors.darkGrey,
+                color: textColor,
               ),
             ),
           ),
@@ -140,8 +144,7 @@ class DescriptionTextFormField extends StatelessWidget {
             label: Text(
               label,
             ),
-            labelStyle:
-            const TextStyle(fontSize: 14, color: MyColors.darkGrey),
+            labelStyle: const TextStyle(fontSize: 14, color: MyColors.darkGrey),
             floatingLabelStyle: const TextStyle(
               fontSize: 15,
               color: MyColors.darkGrey,
