@@ -8,7 +8,7 @@ class ProductsRepository {
       return [
         Product(
           id: 1,
-          productName: "Pepsi 330 ML",
+          productTitle: "Pepsi 330 ML",
           description: "Just a Pepsi",
           oldPrice: 16,
           newPrice: 11,
@@ -20,7 +20,7 @@ class ProductsRepository {
         ),
         Product(
           id: 2,
-          productName: "Pantene shampoo for smooth hair",
+          productTitle: "Pantene shampoo for smooth hair",
           description: "The best shampoo ever",
           oldPrice: 16,
           newPrice: 3,
@@ -32,7 +32,7 @@ class ProductsRepository {
         ),
         Product(
           id: 3,
-          productName: "Pepsi 330 ML",
+          productTitle: "Pepsi 330 ML",
           description: "Just a Pepsi",
           oldPrice: 16,
           newPrice: 8,
@@ -44,7 +44,7 @@ class ProductsRepository {
         ),
         Product(
           id: 4,
-          productName: "Pantene shampoo for smooth hair",
+          productTitle: "Pantene shampoo for smooth hair",
           description: "The best shampoo ever",
           oldPrice: 16,
           newPrice: 1,
@@ -56,7 +56,7 @@ class ProductsRepository {
         ),
         Product(
           id: 5,
-          productName: "Pepsi 330 ML",
+          productTitle: "Pepsi 330 ML",
           description: "Just a Pepsi",
           oldPrice: 16,
           newPrice: 7,
@@ -68,7 +68,7 @@ class ProductsRepository {
         ),
         Product(
           id: 6,
-          productName: "Pantene shampoo for smooth hair",
+          productTitle: "Pantene shampoo for smooth hair",
           description: "The best shampoo ever",
           oldPrice: 16,
           newPrice: 2,
@@ -80,7 +80,7 @@ class ProductsRepository {
         ),
         Product(
           id: 7,
-          productName: "Pantene shampoo for smooth hair",
+          productTitle: "Pantene shampoo for smooth hair",
           description: "The best shampoo ever",
           oldPrice: 16,
           newPrice: 15,
