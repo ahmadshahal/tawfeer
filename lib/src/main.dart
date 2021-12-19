@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) {
           return BlocProvider(
             create: (context) => HomeLayoutCubit()..fetchData(),
-            child: const HomeLayout(),
+            child: HomeLayout(),
           );
         },
         '/myProducts': (context) {

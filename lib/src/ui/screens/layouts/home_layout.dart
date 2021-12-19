@@ -8,7 +8,9 @@ import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 
 class HomeLayout extends StatelessWidget {
-  const HomeLayout({Key? key}) : super(key: key);
+  HomeLayout({Key? key}) : super(key: key);
+  final GlobalKey<RefreshIndicatorState> _refreshIndicator =
+      GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,7 @@ class HomeLayout extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: RefreshIndicator(
+          key: _refreshIndicator,
           onRefresh: () =>
               BlocProvider.of<HomeLayoutCubit>(context).fetchData(),
           child: BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
@@ -113,7 +116,13 @@ class HomeLayout extends StatelessWidget {
   Widget _floatingActionButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        Navigator.pushNamed(context, '/add_product');
+        Navigator.pushNamed(context, '/add_product').then(
+          (dynamic value) {
+            if (value == true) {
+              _refreshIndicator.currentState!.show();
+            }
+          },
+        );
       },
       child: const Icon(Icons.add),
     );
