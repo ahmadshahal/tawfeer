@@ -74,6 +74,8 @@ class MyTextFormField extends StatelessWidget {
               counterText: "",
               suffixIcon: suffixIconButton,
               hintText: hint,
+              errorMaxLines: 2,
+              errorStyle: const TextStyle(fontSize: 11),
               prefixText: prefixText,
               prefixStyle: const TextStyle(
                 color: Colors.black,
