@@ -150,4 +150,9 @@ class ProductsRepository {
     //   ];
     // });
   }
+
+  Future<void> addProduct({required Product product}) async {
+    // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    await Future.delayed(const Duration(seconds: 3));
+  }
 }
