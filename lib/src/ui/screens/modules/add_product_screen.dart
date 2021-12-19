@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/expire_date_field_cubit/expire_date_cubit.dart';
+import 'package:tawfeer/src/business_logic/utils/validation_utility.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
@@ -36,8 +37,7 @@ class AddProductScreen extends StatelessWidget {
     thirdDiscountKey: TextEditingController(),
     descriptionKey: TextEditingController(),
   };
-
-  // TODO: Add validators.
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -53,19 +53,28 @@ class AddProductScreen extends StatelessWidget {
                 const SizedBox(height: 30),
                 _productImage(context),
                 const SizedBox(height: 30),
-                _titleField(),
-                const SizedBox(height: 20),
-                _categoryQuantityRow(context),
-                const SizedBox(height: 20),
-                _expireDatePriceRow(context),
-                const SizedBox(height: 20),
-                _discountDatesColumn(context),
-                const SizedBox(height: 20),
-                _descriptionField(context),
-                const SizedBox(height: 20),
-                MyMaterialButton(
-                  text: 'Done',
-                  callBack: () {},
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      _titleField(),
+                      const SizedBox(height: 20),
+                      _categoryQuantityRow(context),
+                      const SizedBox(height: 20),
+                      _expireDatePriceRow(context),
+                      const SizedBox(height: 20),
+                      _discountDatesColumn(context),
+                      const SizedBox(height: 20),
+                      _descriptionField(context),
+                      const SizedBox(height: 20),
+                      MyMaterialButton(
+                        text: 'Done',
+                        callBack: () {
+                          if (formKey.currentState!.validate()) {}
+                        },
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
               ],
@@ -117,6 +126,9 @@ class AddProductScreen extends StatelessWidget {
   Widget _titleField() {
     return MyTextFormField(
       label: 'Title',
+      validate: (String? value) {
+        return ValidationUtility.validateProductTitle(value ?? "");
+      },
       textController: _controllers[titleKey]!,
       textInputType: TextInputType.text,
     );
@@ -124,11 +136,15 @@ class AddProductScreen extends StatelessWidget {
 
   Widget _categoryQuantityRow(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           flex: 2,
           child: MyTextFormField(
             label: 'Category',
+            validate: (String? value) {
+              return ValidationUtility.validateProductCategory(value ?? "");
+            },
             textController: _controllers[categoryKey]!,
             hint: 'Food, Drinks, etc..',
             textInputType: TextInputType.text,
@@ -139,6 +155,9 @@ class AddProductScreen extends StatelessWidget {
           flex: 1,
           child: MyTextFormField(
             label: 'Quantity',
+            validate: (String? value) {
+              return ValidationUtility.validateNumericField(value ?? "");
+            },
             textController: _controllers[quantityKey]!,
             textInputType: TextInputType.number,
           ),
@@ -149,12 +168,16 @@ class AddProductScreen extends StatelessWidget {
 
   Widget _expireDatePriceRow(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           flex: 2,
           child: MyTextFormField(
             onTap: () {
               _showExpireDatePicker(context);
+            },
+            validate: (String? value) {
+              return ValidationUtility.validateDate(value ?? "");
             },
             label: 'Expire Date',
             textController: _controllers[expireDateKey]!,
@@ -167,6 +190,9 @@ class AddProductScreen extends StatelessWidget {
           flex: 1,
           child: MyTextFormField(
             label: 'Price',
+            validate: (String? value) {
+              return ValidationUtility.validateNumericField(value ?? "");
+            },
             textController: _controllers[priceKey]!,
             prefixText: '\$',
             textInputType: TextInputType.number,
@@ -180,32 +206,79 @@ class AddProductScreen extends StatelessWidget {
     return Column(
       children: [
         _discountDateRow(
-          context,
-          _controllers[firstDiscountDateKey]!,
-          _controllers[firstDiscountKey]!,
+          context: context,
+          dateController:  _controllers[firstDiscountDateKey]!,
+          discountController: _controllers[firstDiscountKey]!,
+          validateDate: (String? value) {
+            if (_controllers[firstDiscountKey]!.text.isEmpty) {
+              return null;
+            } else {
+              return ValidationUtility.validateDate(value ?? "");
+            }
+          },
+          validateDiscount: (String? value) {
+            if (_controllers[firstDiscountDateKey]!.text.isEmpty) {
+              return null;
+            } else {
+              return ValidationUtility.validateNumericField(value ?? "");
+            }
+          },
         ),
         const SizedBox(height: 20),
         _discountDateRow(
-          context,
-          _controllers[secondDiscountDateKey]!,
-          _controllers[secondDiscountKey]!,
+          context: context,
+          dateController: _controllers[secondDiscountDateKey]!,
+          discountController: _controllers[secondDiscountKey]!,
+          validateDate: (String? value) {
+            if (_controllers[secondDiscountKey]!.text.isEmpty) {
+              return null;
+            } else {
+              return ValidationUtility.validateDate(value ?? "");
+            }
+          },
+          validateDiscount: (String? value) {
+            if (_controllers[secondDiscountDateKey]!.text.isEmpty) {
+              return null;
+            } else {
+              return ValidationUtility.validateNumericField(value ?? "");
+            }
+          },
         ),
         const SizedBox(height: 20),
         _discountDateRow(
-          context,
-          _controllers[thirdDiscountDateKey]!,
-          _controllers[thirdDiscountKey]!,
+          context: context,
+          dateController: _controllers[thirdDiscountDateKey]!,
+          discountController: _controllers[thirdDiscountKey]!,
+          validateDate: (String? value) {
+            if (_controllers[thirdDiscountKey]!.text.isEmpty) {
+              return null;
+            } else {
+              return ValidationUtility.validateDate(value ?? "");
+            }
+          },
+          validateDiscount: (String? value) {
+            if (_controllers[thirdDiscountDateKey]!.text.isEmpty) {
+              return null;
+            } else {
+              return ValidationUtility.validateNumericField(value ?? "");
+            }
+          },
         ),
       ],
     );
   }
 
-  Widget _discountDateRow(BuildContext context,
-      TextEditingController dateController,
-      TextEditingController discountController,) {
+  Widget _discountDateRow({
+    required BuildContext context,
+    required TextEditingController dateController,
+    required TextEditingController discountController,
+    required FormFieldValidator<String>? validateDate,
+    required FormFieldValidator<String>? validateDiscount,
+  }) {
     return BlocBuilder<ExpireDateCubit, bool>(
       builder: (context, state) {
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               flex: 2,
@@ -214,6 +287,7 @@ class AddProductScreen extends StatelessWidget {
                 textController: dateController,
                 readOnly: true,
                 enabled: state,
+                validate: validateDate,
                 textColor: state ? MyColors.darkGrey : Colors.grey[500],
                 onTap: () {
                   _showDatePicker(
@@ -232,6 +306,7 @@ class AddProductScreen extends StatelessWidget {
                 label: 'Discount',
                 prefixText: '%',
                 enabled: state,
+                validate: validateDiscount,
                 textColor: state ? MyColors.darkGrey : Colors.grey[500],
                 textController: discountController,
                 textInputType: TextInputType.number,
@@ -250,16 +325,18 @@ class AddProductScreen extends StatelessWidget {
     );
   }
 
-  void _showDatePicker(BuildContext context,
-      TextEditingController controller,
-      DateTime lastDate,) {
+  void _showDatePicker(
+    BuildContext context,
+    TextEditingController controller,
+    DateTime lastDate,
+  ) {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: lastDate,
     ).then(
-          (DateTime? value) {
+      (DateTime? value) {
         if (value == null) return;
         controller.text = DateFormat.yMMMd().format(value);
       },
@@ -273,7 +350,7 @@ class AddProductScreen extends StatelessWidget {
       firstDate: DateTime.now(),
       lastDate: DateTime(2025),
     ).then(
-          (DateTime? value) {
+      (DateTime? value) {
         if (value == null) return;
         _controllers[expireDateKey]!.text = DateFormat.yMMMd().format(value);
         BlocProvider.of<ExpireDateCubit>(context).expireDateFilled();
