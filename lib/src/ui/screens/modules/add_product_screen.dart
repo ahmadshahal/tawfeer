@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/add_product_cubit/add_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/expire_date_field_cubit/expire_date_cubit.dart';
+import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/business_logic/shared/my_user.dart';
 import 'package:tawfeer/src/business_logic/utils/validation_utility.dart';
+import 'package:tawfeer/src/ui/components/loading_dialog.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
 import 'package:tawfeer/src/ui/components/my_text_form_field.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
@@ -53,27 +57,90 @@ class AddProductScreen extends StatelessWidget {
                 const SizedBox(height: 30),
                 _productImage(context),
                 const SizedBox(height: 30),
-                Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      _titleField(),
-                      const SizedBox(height: 20),
-                      _categoryQuantityRow(context),
-                      const SizedBox(height: 20),
-                      _expireDatePriceRow(context),
-                      const SizedBox(height: 20),
-                      _discountDatesColumn(context),
-                      const SizedBox(height: 20),
-                      _descriptionField(context),
-                      const SizedBox(height: 20),
-                      MyMaterialButton(
-                        text: 'Done',
-                        callBack: () {
-                          if (formKey.currentState!.validate()) {}
+                BlocListener<AddProductCubit, AddProductState>(
+                  listener: (context, state) {
+                    if (state is AddProductSubmitting) {
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return const LoadingDialog();
                         },
-                      ),
-                    ],
+                      );
+                    } else if (state is AddProductSuccess) {
+                      Navigator.pop(context);
+                      Navigator.pop(context, true);
+                    } else if (state is AddProductFailure) {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text((state.exception.toString()))),
+                      );
+                    }
+                  },
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        _titleField(),
+                        const SizedBox(height: 20),
+                        _categoryQuantityRow(context),
+                        const SizedBox(height: 20),
+                        _expireDatePriceRow(context),
+                        const SizedBox(height: 20),
+                        _discountDatesColumn(context),
+                        const SizedBox(height: 20),
+                        _descriptionField(context),
+                        const SizedBox(height: 20),
+                        MyMaterialButton(
+                          text: 'Done',
+                          callBack: () {
+                            if (formKey.currentState!.validate()) {
+                              BlocProvider.of<AddProductCubit>(context).submit(
+                                product: Product(
+                                  productTitle: _controllers[titleKey]!.text,
+                                  description: _controllers[descriptionKey]!.text,
+                                  ownerId: MyUser.myUser!.id,
+                                  oldPrice: double.parse(_controllers[priceKey]!.text),
+                                  expireDate: DateFormat.yMMMd().parse(_controllers[expireDateKey]!.text),
+                                  category: _controllers[categoryKey]!.text,
+                                  quantity: int.parse(_controllers[quantityKey]!.text),
+                                  firstDiscountDate: _controllers[firstDiscountDateKey]!
+                                          .text
+                                          .isEmpty
+                                      ? null
+                                      : DateFormat.yMMMd().parse(_controllers[firstDiscountDateKey]!.text),
+                                  secondDiscountDate: _controllers[secondDiscountDateKey]!
+                                          .text
+                                          .isEmpty
+                                      ? null
+                                      : DateFormat.yMMMd().parse(_controllers[secondDiscountDateKey]!.text),
+                                  thirdDiscountDate: _controllers[thirdDiscountDateKey]!
+                                          .text
+                                          .isEmpty
+                                      ? null
+                                      : DateFormat.yMMMd().parse(_controllers[thirdDiscountDateKey]!.text),
+                                  firstDiscount: _controllers[firstDiscountKey]!
+                                          .text
+                                          .isEmpty
+                                      ? null
+                                      : double.parse(_controllers[firstDiscountKey]!.text),
+                                  secondDiscount: _controllers[secondDiscountKey]!
+                                          .text
+                                          .isEmpty
+                                      ? null
+                                      : double.parse(_controllers[secondDiscountKey]!.text),
+                                  thirdDiscount: _controllers[thirdDiscountKey]!
+                                          .text
+                                          .isEmpty
+                                      ? null
+                                      : double.parse(_controllers[thirdDiscountKey]!.text),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -207,7 +274,7 @@ class AddProductScreen extends StatelessWidget {
       children: [
         _discountDateRow(
           context: context,
-          dateController:  _controllers[firstDiscountDateKey]!,
+          dateController: _controllers[firstDiscountDateKey]!,
           discountController: _controllers[firstDiscountKey]!,
           validateDate: (String? value) {
             if (_controllers[firstDiscountKey]!.text.isEmpty) {
