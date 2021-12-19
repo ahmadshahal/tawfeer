@@ -27,7 +27,7 @@ class ProductsListItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  product.productName,
+                  product.productTitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -76,7 +76,7 @@ class ProductsListItem extends StatelessWidget {
     return Row(
       children: [
         Text(
-          '\$${product.newPrice}.00',
+          '\$${product.newPrice}',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: MyColors.primaryColor,
@@ -85,7 +85,7 @@ class ProductsListItem extends StatelessWidget {
         ),
         const SizedBox(width: 15.0),
         Text(
-          '\$${product.oldPrice}.00',
+          '\$${product.oldPrice}',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: MyColors.darkGrey,
