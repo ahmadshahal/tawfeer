@@ -60,48 +60,44 @@ class Product {
   }
 
   Product.special({
-    required int myOwnerId,
+    required this.ownerId,
+    required this.productTitle,
+    required this.category,
+    required this.description,
+    required String quantity,
+    required String expireDate,
+    required String oldPrice,
+    required String firstDiscountDate,
+    required String secondDiscountDate,
+    required String thirdDiscountDate,
+    required String firstDiscount,
+    required String secondDiscount,
+    required String thirdDiscount,
     required XFile? xFile,
-    required String titleT,
-    required String categoryT,
-    required String quantityT,
-    required String expireDateT,
-    required String priceT,
-    required String firstDiscountDateT,
-    required String secondDiscountDateT,
-    required String thirdDiscountDateT,
-    required String firstDiscountT,
-    required String secondDiscountT,
-    required String thirdDiscountT,
-    required String descriptionT,
   }) {
-    ownerId = myOwnerId;
-    productTitle = titleT;
-    description = descriptionT;
-    category = categoryT;
-    oldPrice = double.parse(priceT);
-    quantity = int.parse(quantityT);
-    expireDate = DateFormat.yMMMd().parse(expireDateT);
-    if(xFile != null) {
+    this.oldPrice = double.parse(oldPrice);
+    this.quantity = int.parse(quantity);
+    this.expireDate = DateFormat.yMMMd().parse(expireDate);
+    if (xFile != null) {
       imgFile = File(xFile.path);
     }
-    if(firstDiscountDateT.isNotEmpty) {
-      firstDiscountDate = DateFormat.yMMMd().parse(firstDiscountDateT);
+    if (firstDiscountDate.isNotEmpty) {
+      this.firstDiscountDate = DateFormat.yMMMd().parse(firstDiscountDate);
     }
-    if(secondDiscountDateT.isNotEmpty) {
-      secondDiscountDate = DateFormat.yMMMd().parse(secondDiscountDateT);
+    if (secondDiscountDate.isNotEmpty) {
+      this.secondDiscountDate = DateFormat.yMMMd().parse(secondDiscountDate);
     }
-    if(thirdDiscountDateT.isNotEmpty) {
-      thirdDiscountDate = DateFormat.yMMMd().parse(thirdDiscountDateT);
+    if (thirdDiscountDate.isNotEmpty) {
+      this.thirdDiscountDate = DateFormat.yMMMd().parse(thirdDiscountDate);
     }
-    if(firstDiscountT.isNotEmpty) {
-      firstDiscount = double.parse(firstDiscountT);
+    if (firstDiscount.isNotEmpty) {
+      this.firstDiscount = double.parse(firstDiscount);
     }
-    if(secondDiscountT.isNotEmpty) {
-      secondDiscount = double.parse(secondDiscountT);
+    if (secondDiscount.isNotEmpty) {
+      this.secondDiscount = double.parse(secondDiscount);
     }
-    if(thirdDiscountT.isNotEmpty) {
-      thirdDiscount = double.parse(thirdDiscountT);
+    if (thirdDiscount.isNotEmpty) {
+      this.thirdDiscount = double.parse(thirdDiscount);
     }
   }
 }
