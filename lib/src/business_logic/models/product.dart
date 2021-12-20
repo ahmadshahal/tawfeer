@@ -1,5 +1,6 @@
-
 import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class Product {
   late int? id;
@@ -15,13 +16,13 @@ class Product {
   late int seens;
   late double newPrice;
 
-  late DateTime? firstDiscountDate;
-  late DateTime? secondDiscountDate;
-  late DateTime? thirdDiscountDate;
-  late double? firstDiscount;
-  late double? secondDiscount;
-  late double? thirdDiscount;
-  late File? imgFile;
+  DateTime? firstDiscountDate;
+  DateTime? secondDiscountDate;
+  DateTime? thirdDiscountDate;
+  double? firstDiscount;
+  double? secondDiscount;
+  double? thirdDiscount;
+  File? imgFile;
 
   Product({
     this.id,
@@ -56,5 +57,51 @@ class Product {
     category = json['category'];
     quantity = json['quantity'];
     seens = json['seens'];
+  }
+
+  Product.special({
+    required int myOwnerId,
+    required XFile? xFile,
+    required String titleT,
+    required String categoryT,
+    required String quantityT,
+    required String expireDateT,
+    required String priceT,
+    required String firstDiscountDateT,
+    required String secondDiscountDateT,
+    required String thirdDiscountDateT,
+    required String firstDiscountT,
+    required String secondDiscountT,
+    required String thirdDiscountT,
+    required String descriptionT,
+  }) {
+    ownerId = myOwnerId;
+    productTitle = titleT;
+    description = descriptionT;
+    category = categoryT;
+    oldPrice = double.parse(priceT);
+    quantity = int.parse(quantityT);
+    expireDate = DateFormat.yMMMd().parse(expireDateT);
+    if(xFile != null) {
+      imgFile = File(xFile.path);
+    }
+    if(firstDiscountDateT.isNotEmpty) {
+      firstDiscountDate = DateFormat.yMMMd().parse(firstDiscountDateT);
+    }
+    if(secondDiscountDateT.isNotEmpty) {
+      secondDiscountDate = DateFormat.yMMMd().parse(secondDiscountDateT);
+    }
+    if(thirdDiscountDateT.isNotEmpty) {
+      thirdDiscountDate = DateFormat.yMMMd().parse(thirdDiscountDateT);
+    }
+    if(firstDiscountT.isNotEmpty) {
+      firstDiscount = double.parse(firstDiscountT);
+    }
+    if(secondDiscountT.isNotEmpty) {
+      secondDiscount = double.parse(secondDiscountT);
+    }
+    if(thirdDiscountT.isNotEmpty) {
+      thirdDiscount = double.parse(thirdDiscountT);
+    }
   }
 }

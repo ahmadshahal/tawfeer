@@ -99,73 +99,21 @@ class AddProductScreen extends StatelessWidget {
                           callBack: () {
                             if (_formKey.currentState!.validate()) {
                               BlocProvider.of<AddProductCubit>(context).submit(
-                                // TODO: Reconsider Formatting :)
-                                product: Product(
-                                  imgFile:
-                                      BlocProvider.of<ImagePickerCubit>(context)
-                                                  .file ==
-                                              null
-                                          ? null
-                                          : File(
-                                              BlocProvider.of<ImagePickerCubit>(
-                                                      context)
-                                                  .file!
-                                                  .path),
-                                  productTitle: _controllers[titleKey]!.text,
-                                  description:
-                                      _controllers[descriptionKey]!.text,
-                                  ownerId: MyUser.myUser!.id,
-                                  oldPrice: double.parse(
-                                      _controllers[priceKey]!.text),
-                                  expireDate: DateFormat.yMMMd()
-                                      .parse(_controllers[expireDateKey]!.text),
-                                  category: _controllers[categoryKey]!.text,
-                                  quantity: int.parse(
-                                      _controllers[quantityKey]!.text),
-                                  firstDiscountDate: _controllers[
-                                              firstDiscountDateKey]!
-                                          .text
-                                          .isEmpty
-                                      ? null
-                                      : DateFormat.yMMMd().parse(
-                                          _controllers[firstDiscountDateKey]!
-                                              .text),
-                                  secondDiscountDate: _controllers[
-                                              secondDiscountDateKey]!
-                                          .text
-                                          .isEmpty
-                                      ? null
-                                      : DateFormat.yMMMd().parse(
-                                          _controllers[secondDiscountDateKey]!
-                                              .text),
-                                  thirdDiscountDate: _controllers[
-                                              thirdDiscountDateKey]!
-                                          .text
-                                          .isEmpty
-                                      ? null
-                                      : DateFormat.yMMMd().parse(
-                                          _controllers[thirdDiscountDateKey]!
-                                              .text),
-                                  firstDiscount: _controllers[firstDiscountKey]!
-                                          .text
-                                          .isEmpty
-                                      ? null
-                                      : double.parse(
-                                          _controllers[firstDiscountKey]!.text),
-                                  secondDiscount:
-                                      _controllers[secondDiscountKey]!
-                                              .text
-                                              .isEmpty
-                                          ? null
-                                          : double.parse(
-                                              _controllers[secondDiscountKey]!
-                                                  .text),
-                                  thirdDiscount: _controllers[thirdDiscountKey]!
-                                          .text
-                                          .isEmpty
-                                      ? null
-                                      : double.parse(
-                                          _controllers[thirdDiscountKey]!.text),
+                                product: Product.special(
+                                  titleT: _controllers[titleKey]!.text,
+                                  myOwnerId: MyUser.myUser!.id,
+                                  descriptionT: _controllers[descriptionKey]!.text,
+                                  categoryT: _controllers[categoryKey]!.text,
+                                  priceT: _controllers[priceKey]!.text,
+                                  quantityT: _controllers[quantityKey]!.text,
+                                  expireDateT: _controllers[expireDateKey]!.text,
+                                  firstDiscountDateT: _controllers[firstDiscountDateKey]!.text,
+                                  firstDiscountT: _controllers[firstDiscountKey]!.text,
+                                  secondDiscountDateT: _controllers[secondDiscountDateKey]!.text,
+                                  secondDiscountT: _controllers[secondDiscountKey]!.text,
+                                  thirdDiscountDateT: _controllers[thirdDiscountDateKey]!.text,
+                                  thirdDiscountT: _controllers[thirdDiscountKey]!.text,
+                                  xFile: BlocProvider.of<ImagePickerCubit>(context).file,
                                 ),
                               );
                             }
