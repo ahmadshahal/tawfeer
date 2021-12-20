@@ -96,6 +96,7 @@ class AddProductScreen extends StatelessWidget {
                           callBack: () {
                             if (formKey.currentState!.validate()) {
                               BlocProvider.of<AddProductCubit>(context).submit(
+                                // TODO: Reconsider
                                 product: Product(
                                   productTitle: _controllers[titleKey]!.text,
                                   description: _controllers[descriptionKey]!.text,

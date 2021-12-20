@@ -28,9 +28,9 @@ class Product {
     required this.expireDate,
     required this.category,
     required this.quantity,
-    this.newPrice = 10, // TODO
-    this.seens = 0, // TODO
-    this.imgUrl = "", // TODO
+    this.newPrice = 10, // TODO: Reconsider
+    this.seens = 0, // TODO: Reconsider
+    this.imgUrl = "", // TODO: Reconsider
     this.firstDiscountDate,
     this.secondDiscountDate,
     this.thirdDiscountDate,
