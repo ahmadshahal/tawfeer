@@ -158,7 +158,11 @@ class HomeLayout extends StatelessWidget {
           Radio(
             value: value,
             groupValue: cubit.sortIndex,
-            onChanged: (value) {},
+            onChanged: (_) {
+              Navigator.pop(context);
+              cubit.updateSortIndex(sortIndex: value);
+            },
+            splashRadius: 0.1,
           ),
           Text(
             text,
