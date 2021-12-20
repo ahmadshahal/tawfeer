@@ -6,6 +6,7 @@ import 'package:tawfeer/src/ui/components/my_drawer.dart';
 import 'package:tawfeer/src/ui/components/my_list_view.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
+import 'package:tawfeer/src/ui/utils/custom_search_delegate.dart';
 
 class HomeLayout extends StatelessWidget {
   HomeLayout({Key? key}) : super(key: key);
@@ -91,7 +92,12 @@ class HomeLayout extends StatelessWidget {
       actions: [
         IconButton(
           onPressed: () {
-            // TODO
+            showSearch(
+              context: context,
+              delegate: CustomSearchDelegate(
+                products: BlocProvider.of<HomeLayoutCubit>(context).list,
+              ),
+            );
           },
           icon: const Icon(
             Icons.search_rounded,
