@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/add_product_cubit/add_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/expire_date_field_cubit/expire_date_cubit.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/image_picker_cubit/image_picker_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/business_logic/shared/my_user.dart';
 import 'package:tawfeer/src/business_logic/utils/validation_utility.dart';
@@ -99,42 +102,60 @@ class AddProductScreen extends StatelessWidget {
                                 // TODO: Reconsider
                                 product: Product(
                                   productTitle: _controllers[titleKey]!.text,
-                                  description: _controllers[descriptionKey]!.text,
+                                  description:
+                                      _controllers[descriptionKey]!.text,
                                   ownerId: MyUser.myUser!.id,
-                                  oldPrice: double.parse(_controllers[priceKey]!.text),
-                                  expireDate: DateFormat.yMMMd().parse(_controllers[expireDateKey]!.text),
+                                  oldPrice: double.parse(
+                                      _controllers[priceKey]!.text),
+                                  expireDate: DateFormat.yMMMd()
+                                      .parse(_controllers[expireDateKey]!.text),
                                   category: _controllers[categoryKey]!.text,
-                                  quantity: int.parse(_controllers[quantityKey]!.text),
-                                  firstDiscountDate: _controllers[firstDiscountDateKey]!
+                                  quantity: int.parse(
+                                      _controllers[quantityKey]!.text),
+                                  firstDiscountDate: _controllers[
+                                              firstDiscountDateKey]!
                                           .text
                                           .isEmpty
                                       ? null
-                                      : DateFormat.yMMMd().parse(_controllers[firstDiscountDateKey]!.text),
-                                  secondDiscountDate: _controllers[secondDiscountDateKey]!
+                                      : DateFormat.yMMMd().parse(
+                                          _controllers[firstDiscountDateKey]!
+                                              .text),
+                                  secondDiscountDate: _controllers[
+                                              secondDiscountDateKey]!
                                           .text
                                           .isEmpty
                                       ? null
-                                      : DateFormat.yMMMd().parse(_controllers[secondDiscountDateKey]!.text),
-                                  thirdDiscountDate: _controllers[thirdDiscountDateKey]!
+                                      : DateFormat.yMMMd().parse(
+                                          _controllers[secondDiscountDateKey]!
+                                              .text),
+                                  thirdDiscountDate: _controllers[
+                                              thirdDiscountDateKey]!
                                           .text
                                           .isEmpty
                                       ? null
-                                      : DateFormat.yMMMd().parse(_controllers[thirdDiscountDateKey]!.text),
+                                      : DateFormat.yMMMd().parse(
+                                          _controllers[thirdDiscountDateKey]!
+                                              .text),
                                   firstDiscount: _controllers[firstDiscountKey]!
                                           .text
                                           .isEmpty
                                       ? null
-                                      : double.parse(_controllers[firstDiscountKey]!.text),
-                                  secondDiscount: _controllers[secondDiscountKey]!
-                                          .text
-                                          .isEmpty
-                                      ? null
-                                      : double.parse(_controllers[secondDiscountKey]!.text),
+                                      : double.parse(
+                                          _controllers[firstDiscountKey]!.text),
+                                  secondDiscount:
+                                      _controllers[secondDiscountKey]!
+                                              .text
+                                              .isEmpty
+                                          ? null
+                                          : double.parse(
+                                              _controllers[secondDiscountKey]!
+                                                  .text),
                                   thirdDiscount: _controllers[thirdDiscountKey]!
                                           .text
                                           .isEmpty
                                       ? null
-                                      : double.parse(_controllers[thirdDiscountKey]!.text),
+                                      : double.parse(
+                                          _controllers[thirdDiscountKey]!.text),
                                 ),
                               );
                             }
@@ -175,18 +196,44 @@ class AddProductScreen extends StatelessWidget {
   }
 
   Widget _productImage(BuildContext context) {
-    return Container(
-      width: 170,
-      height: 170,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7.0),
-        color: MyColors.lightGrey,
-      ),
-      child: const Icon(
-        Icons.add_a_photo_rounded,
-        size: 35,
-        color: MyColors.darkGrey,
+    return GestureDetector(
+      onTap: () {
+        _showBottomSheet(
+          context: context,
+          cameraCallBack: () {
+            BlocProvider.of<ImagePickerCubit>(context)
+                .pickImage(ImageSource.camera);
+          },
+          galleryCallBack: () {
+            BlocProvider.of<ImagePickerCubit>(context)
+                .pickImage(ImageSource.gallery);
+          },
+        );
+      },
+      child: Container(
+        width: 170,
+        height: 170,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7.0),
+          color: MyColors.lightGrey,
+        ),
+        child: BlocBuilder<ImagePickerCubit, ImagePickerState>(
+          builder: (context, state) {
+            if (state is ImagePickerSuccess) {
+              return Image(
+                image: FileImage(File(state.imagePath)),
+                fit: BoxFit.cover,
+              );
+            } else {
+              return const Icon(
+                Icons.add_a_photo_rounded,
+                size: 35,
+                color: MyColors.darkGrey,
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -422,6 +469,39 @@ class AddProductScreen extends StatelessWidget {
         if (value == null) return;
         _controllers[expireDateKey]!.text = DateFormat.yMMMd().format(value);
         BlocProvider.of<ExpireDateCubit>(context).expireDateFilled();
+      },
+    );
+  }
+
+  void _showBottomSheet({
+    required BuildContext context,
+    required Function cameraCallBack,
+    required Function galleryCallBack,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_album),
+              title: const Text('Gallery', style: TextStyle(fontSize: 15)),
+              onTap: () {
+                Navigator.pop(context);
+                galleryCallBack();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Camera', style: TextStyle(fontSize: 15)),
+              onTap: () {
+                Navigator.pop(context);
+                cameraCallBack();
+              },
+            ),
+          ],
+        );
       },
     );
   }
