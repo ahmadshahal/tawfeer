@@ -14,6 +14,8 @@ import 'package:tawfeer/src/ui/screens/modules/register_screen.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/utility.dart';
 
+import 'business_logic/bloc/cubits/image_picker_cubit/image_picker_cubit.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -66,6 +68,9 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider (
                 create: (context) => AddProductCubit(),
+              ),
+              BlocProvider (
+                create: (context) => ImagePickerCubit(),
               ),
             ],
             child: AddProductScreen(),
