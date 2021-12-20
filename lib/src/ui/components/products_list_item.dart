@@ -67,6 +67,14 @@ class ProductsListItem extends StatelessWidget {
           product.imgUrl,
           height: 65,
           width: 65,
+          errorBuilder:
+              (BuildContext context, Object exception, StackTrace? stackTrace) {
+            return Image.asset(
+              'assets/images/tawfeer_logo.png',
+              height: 65,
+              width: 65,
+            );
+          },
         ),
       ),
     );
