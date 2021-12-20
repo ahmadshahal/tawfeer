@@ -18,6 +18,10 @@ class HomeLayoutCubit extends Cubit<HomeLayoutState> {
     return _sortIndex;
   }
 
+  List<Product> get list {
+    return _list;
+  }
+
   HomeLayoutCubit() : super(HomeLayoutInitial());
 
   Future<void> fetchData() async {
