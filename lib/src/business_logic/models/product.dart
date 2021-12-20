@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 class Product {
   late int? id;
   late int ownerId;
@@ -18,6 +21,7 @@ class Product {
   late double? firstDiscount;
   late double? secondDiscount;
   late double? thirdDiscount;
+  late File? imgFile;
 
   Product({
     this.id,
@@ -37,6 +41,7 @@ class Product {
     this.firstDiscount,
     this.secondDiscount,
     this.thirdDiscount,
+    this.imgFile,
   });
 
   Product.fromJson(Map<String, dynamic> json) {

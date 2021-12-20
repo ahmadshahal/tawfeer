@@ -8,11 +8,12 @@ class ImagePickerCubit extends Cubit<ImagePickerState> {
   ImagePickerCubit() : super(ImagePickerPending());
 
   final ImagePicker _imagePicker = ImagePicker();
+  XFile? file;
 
   Future<void> pickImage(ImageSource imageSource) async {
-    final file = await _imagePicker.pickImage(source: imageSource);
-    if(file == null) return;
-    emit(ImagePickerSuccess(imagePath: file.path));
+    final XFile? xFile = await _imagePicker.pickImage(source: imageSource);
+    if(xFile == null) return;
+    file = xFile;
+    emit(ImagePickerSuccess(imagePath: file!.path));
   }
-
 }

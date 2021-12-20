@@ -44,7 +44,7 @@ class AddProductScreen extends StatelessWidget {
     thirdDiscountKey: TextEditingController(),
     descriptionKey: TextEditingController(),
   };
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class AddProductScreen extends StatelessWidget {
                     }
                   },
                   child: Form(
-                    key: formKey,
+                    key: _formKey,
                     child: Column(
                       children: [
                         _titleField(),
@@ -97,10 +97,20 @@ class AddProductScreen extends StatelessWidget {
                         MyMaterialButton(
                           text: 'Done',
                           callBack: () {
-                            if (formKey.currentState!.validate()) {
+                            if (_formKey.currentState!.validate()) {
                               BlocProvider.of<AddProductCubit>(context).submit(
-                                // TODO: Reconsider
+                                // TODO: Reconsider Formatting :)
                                 product: Product(
+                                  imgFile:
+                                      BlocProvider.of<ImagePickerCubit>(context)
+                                                  .file ==
+                                              null
+                                          ? null
+                                          : File(
+                                              BlocProvider.of<ImagePickerCubit>(
+                                                      context)
+                                                  .file!
+                                                  .path),
                                   productTitle: _controllers[titleKey]!.text,
                                   description:
                                       _controllers[descriptionKey]!.text,
