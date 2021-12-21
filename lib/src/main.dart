@@ -32,6 +32,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Utility.createMaterialColor(
           MyColors.primaryColor,
         ),
+        textTheme: const TextTheme(
+          headline6: TextStyle(
+            fontSize: 16,
+          ), // Used for the custom search delegate appbar.
+        ),
         fontFamily: 'Saira',
       ),
       initialRoute: '/login',
@@ -63,13 +68,13 @@ class MyApp extends StatelessWidget {
         '/add_product': (context) {
           return MultiBlocProvider(
             providers: [
-              BlocProvider (
+              BlocProvider(
                 create: (context) => ExpireDateCubit(),
               ),
-              BlocProvider (
+              BlocProvider(
                 create: (context) => AddProductCubit(),
               ),
-              BlocProvider (
+              BlocProvider(
                 create: (context) => ImagePickerCubit(),
               ),
             ],
