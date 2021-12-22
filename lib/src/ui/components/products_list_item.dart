@@ -95,15 +95,16 @@ class ProductsListItem extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 15.0),
-        Text(
-          '\$${product.oldPrice}',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: MyColors.darkGrey,
-            decoration: TextDecoration.lineThrough,
-            fontSize: 12.0,
+        if (product.newPrice != product.oldPrice)
+          Text(
+            '\$${product.oldPrice}',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: MyColors.darkGrey,
+              decoration: TextDecoration.lineThrough,
+              fontSize: 12.0,
+            ),
           ),
-        ),
       ],
     );
   }

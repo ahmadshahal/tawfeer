@@ -11,7 +11,7 @@ class ProductsRepository {
           ownerId: 1,
           productTitle: "Pepsi 330 ML",
           description: "Just a Pepsi",
-          oldPrice: 16,
+          oldPrice: 11,
           newPrice: 11,
           expireDate: DateTime(2023, 12, 5),
           category: "Drinks",
