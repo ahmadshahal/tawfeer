@@ -8,9 +8,9 @@ class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    // To avoid overflow when showing the screen while
-    // the keyboard isn't closed.
-    resizeToAvoidBottomInset: false,
+      // To avoid overflow when showing the screen while
+      // the keyboard isn't closed.
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: _appBar(context),
       body: DefaultTabController(
