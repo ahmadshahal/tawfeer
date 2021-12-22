@@ -10,6 +10,7 @@ import 'package:tawfeer/src/ui/screens/layouts/home_layout.dart';
 import 'package:tawfeer/src/ui/screens/modules/add_product_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/login_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/my_products_screen.dart';
+import 'package:tawfeer/src/ui/screens/modules/product_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/register_screen.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/utility.dart';
@@ -81,6 +82,9 @@ class MyApp extends StatelessWidget {
             child: AddProductScreen(),
           );
         },
+        '/product' : (context) {
+          return const ProductScreen();
+        }
       },
     );
   }

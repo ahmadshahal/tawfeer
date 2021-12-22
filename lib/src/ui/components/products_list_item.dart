@@ -13,39 +13,44 @@ class ProductsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7.0),
-        color: MyColors.lightGrey,
-      ),
-      child: Row(
-        children: [
-          _productImage(context),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  product.productTitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 13.0,
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/product');
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7.0),
+          color: MyColors.lightGrey,
+        ),
+        child: Row(
+          children: [
+            _productImage(context),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    product.productTitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 13.0,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 1.0),
-                _priceRow(context),
-                const SizedBox(height: 1.0),
-                _dateText(context),
-              ],
+                  const SizedBox(height: 1.0),
+                  _priceRow(context),
+                  const SizedBox(height: 1.0),
+                  _dateText(context),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 20),
-          _seensColumn(context),
-          const SizedBox(width: 20),
-        ],
+            const SizedBox(width: 20),
+            _seensColumn(context),
+            const SizedBox(width: 20),
+          ],
+        ),
       ),
     );
   }
@@ -59,20 +64,18 @@ class ProductsListItem extends StatelessWidget {
         right: 12,
       ),
       child: Container(
+        height: 65,
+        width: 65,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7.0),
         ),
         child: Image.network(
           product.imgUrl,
-          height: 65,
-          width: 65,
           errorBuilder:
               (BuildContext context, Object exception, StackTrace? stackTrace) {
             return Image.asset(
               'assets/images/tawfeer_logo.png',
-              height: 65,
-              width: 65,
             );
           },
         ),
