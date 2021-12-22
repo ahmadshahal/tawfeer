@@ -36,7 +36,6 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     List<Product> matchQuery = [];
     for (Product product in products) {
-      // TODO: Add Date search condition.
       if (query.isNotEmpty &&
           (product.category.toLowerCase().contains(query.toLowerCase()) ||
               product.productTitle
@@ -46,42 +45,23 @@ class CustomSearchDelegate extends SearchDelegate {
                   .toString()
                   .toLowerCase()
                   .contains(query.toLowerCase()) ||
-              product.description
-                  .toLowerCase()
-                  .contains(query.toLowerCase()))) {
+              product.description.toLowerCase().contains(query.toLowerCase()) ||
+              product.expireDate.day.toString().contains(query) ||
+              product.expireDate.month.toString().contains(query) ||
+              product.expireDate.year.toString().contains(query))) {
         matchQuery.add(product);
       }
     }
     if (matchQuery.isEmpty) {
       return _userMsg(context);
     }
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: SizedBox(
-        // To make the single child scroll view go to the end
-        // without something clipped when scrolling.
-        height: double.infinity,
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics(),
-          ),
-          child: Column(
-            children: [
-              const SizedBox(height: 15.0),
-              MyListView(list: matchQuery),
-              const SizedBox(height: 15.0),
-            ],
-          ),
-        ),
-      ),
-    );
+    return _resultsList(context, matchQuery);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     List<Product> matchQuery = [];
     for (Product product in products) {
-      // TODO: Add Date search condition.
       if (query.isNotEmpty &&
           (product.category.toLowerCase().contains(query.toLowerCase()) ||
               product.productTitle
@@ -91,15 +71,20 @@ class CustomSearchDelegate extends SearchDelegate {
                   .toString()
                   .toLowerCase()
                   .contains(query.toLowerCase()) ||
-              product.description
-                  .toLowerCase()
-                  .contains(query.toLowerCase()))) {
+              product.description.toLowerCase().contains(query.toLowerCase()) ||
+              product.expireDate.day.toString().contains(query) ||
+              product.expireDate.month.toString().contains(query) ||
+              product.expireDate.year.toString().contains(query))) {
         matchQuery.add(product);
       }
     }
     if (matchQuery.isEmpty) {
       return _userMsg(context);
     }
+    return _resultsList(context, matchQuery);
+  }
+
+  Widget _resultsList(BuildContext context, List<Product> list) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: SizedBox(
@@ -113,7 +98,7 @@ class CustomSearchDelegate extends SearchDelegate {
           child: Column(
             children: [
               const SizedBox(height: 15.0),
-              MyListView(list: matchQuery),
+              MyListView(list: list),
               const SizedBox(height: 15.0),
             ],
           ),
