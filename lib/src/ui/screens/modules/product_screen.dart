@@ -30,20 +30,24 @@ class ProductScreen extends StatelessWidget {
               ],
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ScrollConfiguration(
-                  behavior: NonGlowScrollBehavior(),
-                  child: TabBarView(
-                    children: [
-                      _descriptionText(context),
-                      _descriptionText(context),
-                    ],
-                  ),
+              child: ScrollConfiguration(
+                behavior: NonGlowScrollBehavior(),
+                child: TabBarView(
+                  children: [
+                    _detailsRow(context),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 16),
+                          _descriptionText(context),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -62,7 +66,7 @@ class ProductScreen extends StatelessWidget {
         splashRadius: 20.0,
       ),
       actions: [
-        // TODO: Check Id's
+        // TODO: Check Ids
         IconButton(
           onPressed: () {
             _showMenu(context);
@@ -79,7 +83,7 @@ class ProductScreen extends StatelessWidget {
 
   Widget _productImage(BuildContext context) {
     return Container(
-      height: 350,
+      height: MediaQuery.of(context).size.height / 2.1,
       width: double.infinity,
       color: MyColors.white,
       child: Image.network(
@@ -87,9 +91,12 @@ class ProductScreen extends StatelessWidget {
         fit: BoxFit.cover,
         errorBuilder:
             (BuildContext context, Object exception, StackTrace? stackTrace) {
-          return Image.asset(
-            'assets/images/tawfeer.png',
-            fit: BoxFit.contain,
+          return Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: Image.asset(
+              'assets/images/tawfeer.png',
+              fit: BoxFit.contain,
+            ),
           );
         },
       ),
@@ -111,7 +118,7 @@ class ProductScreen extends StatelessWidget {
           ),
           SizedBox(height: 5.0),
           Text(
-            '\$16.00',
+            '\$16.0',
             style: TextStyle(
               color: MyColors.primaryColor,
               fontWeight: FontWeight.bold,
@@ -130,7 +137,7 @@ class ProductScreen extends StatelessWidget {
         SizedBox(width: 20.0),
         Expanded(
           child: Text(
-            "I've been trying to customize Flutter SearchDelegate to the type of search field I want it to be. It got a method named appBarTheme with return type ThemeData. Usually using ThemeData you can change the appbar theme but it's not making any change in my case. I am able to customize the hint text style searchFieldStyle method but nothing more.",
+            "I've been trying to customize Flutter SearchDelegate to the type of search field I want it to be. It got a method named appBarTheme with return type ThemeData. Usually using ThemeData you can change the appbar theme but it's not making any change in my case. I am able to customize the hint text style searchFieldStyle method but nothing more.I've been trying to customize Flutter SearchDelegate to the type of search field I want it to be. It got a method named appBarTheme with return type ThemeData. Usually using ThemeData you can change the appbar theme but it's not making any change in my case. I am able to customize the hint text style searchFieldStyle method but nothing more.",
           ),
         ),
         SizedBox(width: 20.0),
@@ -151,6 +158,99 @@ class ProductScreen extends StatelessWidget {
       (int? value) {
         // TODO.
       },
+    );
+  }
+
+  Widget _detailsRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Row(
+        children: [
+          const SizedBox(width: 20),
+          _keysColumn(context),
+          const SizedBox(width: 15),
+          Expanded(
+            child: _valuesColumn(context),
+          ),
+          const SizedBox(width: 20),
+        ],
+      ),
+    );
+  }
+
+  Widget _keysColumn(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        Text(
+          'Category:',
+          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
+        ),
+        SizedBox(height: 16),
+        Text(
+          'OldPrice:',
+          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Discount:',
+          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Expire Date:',
+          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Views:',
+          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Owner Email:',
+          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
+        ),
+      ],
+    );
+  }
+
+  Widget _valuesColumn(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        Text(
+          'Drinks',
+          style: TextStyle(fontSize: 14),
+        ),
+        SizedBox(height: 16),
+        Text(
+          '\$22.00',
+          style: TextStyle(fontSize: 14),
+        ),
+        SizedBox(height: 16),
+        Text(
+          '30%',
+          style: TextStyle(fontSize: 14),
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Dec 10, 2021',
+          style: TextStyle(fontSize: 14),
+        ),
+        SizedBox(height: 16),
+        Text(
+          '223',
+          style: TextStyle(fontSize: 14),
+        ),
+        SizedBox(height: 16),
+        Expanded(
+          child: Text(
+            'ahmad.alshahal2@gmail.com',
+            style: TextStyle(fontSize: 14),
+          ),
+        ),
+      ],
     );
   }
 
