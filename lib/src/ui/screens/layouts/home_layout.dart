@@ -6,7 +6,7 @@ import 'package:tawfeer/src/ui/components/my_drawer.dart';
 import 'package:tawfeer/src/ui/components/my_list_view.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
-import 'package:tawfeer/src/ui/utils/custom_search_delegate.dart';
+import 'package:tawfeer/src/ui/components/custom_search_delegate.dart';
 
 class HomeLayout extends StatelessWidget {
   HomeLayout({Key? key}) : super(key: key);

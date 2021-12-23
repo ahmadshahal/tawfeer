@@ -34,6 +34,9 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    if (query.isEmpty) {
+      return _userMsg(context, 'Search for a product..', 'assets/images/search.png');
+    }
     List<Product> matchQuery = [];
     for (Product product in products) {
       if (query.isNotEmpty &&
@@ -53,35 +56,14 @@ class CustomSearchDelegate extends SearchDelegate {
       }
     }
     if (matchQuery.isEmpty) {
-      return _userMsg(context);
+      return _userMsg(context, 'No Results..', 'assets/images/no_items.png');
     }
     return _resultsList(context, matchQuery);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<Product> matchQuery = [];
-    for (Product product in products) {
-      if (query.isNotEmpty &&
-          (product.category.toLowerCase().contains(query.toLowerCase()) ||
-              product.productTitle
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) ||
-              product.newPrice
-                  .toString()
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) ||
-              product.description.toLowerCase().contains(query.toLowerCase()) ||
-              product.expireDate.day.toString().contains(query) ||
-              product.expireDate.month.toString().contains(query) ||
-              product.expireDate.year.toString().contains(query))) {
-        matchQuery.add(product);
-      }
-    }
-    if (matchQuery.isEmpty) {
-      return _userMsg(context);
-    }
-    return _resultsList(context, matchQuery);
+    return buildResults(context);
   }
 
   Widget _resultsList(BuildContext context, List<Product> list) {
@@ -107,7 +89,7 @@ class CustomSearchDelegate extends SearchDelegate {
     );
   }
 
-  Widget _userMsg(BuildContext context) {
+  Widget _userMsg(BuildContext context, String msg, String imgPath) {
     return Padding(
       padding: const EdgeInsets.only(right: 16.0, left: 16.0, bottom: 32.0),
       child: Center(
@@ -118,11 +100,11 @@ class CustomSearchDelegate extends SearchDelegate {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/images/search.png',
+                  imgPath,
                   height: 350,
                   width: 350,
                 ),
-                const Text('No Results..'),
+                Text(msg),
               ],
             ),
           ),
