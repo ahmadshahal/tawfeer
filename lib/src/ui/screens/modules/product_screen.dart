@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/delete_product_cubit/delete_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/business_logic/shared/my_user.dart';
 import 'package:tawfeer/src/ui/components/loading.dart';
+import 'package:tawfeer/src/ui/components/loading_dialog.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
@@ -52,61 +55,87 @@ class ProductScreen extends StatelessWidget {
                     ),
                   );
                 }
-                return ScrollConfiguration(
-                  behavior: NonGlowScrollBehavior(),
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: SizedBox(
-                      // So I can add a SingleChildScrollView even though I have an
-                      // Expanded widget.
-                      height: MediaQuery.of(context).size.height,
-                      child: DefaultTabController(
-                        length: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _productImage(
-                              context,
-                              (state as ProductSuccess).product,
-                            ),
-                            const SizedBox(height: 20),
-                            _titlePriceColumn(context, state.product),
-                            const SizedBox(height: 10),
-                            const TabBar(
-                              labelColor: Colors.black,
-                              tabs: [
-                                Tab(text: 'Details'),
-                                Tab(text: 'Description'),
-                              ],
-                            ),
-                            Expanded(
-                              child: ScrollConfiguration(
-                                behavior: NonGlowScrollBehavior(),
-                                child: TabBarView(
-                                  children: [
-                                    // TODO: Make it scrollable.
-                                    _detailsRow(
-                                      context,
-                                      state.product,
-                                      state.ownerEmail,
-                                    ),
-                                    SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(height: 16),
-                                          _descriptionText(
-                                            context,
-                                            state.product,
-                                          ),
-                                          const SizedBox(height: 16),
-                                        ],
+                // ProductSuccess.
+                return BlocListener<DeleteProductCubit, DeleteProductState>(
+                  listener: (context, state) {
+                    if (state is DeleteProductLoading) {
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return const LoadingDialog();
+                        },
+                      );
+                    } else if (state is DeleteProductSuccess) {
+                      Navigator.pop(context);
+                      Navigator.pop(context, true);
+                    } else if (state is DeleteProductFailure) {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            state.exception.toString(),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  child: ScrollConfiguration(
+                    behavior: NonGlowScrollBehavior(),
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: SizedBox(
+                        // So I can add a SingleChildScrollView even though I have an
+                        // Expanded widget.
+                        height: MediaQuery.of(context).size.height,
+                        child: DefaultTabController(
+                          length: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _productImage(
+                                context,
+                                (state as ProductSuccess).product,
+                              ),
+                              const SizedBox(height: 20),
+                              _titlePriceColumn(context, state.product),
+                              const SizedBox(height: 10),
+                              const TabBar(
+                                labelColor: Colors.black,
+                                tabs: [
+                                  Tab(text: 'Details'),
+                                  Tab(text: 'Description'),
+                                ],
+                              ),
+                              Expanded(
+                                child: ScrollConfiguration(
+                                  behavior: NonGlowScrollBehavior(),
+                                  child: TabBarView(
+                                    children: [
+                                      // TODO: Make it scrollable.
+                                      _detailsRow(
+                                        context,
+                                        state.product,
+                                        state.ownerEmail,
                                       ),
-                                    ),
-                                  ],
+                                      SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(height: 16),
+                                            _descriptionText(
+                                              context,
+                                              state.product,
+                                            ),
+                                            const SizedBox(height: 16),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -132,16 +161,22 @@ class ProductScreen extends StatelessWidget {
         splashRadius: 20.0,
       ),
       actions: [
-        // TODO: Check Ids
-        IconButton(
-          onPressed: () {
-            _showMenu(context);
+        BlocBuilder<ProductCubit, ProductState>(
+          builder: (context, state) {
+            if(state is ProductSuccess && state.product.ownerId == MyUser.myUser!.id) {
+              return IconButton(
+                onPressed: () {
+                  _showMenu(context);
+                },
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: MyColors.white,
+                ),
+                splashRadius: 20.0,
+              );
+            }
+            return const SizedBox();
           },
-          icon: const Icon(
-            Icons.more_vert,
-            color: MyColors.white,
-          ),
-          splashRadius: 20.0,
         ),
       ],
     );
@@ -220,7 +255,10 @@ class ProductScreen extends StatelessWidget {
       ],
     ).then(
       (int? value) {
-        // TODO.
+        if (value == null) return;
+        if (value == 1) {
+          BlocProvider.of<DeleteProductCubit>(context).deleteProduct();
+        }
       },
     );
   }
