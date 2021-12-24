@@ -19,8 +19,7 @@ class UserMsg extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // TODO: Not the best solution, change it.
-              const SizedBox(height: 140.0),
+              SizedBox(height: MediaQuery.of(context).size.height / 5),
               Image.asset(
                 imgUrl,
                 height: 350,
