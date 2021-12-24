@@ -71,8 +71,14 @@ class MyDrawer extends StatelessWidget {
   AlertDialog _logoutDialog(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
-      title: const Text('Logout?'),
-      content: const Text('You will be returned to the login screen.'),
+      title: const Text(
+        'Logout?',
+        style: TextStyle(fontSize: 17),
+      ),
+      content: const Text(
+        'You will be returned to the login screen.',
+        style: TextStyle(fontSize: 15),
+      ),
       actions: [
         TextButton(
           onPressed: () {
