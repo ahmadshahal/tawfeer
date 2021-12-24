@@ -12,7 +12,9 @@ import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
 class ProductScreen extends StatelessWidget {
-  ProductScreen({Key? key}) : super(key: key);
+  ProductScreen({Key? key, required this.id}) : super(key: key);
+
+  final int id;
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
@@ -30,7 +32,7 @@ class ProductScreen extends StatelessWidget {
           return RefreshIndicator(
             key: _refreshIndicatorKey,
             onRefresh: () {
-              return BlocProvider.of<ProductCubit>(context).fetchData();
+              return BlocProvider.of<ProductCubit>(context).fetchData(id: id);
             },
             edgeOffset: Scaffold.of(context).appBarMaxHeight ?? 50,
             displacement: 30,
@@ -257,7 +259,7 @@ class ProductScreen extends StatelessWidget {
       (int? value) {
         if (value == null) return;
         if (value == 1) {
-          BlocProvider.of<DeleteProductCubit>(context).deleteProduct();
+          BlocProvider.of<DeleteProductCubit>(context).deleteProduct(id: id);
         }
       },
     );

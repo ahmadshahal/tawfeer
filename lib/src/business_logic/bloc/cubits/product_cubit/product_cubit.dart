@@ -13,9 +13,9 @@ class ProductCubit extends Cubit<ProductState> {
   final ProductsRepository _productsRepository = ProductsRepository();
   final UserRepository _userRepository = UserRepository();
 
-  Future<void> fetchData() async {
+  Future<void> fetchData({required int id}) async {
     try {
-      Product product = await _productsRepository.getProduct(id: 1);
+      Product product = await _productsRepository.getProduct(id: id);
       User user = await _userRepository.fetchUser(id: product.ownerId);
       emit(ProductSuccess(product: product, ownerEmail: user.email));
     } catch (ex) {

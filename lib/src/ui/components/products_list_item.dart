@@ -15,7 +15,7 @@ class ProductsListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/product');
+        Navigator.pushNamed(context, '/product', arguments: product.id as int);
       },
       child: Container(
         decoration: BoxDecoration(

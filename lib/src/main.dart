@@ -42,61 +42,69 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Saira',
       ),
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) {
-          return BlocProvider(
-            create: (context) => LoginCubit(),
-            child: LoginScreen(),
-          );
-        },
-        '/register': (context) {
-          return BlocProvider(
-            create: (context) => RegisterCubit(),
-            child: RegisterScreen(),
-          );
-        },
-        '/home': (context) {
-          return BlocProvider(
-            create: (context) => HomeLayoutCubit()..fetchData(),
-            child: HomeLayout(),
-          );
-        },
-        '/myProducts': (context) {
-          return BlocProvider(
-            create: (context) => MyProductsCubit()..fetchData(),
-            child: const MyProductsScreen(),
-          );
-        },
-        '/add_product': (context) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => ExpireDateCubit(),
-              ),
-              BlocProvider(
-                create: (context) => AddProductCubit(),
-              ),
-              BlocProvider(
-                create: (context) => ImagePickerCubit(),
-              ),
-            ],
-            child: AddProductScreen(),
-          );
-        },
-        '/product': (context) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => ProductCubit()..fetchData(),
-              ),
-              BlocProvider(
-                create: (context) => DeleteProductCubit(),
-              ),
-            ],
-            child: ProductScreen(),
-          );
-        }
+      home: BlocProvider(
+        create: (context) => LoginCubit(),
+        child: LoginScreen(),
+      ),
+      onGenerateRoute: (RouteSettings settings) {
+        var routes = <String, WidgetBuilder>{
+          '/login': (context) {
+            return BlocProvider(
+              create: (context) => LoginCubit(),
+              child: LoginScreen(),
+            );
+          },
+          '/register': (context) {
+            return BlocProvider(
+              create: (context) => RegisterCubit(),
+              child: RegisterScreen(),
+            );
+          },
+          '/home': (context) {
+            return BlocProvider(
+              create: (context) => HomeLayoutCubit()..fetchData(),
+              child: HomeLayout(),
+            );
+          },
+          '/myProducts': (context) {
+            return BlocProvider(
+              create: (context) => MyProductsCubit()..fetchData(),
+              child: const MyProductsScreen(),
+            );
+          },
+          '/add_product': (context) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => ExpireDateCubit(),
+                ),
+                BlocProvider(
+                  create: (context) => AddProductCubit(),
+                ),
+                BlocProvider(
+                  create: (context) => ImagePickerCubit(),
+                ),
+              ],
+              child: AddProductScreen(),
+            );
+          },
+          '/product': (context) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) =>
+                      ProductCubit()..fetchData(id: settings.arguments as int),
+                ),
+                BlocProvider(
+                  create: (context) => DeleteProductCubit(),
+                ),
+              ],
+              child: ProductScreen(id: settings.arguments as int),
+            );
+          }
+        };
+        WidgetBuilder builder = routes[settings.name]!;
+        return MaterialPageRoute(builder: (context) => builder(context));
       },
     );
   }
