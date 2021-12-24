@@ -3,7 +3,9 @@ import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
 class ProductScreen extends StatelessWidget {
-  const ProductScreen({Key? key}) : super(key: key);
+  ProductScreen({Key? key}) : super(key: key);
+
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -15,40 +17,65 @@ class ProductScreen extends StatelessWidget {
       appBar: _appBar(context),
       body: DefaultTabController(
         length: 2,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _productImage(context),
-            const SizedBox(height: 20),
-            _titlePriceColumn(context),
-            const SizedBox(height: 10),
-            const TabBar(
-              labelColor: Colors.black,
-              tabs: [
-                Tab(text: 'Details'),
-                Tab(text: 'Description'),
-              ],
-            ),
-            Expanded(
+        // The Builder widget is used to create a new context, that is the
+        // Scaffold's context, not the context that is sent to the HomeLayout
+        // widget. Check the implementation of the Builder widget for more.
+        child: Builder(
+          builder: (context) {
+            return RefreshIndicator(
+              key: _refreshIndicatorKey,
+              onRefresh: () {
+                return Future.delayed(const Duration(seconds: 1));
+              },
+              edgeOffset: Scaffold.of(context).appBarMaxHeight ?? 50,
               child: ScrollConfiguration(
                 behavior: NonGlowScrollBehavior(),
-                child: TabBarView(
-                  children: [
-                    _detailsRow(context),
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 16),
-                          _descriptionText(context),
-                          const SizedBox(height: 16),
-                        ],
-                      ),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: SizedBox(
+                    // So I can add a SingleChildScrollView even though I have an
+                    // Expanded widget.
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _productImage(context),
+                        const SizedBox(height: 20),
+                        _titlePriceColumn(context),
+                        const SizedBox(height: 10),
+                        const TabBar(
+                          labelColor: Colors.black,
+                          tabs: [
+                            Tab(text: 'Details'),
+                            Tab(text: 'Description'),
+                          ],
+                        ),
+                        Expanded(
+                          child: ScrollConfiguration(
+                            behavior: NonGlowScrollBehavior(),
+                            child: TabBarView(
+                              children: [
+                                _detailsRow(context),
+                                SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(height: 16),
+                                      _descriptionText(context),
+                                      const SizedBox(height: 16),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
