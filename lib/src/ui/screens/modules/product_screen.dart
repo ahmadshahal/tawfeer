@@ -15,27 +15,25 @@ class ProductScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: _appBar(context),
-      body: DefaultTabController(
-        length: 2,
-        // The Builder widget is used to create a new context, that is the
-        // Scaffold's context, not the context that is sent to the HomeLayout
-        // widget. Check the implementation of the Builder widget for more.
-        child: Builder(
-          builder: (context) {
-            return RefreshIndicator(
-              key: _refreshIndicatorKey,
-              onRefresh: () {
-                return Future.delayed(const Duration(seconds: 1));
-              },
-              edgeOffset: Scaffold.of(context).appBarMaxHeight ?? 50,
-              child: ScrollConfiguration(
-                behavior: NonGlowScrollBehavior(),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: SizedBox(
-                    // So I can add a SingleChildScrollView even though I have an
-                    // Expanded widget.
-                    height: MediaQuery.of(context).size.height,
+      body: Builder(
+        builder: (context) {
+          return RefreshIndicator(
+            key: _refreshIndicatorKey,
+            onRefresh: () {
+              return Future.delayed(const Duration(seconds: 1));
+            },
+            edgeOffset: Scaffold.of(context).appBarMaxHeight ?? 50,
+            displacement: 30,
+            child: ScrollConfiguration(
+              behavior: NonGlowScrollBehavior(),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  // So I can add a SingleChildScrollView even though I have an
+                  // Expanded widget.
+                  height: MediaQuery.of(context).size.height,
+                  child: DefaultTabController(
+                    length: 2,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -74,9 +72,9 @@ class ProductScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
