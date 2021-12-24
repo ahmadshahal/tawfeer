@@ -149,4 +149,24 @@ class ProductsRepository {
     // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
     await Future.delayed(const Duration(seconds: 3));
   }
+
+  Future<Product> getProduct({required int id}) async {
+    // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    return await Future.delayed(
+      const Duration(seconds: 3),
+        () => Product(
+          productTitle: 'Pepsi can 330 ML',
+          quantity: 30,
+          category: 'Drinks',
+          description: 'The already known pepsi.',
+          id: 1,
+          oldPrice: 22,
+          seens: 223,
+          ownerId: 3,
+          expireDate: DateTime.parse("2020-05-03"),
+          imgUrl: 'https://cdn.pixabay.com/photo/2020/05/10/05/14/pepsi-5152332_1280.jpg',
+          newPrice: 16,
+        ),
+    );
+  }
 }
