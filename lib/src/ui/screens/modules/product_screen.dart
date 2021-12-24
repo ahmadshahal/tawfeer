@@ -53,6 +53,7 @@ class ProductScreen extends StatelessWidget {
                             behavior: NonGlowScrollBehavior(),
                             child: TabBarView(
                               children: [
+                                // TODO: Make it scrollable.
                                 _detailsRow(context),
                                 SingleChildScrollView(
                                   child: Column(
@@ -108,7 +109,7 @@ class ProductScreen extends StatelessWidget {
 
   Widget _productImage(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 2.1,
+      height: MediaQuery.of(context).size.height / 2.2,
       width: double.infinity,
       color: MyColors.white,
       child: Image.network(
@@ -213,7 +214,12 @@ class ProductScreen extends StatelessWidget {
         ),
         SizedBox(height: 16),
         Text(
-          'OldPrice:',
+          'Quantity:',
+          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Old Price:',
           style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
         ),
         SizedBox(height: 16),
@@ -246,6 +252,11 @@ class ProductScreen extends StatelessWidget {
       children: const [
         Text(
           'Drinks',
+          style: TextStyle(fontSize: 14),
+        ),
+        SizedBox(height: 16),
+        Text(
+          '444',
           style: TextStyle(fontSize: 14),
         ),
         SizedBox(height: 16),
