@@ -165,7 +165,8 @@ class ProductScreen extends StatelessWidget {
       actions: [
         BlocBuilder<ProductCubit, ProductState>(
           builder: (context, state) {
-            if(state is ProductSuccess && state.product.ownerId == MyUser.myUser!.id) {
+            if (state is ProductSuccess &&
+                state.product.ownerId == MyUser.myUser!.id) {
               return IconButton(
                 onPressed: () {
                   _showMenu(context);
@@ -259,7 +260,15 @@ class ProductScreen extends StatelessWidget {
       (int? value) {
         if (value == null) return;
         if (value == 1) {
-          BlocProvider.of<DeleteProductCubit>(context).deleteProduct(id: id);
+          DeleteProductCubit cubit =
+          BlocProvider.of<DeleteProductCubit>(context);
+          showDialog(
+            context: context,
+            builder: (context) => _deleteDialog(
+              context,
+              cubit,
+            ),
+          );
         }
       },
     );
@@ -400,6 +409,39 @@ class ProductScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  AlertDialog _deleteDialog(
+      BuildContext context, DeleteProductCubit cubit) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
+      title: const Text(
+        'Are You Sure?',
+        style: TextStyle(fontSize: 17),
+      ),
+      content: const Text(
+        'This product will be deleted permanently.',
+        style: TextStyle(fontSize: 15),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+            cubit.deleteProduct(id: id);
+          },
+          style: TextButton.styleFrom(
+            primary: MyColors.red,
+          ),
+          child: const Text('Delete'),
+        ),
+      ],
     );
   }
 }
