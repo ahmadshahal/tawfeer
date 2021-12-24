@@ -10,7 +10,7 @@ import 'package:tawfeer/src/ui/components/custom_search_delegate.dart';
 
 class HomeLayout extends StatelessWidget {
   HomeLayout({Key? key}) : super(key: key);
-  final GlobalKey<RefreshIndicatorState> _refreshIndicator =
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
   @override
@@ -20,7 +20,7 @@ class HomeLayout extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: RefreshIndicator(
-          key: _refreshIndicator,
+          key: _refreshIndicatorKey,
           onRefresh: () =>
               BlocProvider.of<HomeLayoutCubit>(context).fetchData(),
           child: BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
@@ -125,7 +125,7 @@ class HomeLayout extends StatelessWidget {
         Navigator.pushNamed(context, '/add_product').then(
           (dynamic value) {
             if (value == true) {
-              _refreshIndicator.currentState!.show();
+              _refreshIndicatorKey.currentState!.show();
             }
           },
         );

@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
           );
         },
         '/product' : (context) {
-          return const ProductScreen();
+          return ProductScreen();
         }
       },
     );
