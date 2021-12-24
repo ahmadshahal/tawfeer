@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cubit.dart';
+import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/ui/components/loading.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
@@ -33,13 +35,17 @@ class ProductScreen extends StatelessWidget {
               builder: (context, state) {
                 if (state is ProductInitial) {
                   return Padding(
-                    padding: EdgeInsets.only(top: Scaffold.of(context).appBarMaxHeight ?? 80),
+                    padding: EdgeInsets.only(
+                      top: Scaffold.of(context).appBarMaxHeight ?? 80,
+                    ),
                     child: const Loading(),
                   );
                 }
                 if (state is ProductFailure) {
                   return Padding(
-                    padding: EdgeInsets.only(top: Scaffold.of(context).appBarMaxHeight ?? 80),
+                    padding: EdgeInsets.only(
+                      top: Scaffold.of(context).appBarMaxHeight ?? 80,
+                    ),
                     child: const UserMsg(
                       text: 'Something went wrong, swipe to refresh.',
                       imgUrl: 'assets/images/error404.png',
@@ -59,9 +65,12 @@ class ProductScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _productImage(context),
+                            _productImage(
+                              context,
+                              (state as ProductSuccess).product,
+                            ),
                             const SizedBox(height: 20),
-                            _titlePriceColumn(context),
+                            _titlePriceColumn(context, state.product),
                             const SizedBox(height: 10),
                             const TabBar(
                               labelColor: Colors.black,
@@ -76,12 +85,19 @@ class ProductScreen extends StatelessWidget {
                                 child: TabBarView(
                                   children: [
                                     // TODO: Make it scrollable.
-                                    _detailsRow(context),
+                                    _detailsRow(
+                                      context,
+                                      state.product,
+                                      state.ownerEmail,
+                                    ),
                                     SingleChildScrollView(
                                       child: Column(
                                         children: [
                                           const SizedBox(height: 16),
-                                          _descriptionText(context),
+                                          _descriptionText(
+                                            context,
+                                            state.product,
+                                          ),
                                           const SizedBox(height: 16),
                                         ],
                                       ),
@@ -131,13 +147,13 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _productImage(BuildContext context) {
+  Widget _productImage(BuildContext context, Product product) {
     return Container(
       height: MediaQuery.of(context).size.height / 2.2,
       width: double.infinity,
       color: MyColors.white,
       child: Image.network(
-        'https://cdn.pixabay.com/photo/2020/05/10/05/14/pepsi-5152332_1280.jpg',
+        product.imgUrl,
         fit: BoxFit.cover,
         errorBuilder:
             (BuildContext context, Object exception, StackTrace? stackTrace) {
@@ -153,23 +169,23 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _titlePriceColumn(BuildContext context) {
+  Widget _titlePriceColumn(BuildContext context, Product product) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
-            'Pepsi can 330 ML',
-            style: TextStyle(
+            product.productTitle,
+            style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 5.0),
+          const SizedBox(height: 5.0),
           Text(
-            '\$16.0',
-            style: TextStyle(
+            "\$${product.newPrice.toString()}",
+            style: const TextStyle(
               color: MyColors.primaryColor,
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -180,17 +196,15 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _descriptionText(BuildContext context) {
+  Widget _descriptionText(BuildContext context, Product product) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        SizedBox(width: 20.0),
+      children: [
+        const SizedBox(width: 20.0),
         Expanded(
-          child: Text(
-            "I've been trying to customize Flutter SearchDelegate to the type of search field I want it to be. It got a method named appBarTheme with return type ThemeData. Usually using ThemeData you can change the appbar theme but it's not making any change in my case. I am able to customize the hint text style searchFieldStyle method but nothing more.I've been trying to customize Flutter SearchDelegate to the type of search field I want it to be. It got a method named appBarTheme with return type ThemeData. Usually using ThemeData you can change the appbar theme but it's not making any change in my case. I am able to customize the hint text style searchFieldStyle method but nothing more.",
-          ),
+          child: Text(product.description),
         ),
-        SizedBox(width: 20.0),
+        const SizedBox(width: 20.0),
       ],
     );
   }
@@ -211,7 +225,7 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _detailsRow(BuildContext context) {
+  Widget _detailsRow(BuildContext context, Product product, String ownerEmail) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
@@ -220,7 +234,7 @@ class ProductScreen extends StatelessWidget {
           _keysColumn(context),
           const SizedBox(width: 15),
           Expanded(
-            child: _valuesColumn(context),
+            child: _valuesColumn(context, product, ownerEmail),
           ),
           const SizedBox(width: 20),
         ],
@@ -270,44 +284,49 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _valuesColumn(BuildContext context) {
+  Widget _valuesColumn(
+    BuildContext context,
+    Product product,
+    String ownerEmail,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
-          'Drinks',
-          style: TextStyle(fontSize: 14),
+          product.category,
+          style: const TextStyle(fontSize: 14),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Text(
-          '444',
-          style: TextStyle(fontSize: 14),
+          product.quantity.toString(),
+          style: const TextStyle(fontSize: 14),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Text(
-          '\$22.00',
-          style: TextStyle(fontSize: 14),
+          "\$${product.oldPrice.toString()}",
+          style: const TextStyle(fontSize: 14),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Text(
-          '30%',
-          style: TextStyle(fontSize: 14),
+          // TODO: Get it from backend.
+          "${product.quantity.toString()}%",
+          style: const TextStyle(fontSize: 14),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Text(
-          'Dec 10, 2021',
-          style: TextStyle(fontSize: 14),
+          DateFormat.yMMMd().format(product.expireDate),
+          style: const TextStyle(fontSize: 14),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Text(
-          '223',
-          style: TextStyle(fontSize: 14),
+          product.seens.toString(),
+          style: const TextStyle(fontSize: 14),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Expanded(
           child: Text(
-            'ahmad.alshahal2@gmail.com',
-            style: TextStyle(fontSize: 14),
+            ownerEmail,
+            style: const TextStyle(fontSize: 14),
           ),
         ),
       ],
