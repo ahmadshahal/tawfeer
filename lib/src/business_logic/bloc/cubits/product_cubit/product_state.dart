@@ -9,8 +9,8 @@ class ProductInitial extends ProductState {}
 
 class ProductSuccess extends ProductState {
   final Product product;
-  final String ownerEmail;
-  const ProductSuccess({required this.product, required this.ownerEmail});
+  final User owner;
+  const ProductSuccess({required this.product, required this.owner});
 }
 
 class ProductFailure extends ProductState {

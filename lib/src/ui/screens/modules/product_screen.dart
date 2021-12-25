@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/delete_product_cubit/delete_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/business_logic/models/user.dart';
 import 'package:tawfeer/src/business_logic/shared/my_user.dart';
 import 'package:tawfeer/src/ui/components/loading.dart';
 import 'package:tawfeer/src/ui/components/loading_dialog.dart';
@@ -114,11 +115,12 @@ class ProductScreen extends StatelessWidget {
                                   behavior: NonGlowScrollBehavior(),
                                   child: TabBarView(
                                     children: [
-                                      // TODO: Make it scrollable.
-                                      _detailsRow(
-                                        context,
-                                        state.product,
-                                        state.ownerEmail,
+                                      SingleChildScrollView(
+                                        child: _detailsRow(
+                                          context,
+                                          state.product,
+                                          state.owner,
+                                        ),
                                       ),
                                       SingleChildScrollView(
                                         child: Column(
@@ -274,16 +276,17 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _detailsRow(BuildContext context, Product product, String ownerEmail) {
+  Widget _detailsRow(BuildContext context, Product product, User owner) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(width: 20),
           _keysColumn(context),
           const SizedBox(width: 15),
           Expanded(
-            child: _valuesColumn(context, product, ownerEmail),
+            child: _valuesColumn(context, product, owner),
           ),
           const SizedBox(width: 20),
         ],
@@ -326,7 +329,12 @@ class ProductScreen extends StatelessWidget {
         ),
         SizedBox(height: 16),
         Text(
-          'Owner Email:',
+          'Phone Number:',
+          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Email:',
           style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
         ),
       ],
@@ -336,7 +344,7 @@ class ProductScreen extends StatelessWidget {
   Widget _valuesColumn(
     BuildContext context,
     Product product,
-    String ownerEmail,
+    User owner,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -372,11 +380,14 @@ class ProductScreen extends StatelessWidget {
           style: const TextStyle(fontSize: 14),
         ),
         const SizedBox(height: 16),
-        Expanded(
-          child: Text(
-            ownerEmail,
-            style: const TextStyle(fontSize: 14),
-          ),
+        Text(
+          owner.phoneNumber.toString(),
+          style: const TextStyle(fontSize: 14),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          owner.email,
+          style: const TextStyle(fontSize: 14),
         ),
       ],
     );

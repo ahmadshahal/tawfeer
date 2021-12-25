@@ -17,7 +17,7 @@ class ProductCubit extends Cubit<ProductState> {
     try {
       Product product = await _productsRepository.getProduct(id: id);
       User user = await _userRepository.fetchUser(id: product.ownerId);
-      emit(ProductSuccess(product: product, ownerEmail: user.email));
+      emit(ProductSuccess(product: product, owner: user));
     } catch (ex) {
       emit(ProductFailure(exception: ex as Exception));
     }
