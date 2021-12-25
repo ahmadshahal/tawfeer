@@ -40,12 +40,18 @@ class ValidationUtility {
     if(title.isEmpty) {
       return "Title can't be empty";
     }
+    if(title.length > 50) {
+      return "Title too long";
+    }
     return null;
   }
 
   static String? validateProductCategory(String category) {
     if(category.isEmpty) {
       return "Category can't be empty";
+    }
+    if(category.length > 24) {
+      return "Category too long";
     }
     return null;
   }
@@ -58,7 +64,7 @@ class ValidationUtility {
   }
 
   static String? validateNumericField(String s) {
-    if(s.isEmpty || !ValidationUtility.isNumeric(s)) {
+    if(s.isEmpty || !ValidationUtility.isNumeric(s) || s.length > 24) {
       return "Invalid value";
     }
     return null;
