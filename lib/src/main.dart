@@ -10,6 +10,7 @@ import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cub
 import 'package:tawfeer/src/business_logic/bloc/cubits/register_cubit/register_cubit.dart';
 import 'package:tawfeer/src/ui/screens/layouts/home_layout.dart';
 import 'package:tawfeer/src/ui/screens/modules/add_product_screen.dart';
+import 'package:tawfeer/src/ui/screens/modules/edit_product_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/login_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/my_products_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/product_screen.dart';
@@ -17,7 +18,9 @@ import 'package:tawfeer/src/ui/screens/modules/register_screen.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/utility.dart';
 
+import 'business_logic/bloc/cubits/edit_product_cubit/edit_product_cubit.dart';
 import 'business_logic/bloc/cubits/image_picker_cubit/image_picker_cubit.dart';
+import 'business_logic/models/product.dart';
 
 void main() {
   runApp(const MyApp());
@@ -86,6 +89,19 @@ class MyApp extends StatelessWidget {
                 ),
               ],
               child: AddProductScreen(),
+            );
+          },
+          '/edit_product': (context) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => EditProductCubit(),
+                ),
+                BlocProvider(
+                  create: (context) => ImagePickerCubit(),
+                ),
+              ],
+              child: EditProductScreen(product: settings.arguments as Product),
             );
           },
           '/product': (context) {

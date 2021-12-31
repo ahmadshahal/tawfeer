@@ -171,7 +171,7 @@ class ProductScreen extends StatelessWidget {
                 state.product.ownerId == MyUser.myUser!.id) {
               return IconButton(
                 onPressed: () {
-                  _showMenu(context);
+                  _showMenu(context, state.product);
                 },
                 icon: const Icon(
                   Icons.more_vert,
@@ -263,7 +263,7 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  void _showMenu(BuildContext context) {
+  void _showMenu(BuildContext context, Product product) {
     showMenu<int>(
       context: context,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
@@ -275,6 +275,9 @@ class ProductScreen extends StatelessWidget {
     ).then(
       (int? value) {
         if (value == null) return;
+        if(value == 0) {
+          Navigator.pushNamed(context, '/edit_product', arguments: product);
+        }
         if (value == 1) {
           DeleteProductCubit cubit =
           BlocProvider.of<DeleteProductCubit>(context);
