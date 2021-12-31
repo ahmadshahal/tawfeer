@@ -369,8 +369,7 @@ class ProductScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          // TODO: Get it from backend.
-          "${product.quantity.toString()}%",
+          "${product.discount.toString()}%",
           style: const TextStyle(fontSize: 14),
         ),
         const SizedBox(height: 16),

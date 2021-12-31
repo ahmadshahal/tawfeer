@@ -15,6 +15,7 @@ class Product {
   late String imgUrl;
   late int seens;
   late double newPrice;
+  late double discount;
 
   DateTime? firstDiscountDate;
   DateTime? secondDiscountDate;
@@ -36,6 +37,7 @@ class Product {
     this.newPrice = 10, // TODO: Reconsider
     this.seens = 0, // TODO: Reconsider
     this.imgUrl = "", // TODO: Reconsider
+    this.discount = 0, // TODO: Reconsider
     this.firstDiscountDate,
     this.secondDiscountDate,
     this.thirdDiscountDate,
