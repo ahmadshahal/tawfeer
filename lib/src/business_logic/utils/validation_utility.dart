@@ -64,7 +64,7 @@ class ValidationUtility {
   }
 
   static String? validateNumericField(String s) {
-    if(s.isEmpty || !ValidationUtility.isNumeric(s) || s.length > 24) {
+    if(s.isEmpty || !ValidationUtility.isNumeric(s) || s.length > 9) {
       return "Invalid value";
     }
     return null;
