@@ -36,7 +36,7 @@ class Product {
     required this.quantity,
     this.newPrice = 10, // TODO: Reconsider
     this.seens = 0, // TODO: Reconsider
-    this.imgUrl = "", // TODO: Reconsider
+    this.imgUrl = "", // TODO: Make it Null.
     this.discount = 0, // TODO: Reconsider
     this.firstDiscountDate,
     this.secondDiscountDate,

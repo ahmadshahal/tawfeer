@@ -158,6 +158,11 @@ class ProductsRepository {
     await Future.delayed(const Duration(seconds: 3));
   }
 
+  Future<void> editProduct({required Product product}) async {
+    // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    await Future.delayed(const Duration(seconds: 3));
+  }
+
   Future<void> deleteProduct({required int id}) async {
     // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
     await Future.delayed(const Duration(seconds: 3));
@@ -177,7 +182,7 @@ class ProductsRepository {
           oldPrice: 22,
           seens: 223,
           ownerId: 1,
-          expireDate: DateTime.parse("2020-05-03"),
+          expireDate: DateTime.parse("2022-05-03"),
           imgUrl: 'https://cdn.pixabay.com/photo/2020/05/10/05/14/pepsi-5152332_1280.jpg',
           newPrice: 16,
         ),
