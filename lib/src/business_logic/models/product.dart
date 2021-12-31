@@ -51,14 +51,20 @@ class Product {
     id = json['id'];
     ownerId = json['ownerId'];
     productTitle = json['productName'];
-    oldPrice = json['oldPrice'];
-    newPrice = json['newPrice'];
+    oldPrice = (json['oldPrice'] as int).toDouble();
+    newPrice = (json['currentPrice'] as int).toDouble();
     description = json['description'];
     expireDate = DateTime.parse(json['expireDate']);
     imgUrl = json['imgUrl'];
     category = json['category'];
     quantity = json['quantity'];
     seens = json['seens'];
+    firstDiscountDate = DateTime.parse(json['firstDate']);
+    secondDiscountDate = DateTime.parse(json['secondDate']);
+    thirdDiscountDate = DateTime.parse(json['thirdDate']);
+    firstDiscount = (json['firstDiscount'] as int).toDouble();
+    secondDiscount = (json['secondDiscount'] as int).toDouble();
+    thirdDiscount = (json['thirdDiscount'] as int).toDouble();
   }
 
   Product.special({

@@ -1,7 +1,12 @@
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/business_logic/services/api_services/product_api.dart';
 
 class ProductsRepository {
+
+  final ProductAPI _productAPI = ProductAPI();
+
   Future<List<Product>> index() async {
+    // return await _productAPI.index();
     // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
     // return await Future.delayed(const Duration(seconds: 3), () => []);
     return await Future.delayed(const Duration(seconds: 3), () {
