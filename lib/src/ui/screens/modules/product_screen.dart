@@ -223,13 +223,27 @@ class ProductScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5.0),
-          Text(
-            "\$${product.newPrice.toString()}",
-            style: const TextStyle(
-              color: MyColors.primaryColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+          Row(
+            children: [
+              Text(
+                "\$${product.newPrice.toString()}",
+                style: const TextStyle(
+                  color: MyColors.primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(width: 20),
+              Text(
+                "\$${product.oldPrice.toString()}",
+                style: const TextStyle(
+                  color: MyColors.darkGrey,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.lineThrough,
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -309,11 +323,6 @@ class ProductScreen extends StatelessWidget {
         ),
         SizedBox(height: 16),
         Text(
-          'Old Price:',
-          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
-        ),
-        SizedBox(height: 16),
-        Text(
           'Discount:',
           style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
         ),
@@ -356,11 +365,6 @@ class ProductScreen extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           product.quantity.toString(),
-          style: const TextStyle(fontSize: 14),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          "\$${product.oldPrice.toString()}",
           style: const TextStyle(fontSize: 14),
         ),
         const SizedBox(height: 16),
