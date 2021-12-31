@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/products_repository.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
-import 'package:tawfeer/src/business_logic/shared/my_user.dart';
 
 part 'my_products_state.dart';
 
@@ -13,7 +12,7 @@ class MyProductsCubit extends Cubit<MyProductsState> {
 
   Future<void> fetchData() async {
     try{
-      List<Product> list = await _productsRepository.myProducts(id: MyUser.myUser!.id);
+      List<Product> list = await _productsRepository.myProducts();
       emit(MyProductsSuccess(list: list));
     }catch(ex) {
       emit(MyProductsFailure(exception: ex as Exception));

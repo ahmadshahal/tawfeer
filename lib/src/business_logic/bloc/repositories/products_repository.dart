@@ -119,7 +119,8 @@ class ProductsRepository {
     });
   }
 
-  Future<List<Product>> myProducts({required int id}) async {
+  Future<List<Product>> myProducts() async {
+    // return await _productAPI.myProducts();
     // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
     // return await Future.delayed(const Duration(seconds: 3), () => []);
     return await Future.delayed(const Duration(seconds: 3), () {
@@ -159,6 +160,7 @@ class ProductsRepository {
   }
 
   Future<void> addProduct({required Product product}) async {
+    // await _productAPI.store(product);
     // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
     await Future.delayed(const Duration(seconds: 3));
   }
@@ -169,11 +171,13 @@ class ProductsRepository {
   }
 
   Future<void> deleteProduct({required int id}) async {
+    // await _productAPI.destroy(2);
     // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
     await Future.delayed(const Duration(seconds: 3));
   }
 
   Future<Product> getProduct({required int id}) async {
+    // return await _productAPI.show(3);
     // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
     return await Future.delayed(
       const Duration(seconds: 3),

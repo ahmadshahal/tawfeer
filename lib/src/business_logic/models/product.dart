@@ -59,6 +59,8 @@ class Product {
     category = json['category'];
     quantity = json['quantity'];
     seens = json['seens'];
+    // TODO: Get from backend.
+    discount = 15;
     firstDiscountDate = DateTime.parse(json['firstDate']);
     secondDiscountDate = DateTime.parse(json['secondDate']);
     thirdDiscountDate = DateTime.parse(json['thirdDate']);
