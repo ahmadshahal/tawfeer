@@ -7,7 +7,7 @@ import 'package:tawfeer/src/business_logic/bloc/cubits/add_product_cubit/add_pro
 import 'package:tawfeer/src/business_logic/bloc/cubits/expire_date_field_cubit/expire_date_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/image_picker_cubit/image_picker_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
-import 'package:tawfeer/src/business_logic/shared/my_user.dart';
+import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/business_logic/utils/validation_utility.dart';
 import 'package:tawfeer/src/ui/components/loading_dialog.dart';
 import 'package:tawfeer/src/ui/components/my_material_button.dart';
@@ -101,7 +101,7 @@ class AddProductScreen extends StatelessWidget {
                               BlocProvider.of<AddProductCubit>(context).submit(
                                 product: Product.special(
                                   productTitle: _controllers[titleKey]!.text,
-                                  ownerId: MyUser.myUser!.id,
+                                  ownerId: Shared.myUser!.id,
                                   description: _controllers[descriptionKey]!.text,
                                   category: _controllers[categoryKey]!.text,
                                   oldPrice: _controllers[priceKey]!.text,

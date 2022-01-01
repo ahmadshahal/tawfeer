@@ -1,5 +1,6 @@
 import 'package:tawfeer/src/business_logic/models/user.dart';
 
-class MyUser {
+class Shared {
   static User? myUser;
+  static String? token;
 }

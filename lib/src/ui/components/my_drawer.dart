@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tawfeer/src/business_logic/shared/my_user.dart';
+import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
@@ -51,17 +51,19 @@ class MyDrawer extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 45,
-          backgroundImage: NetworkImage(MyUser.myUser!.imgUrl),
+          backgroundImage: Shared.myUser!.imgUrl == null
+              ? const AssetImage('assets/images/tawfeer_logo.png')
+              : NetworkImage(Shared.myUser!.imgUrl!) as ImageProvider,
           backgroundColor: MyColors.lightGrey,
         ),
         const SizedBox(height: 15),
         Text(
-          MyUser.myUser!.fullName,
+          Shared.myUser!.fullName,
           style: const TextStyle(fontSize: 16.0),
         ),
         const SizedBox(height: 5),
         Text(
-          MyUser.myUser!.email,
+          Shared.myUser!.email,
           style: const TextStyle(fontSize: 14.0),
         ),
       ],

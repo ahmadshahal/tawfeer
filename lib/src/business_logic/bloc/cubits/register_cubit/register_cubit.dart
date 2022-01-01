@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/auth_repository.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/user_repository.dart';
-import 'package:tawfeer/src/business_logic/shared/my_user.dart';
+import 'package:tawfeer/src/business_logic/shared/shared.dart';
 
 part 'register_state.dart';
 
@@ -21,7 +21,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     try {
       // TODO: should return id or token.
       await _authRepository.register(fullName: fullName, email: email, password: password, phoneNumber: phoneNumber);
-      MyUser.myUser = await _userRepository.fetchUser(id: 1);
+      Shared.myUser = await _userRepository.fetchUser(id: 1);
       emit(RegisterSuccess());
     } catch (ex) {
       emit(RegisterFailure(exception: ex as Exception));

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/auth_repository.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/user_repository.dart';
-import 'package:tawfeer/src/business_logic/shared/my_user.dart';
+import 'package:tawfeer/src/business_logic/shared/shared.dart';
 
 part 'login_state.dart';
 
@@ -16,7 +16,7 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       // TODO: should return id or token.
       await _authRepository.login(email: email, password: password);
-      MyUser.myUser = await _userRepository.fetchUser(id: 1);
+      Shared.myUser = await _userRepository.fetchUser(id: 1);
       emit(LoginSuccess());
     } catch (ex) {
       emit(LoginFailure(exception: ex as Exception));
