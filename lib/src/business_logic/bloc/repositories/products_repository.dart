@@ -2,7 +2,6 @@ import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/business_logic/services/api_services/product_api.dart';
 
 class ProductsRepository {
-
   final ProductAPI _productAPI = ProductAPI();
 
   Future<List<Product>> index() async {
@@ -160,12 +159,42 @@ class ProductsRepository {
   }
 
   Future<void> addProduct({required Product product}) async {
-    // await _productAPI.store(product);
+    // await _productAPI.store(Product(
+    //     ownerId: 1,
+    //     productTitle: "KitKat",
+    //     description: "chocolate",
+    //     expireDate: DateTime.parse("2023-01-01"),
+    //     oldPrice: 1000,
+    //     quantity: 2,
+    //     category: "chocolate",
+    //     firstDiscountDate: DateTime.parse("2022-11-26"),
+    //     secondDiscountDate: DateTime.parse("2022-11-27"),
+    //     thirdDiscountDate: DateTime.parse("2020-11-28"),
+    //     firstDiscount: 10,
+    //     secondDiscount: 20,
+    //     thirdDiscount: 30,
+    //   ),);
     // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
     await Future.delayed(const Duration(seconds: 3));
   }
 
   Future<void> editProduct({required Product product}) async {
+    // await _productAPI.update(Product(
+    //     ownerId: 1,
+    //     id: 1,
+    //     productTitle: "7UP Zero",
+    //     description: "Diet colla",
+    //     expireDate: DateTime.parse("2023-01-01"),
+    //     oldPrice: 1000,
+    //     quantity: 2,
+    //     category: "colla",
+    //     firstDiscountDate: DateTime.parse("2022-11-26"),
+    //     secondDiscountDate: DateTime.parse("2022-11-27"),
+    //     thirdDiscountDate: DateTime.parse("2020-11-28"),
+    //     firstDiscount: 10,
+    //     secondDiscount: 20,
+    //     thirdDiscount: 30,
+    //   ),);
     // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
     await Future.delayed(const Duration(seconds: 3));
   }
@@ -181,20 +210,21 @@ class ProductsRepository {
     // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
     return await Future.delayed(
       const Duration(seconds: 3),
-        () => Product(
-          productTitle: 'Pepsi can 330 ML',
-          quantity: 30,
-          category: 'Drinks',
-          discount: 20,
-          description: 'The already known pepsi.',
-          id: 1,
-          oldPrice: 22,
-          seens: 223,
-          ownerId: 1,
-          expireDate: DateTime.parse("2022-05-03"),
-          imgUrl: 'https://cdn.pixabay.com/photo/2020/05/10/05/14/pepsi-5152332_1280.jpg',
-          newPrice: 16,
-        ),
+      () => Product(
+        productTitle: 'Pepsi can 330 ML',
+        quantity: 30,
+        category: 'Drinks',
+        discount: 20,
+        description: 'The already known pepsi.',
+        id: 1,
+        oldPrice: 22,
+        seens: 223,
+        ownerId: 1,
+        expireDate: DateTime.parse("2022-05-03"),
+        imgUrl:
+            'https://cdn.pixabay.com/photo/2020/05/10/05/14/pepsi-5152332_1280.jpg',
+        newPrice: 16,
+      ),
     );
   }
 }

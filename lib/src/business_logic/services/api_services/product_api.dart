@@ -92,25 +92,18 @@ class ProductAPI {
     }
   }
 
-  /*
   Future<void> store(Product product) async {
+    Map<String, dynamic> data = product.toJson();
+    if (product.imgFile != null) {
+      data['img'] = await MultipartFile.fromFile(
+        product.imgFile!.path,
+        filename: product.imgFile!.path.split('/').last,
+      );
+    }
     try {
       await dio.post(
         '/products/',
-        data: {
-          "productName" : "KitKat",
-          "description" : "chocolate",
-          "expireDate" : "2023-1-1",
-          "oldPrice" : "1000",
-          "quantity" : "2",
-          "category" : "chocolate",
-          "firstDate" : "2022-11-26",
-          "secondDate" : "2022-11-27",
-          "thirdDate" : "2020-11-28",
-          "firstDiscount" : "10",
-          "secondDiscount" : "20",
-          "thirdDiscount" : "30",
-        },
+        data: FormData.fromMap(data),
       );
     } on DioError catch (e) {
       if (e.response != null) {
@@ -124,5 +117,30 @@ class ProductAPI {
       }
     }
   }
-  */
+
+  Future<void> update(Product product) async {
+    Map<String, dynamic> data = product.toJson();
+    if (product.imgFile != null) {
+      data['img'] = await MultipartFile.fromFile(
+        product.imgFile!.path,
+        filename: product.imgFile!.path.split('/').last,
+      );
+    }
+    try {
+      await dio.put(
+        '/products/${product.id}',
+        data: FormData.fromMap(data),
+      );
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 400) {
+          throw Exception(json.decode(e.response!.data)['message']);
+        } else {
+          throw Exception(e);
+        }
+      } else {
+        throw Exception("No Internet Connection.");
+      }
+    }
+  }
 }

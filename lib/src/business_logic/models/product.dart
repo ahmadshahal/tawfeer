@@ -69,6 +69,29 @@ class Product {
     thirdDiscount = (json['thirdDiscount'] as int).toDouble();
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'productName' : productTitle,
+      'description' : description,
+      'expireDate' : DateFormat("yyyy-MM-dd").format(expireDate),
+      'oldPrice' : oldPrice,
+      'quantity' : quantity,
+      'category' : category,
+      if(firstDiscountDate != null)
+        'firstDate' : DateFormat("yyyy-MM-dd").format(firstDiscountDate!),
+      if(secondDiscountDate != null)
+        'secondDate' : DateFormat("yyyy-MM-dd").format(secondDiscountDate!),
+      if(thirdDiscountDate != null)
+        'thirdDate' : DateFormat("yyyy-MM-dd").format(thirdDiscountDate!),
+      if(firstDiscount != null)
+        'firstDiscount' : firstDiscount,
+      if(secondDiscount != null)
+        'secondDiscount' : secondDiscount,
+      if(thirdDiscount != null)
+        'thirdDiscount' : thirdDiscount,
+    };
+  }
+
   Product.special({
     required this.ownerId,
     required this.productTitle,
