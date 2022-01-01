@@ -49,11 +49,13 @@ class MyDrawer extends StatelessWidget {
   Widget _userDataColumn(BuildContext context) {
     return Column(
       children: [
-        CircleAvatar(
+        const CircleAvatar(
           radius: 45,
-          backgroundImage: Shared.myUser!.imgUrl == null
-              ? const AssetImage('assets/images/tawfeer_logo.png')
-              : NetworkImage(Shared.myUser!.imgUrl!) as ImageProvider,
+          backgroundImage:
+              // Shared.myUser!.imgUrl == null ?
+              AssetImage('assets/images/tawfeer_logo.png'),
+          // TODO: add on error.
+          // : NetworkImage(Shared.myUser!.imgUrl!) as ImageProvider,
           backgroundColor: MyColors.lightGrey,
         ),
         const SizedBox(height: 15),
