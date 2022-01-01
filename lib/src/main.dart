@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/add_product_cubit/add_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/delete_product_cubit/delete_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/expire_date_field_cubit/expire_date_cubit.dart';
@@ -8,6 +9,8 @@ import 'package:tawfeer/src/business_logic/bloc/cubits/login_cubit/login_cubit.d
 import 'package:tawfeer/src/business_logic/bloc/cubits/my_products_cubit/my_products_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/register_cubit/register_cubit.dart';
+import 'package:tawfeer/src/business_logic/bloc/repositories/user_repository.dart';
+import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/screens/layouts/home_layout.dart';
 import 'package:tawfeer/src/ui/screens/modules/add_product_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/edit_product_screen.dart';
@@ -22,7 +25,17 @@ import 'business_logic/bloc/cubits/edit_product_cubit/edit_product_cubit.dart';
 import 'business_logic/bloc/cubits/image_picker_cubit/image_picker_cubit.dart';
 import 'business_logic/models/product.dart';
 
-void main() {
+void main() async {
+  // You only need to call this method if you need the binding to be
+  // initialized before calling [runApp].
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Shared.pref = await SharedPreferences.getInstance();
+  // Shared.pref.remove('token');
+  Shared.token = Shared.pref.get('token') as String?;
+  if(Shared.token != null) {
+    Shared.myUser = await UserRepository().profile();
+  }
   runApp(const MyApp());
 }
 
@@ -45,10 +58,15 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Saira',
       ),
-      home: BlocProvider(
-        create: (context) => LoginCubit(),
-        child: LoginScreen(),
-      ),
+      home: Shared.token == null
+          ? BlocProvider(
+              create: (context) => LoginCubit(),
+              child: LoginScreen(),
+            )
+          : BlocProvider(
+              create: (context) => HomeLayoutCubit()..fetchData(),
+              child: HomeLayout(),
+            ),
       onGenerateRoute: (RouteSettings settings) {
         var routes = <String, WidgetBuilder>{
           '/login': (context) {

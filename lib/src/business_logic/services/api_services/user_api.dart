@@ -1,0 +1,71 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:tawfeer/src/business_logic/models/user.dart';
+import 'package:tawfeer/src/business_logic/shared/shared.dart';
+
+class UserAPI {
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: 'https://b3273d35-bc67-4469-b6e1-1d86090513ef.mock.pstmn.io/api',
+      connectTimeout: 10000,
+      receiveTimeout: 10000,
+      sendTimeout: 10000,
+      headers: {
+        "Accept": "application/json",
+      },
+    ),
+  );
+
+  Future<String> login(String email, String password) async {
+    try {
+      Response response = await dio.post(
+        '/auth/login',
+        data: FormData.fromMap(
+          {
+            'email': email,
+            'password': password,
+          },
+        ),
+      );
+      return json.decode(response.data)['token'];
+    } on DioError catch (e) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx and is also not 304.
+      if (e.response != null) {
+        if (e.response!.statusCode == 400) {
+          throw Exception(json.decode(e.response!.data)['message']);
+        } else {
+          throw Exception(e);
+        }
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error.
+        throw Exception("No Internet Connection.");
+      }
+    }
+  }
+
+  Future<User> profile() async {
+    try {
+      Response response = await dio.get(
+        '/auth/profile',
+        options: Options(
+          headers: {
+            'token' : Shared.token,
+          }
+        ),
+      );
+      return User.fromJson(json.decode(response.data)['user info']);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 400) {
+          throw Exception(json.decode(e.response!.data)['message']);
+        } else {
+          throw Exception(e);
+        }
+      } else {
+        throw Exception("No Internet Connection.");
+      }
+    }
+  }
+}
