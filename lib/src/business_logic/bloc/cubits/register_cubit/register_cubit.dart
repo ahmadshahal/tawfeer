@@ -17,9 +17,14 @@ class RegisterCubit extends Cubit<RegisterState> {
   }) async {
     emit(RegisterSubmitting());
     try {
-      // TODO: should return id or token.
-      await _userRepository.register(fullName: fullName, email: email, password: password, phoneNumber: phoneNumber);
-      Shared.myUser = await _userRepository.fetchUser(id: 1);
+      Shared.token = await _userRepository.register(
+        email: email,
+        password: password,
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+      );
+      Shared.pref.setString('token', Shared.token!);
+      Shared.myUser = await _userRepository.profile();
       if(isClosed) return;
       emit(RegisterSuccess());
     } catch (ex) {

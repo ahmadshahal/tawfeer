@@ -36,13 +36,14 @@ class UserRepository {
     // throw Exception('Failed');
   }
 
-  Future<void> register({
+  Future<String> register({
     required String fullName,
     required String email,
     required String password,
     required String phoneNumber,
   }) async {
-    await Future.delayed(const Duration(seconds: 3));
+    // return await _userAPI.register(fullName, email, password, phoneNumber);
+    return await Future.delayed(const Duration(seconds: 3), () => "=========");
     // throw Exception('Failed');
   }
 }
