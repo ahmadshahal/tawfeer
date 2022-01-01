@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:tawfeer/src/business_logic/bloc/repositories/auth_repository.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/user_repository.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
 
@@ -8,7 +7,6 @@ part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterInitial());
-  final AuthRepository _authRepository = AuthRepository();
   final UserRepository _userRepository = UserRepository();
 
   Future<void> submit({
@@ -20,7 +18,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(RegisterSubmitting());
     try {
       // TODO: should return id or token.
-      await _authRepository.register(fullName: fullName, email: email, password: password, phoneNumber: phoneNumber);
+      await _userRepository.register(fullName: fullName, email: email, password: password, phoneNumber: phoneNumber);
       Shared.myUser = await _userRepository.fetchUser(id: 1);
       if(isClosed) return;
       emit(RegisterSuccess());
