@@ -17,8 +17,11 @@ class ProductCubit extends Cubit<ProductState> {
     try {
       Product product = await _productsRepository.getProduct(id: id);
       User user = await _userRepository.fetchUser(id: product.ownerId);
+      // If the cubit was Closed while fetching products or users.
+      if(isClosed) return;
       emit(ProductSuccess(product: product, owner: user));
     } catch (ex) {
+      if(isClosed) return;
       emit(ProductFailure(exception: ex as Exception));
     }
   }

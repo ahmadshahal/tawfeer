@@ -13,8 +13,10 @@ class MyProductsCubit extends Cubit<MyProductsState> {
   Future<void> fetchData() async {
     try{
       List<Product> list = await _productsRepository.myProducts();
+      if(isClosed) return;
       emit(MyProductsSuccess(list: list));
     }catch(ex) {
+      if(isClosed) return;
       emit(MyProductsFailure(exception: ex as Exception));
     }
   }

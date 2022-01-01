@@ -28,8 +28,10 @@ class HomeLayoutCubit extends Cubit<HomeLayoutState> {
     try {
       _list = await _productsRepository.index();
       _list = SortingUtility.sortBy(_list, _sortIndex);
+      if(isClosed) return;
       emit(HomeLayoutSuccess(list: _list));
     } catch (ex) {
+      if(isClosed) return;
       emit(HomeLayoutFailure(exception: ex as Exception));
     }
   }
@@ -38,6 +40,7 @@ class HomeLayoutCubit extends Cubit<HomeLayoutState> {
     _sortIndex = sortIndex;
     if (state is HomeLayoutSuccess) {
       _list = SortingUtility.sortBy(_list, _sortIndex);
+      if(isClosed) return;
       emit(HomeLayoutSuccess(list: _list));
     }
   }

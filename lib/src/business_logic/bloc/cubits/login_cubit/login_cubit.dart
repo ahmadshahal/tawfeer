@@ -17,8 +17,10 @@ class LoginCubit extends Cubit<LoginState> {
       // TODO: should return id or token.
       await _authRepository.login(email: email, password: password);
       Shared.myUser = await _userRepository.fetchUser(id: 1);
+      if(isClosed) return;
       emit(LoginSuccess());
     } catch (ex) {
+      if(isClosed) return;
       emit(LoginFailure(exception: ex as Exception));
     }
   }

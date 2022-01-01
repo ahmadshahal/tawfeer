@@ -14,6 +14,7 @@ class ImagePickerCubit extends Cubit<ImagePickerState> {
     final XFile? xFile = await _imagePicker.pickImage(source: imageSource);
     if(xFile == null) return;
     file = xFile;
+    if(isClosed) return;
     emit(ImagePickerSuccess(imagePath: file!.path));
   }
 }

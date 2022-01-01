@@ -14,8 +14,10 @@ class AddProductCubit extends Cubit<AddProductState> {
     emit(AddProductSubmitting());
     try {
       await _productsRepository.addProduct(product: product);
+      if(isClosed) return;
       emit(AddProductSuccess());
     }catch(ex) {
+      if(isClosed) return;
       emit(AddProductFailure(exception: ex as Exception));
     }
   }

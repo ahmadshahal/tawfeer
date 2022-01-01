@@ -10,12 +10,14 @@ class DeleteProductCubit extends Cubit<DeleteProductState> {
   final ProductsRepository _productsRepository = ProductsRepository();
 
   Future<void> deleteProduct({required int id}) async {
+    emit(DeleteProductLoading());
     try {
-      emit(DeleteProductLoading());
       await _productsRepository.deleteProduct(id: id);
+      if(isClosed) return;
       emit(DeleteProductSuccess());
     }
     catch(ex) {
+      if(isClosed) return;
       emit(DeleteProductFailure(exception: ex as Exception));
     }
   }
