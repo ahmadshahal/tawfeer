@@ -6,8 +6,8 @@ import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cub
 import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/business_logic/models/user.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
-import 'package:tawfeer/src/ui/components/loading.dart';
 import 'package:tawfeer/src/ui/components/loading_dialog.dart';
+import 'package:tawfeer/src/ui/components/product_loading.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
@@ -44,7 +44,7 @@ class ProductScreen extends StatelessWidget {
                     padding: EdgeInsets.only(
                       top: Scaffold.of(context).appBarMaxHeight ?? 80,
                     ),
-                    child: const Loading(),
+                    child: const ProductLoading(),
                   );
                 }
                 if (state is ProductFailure) {
