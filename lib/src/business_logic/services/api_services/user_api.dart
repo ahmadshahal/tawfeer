@@ -98,4 +98,28 @@ class UserAPI {
       }
     }
   }
+
+  Future<User> showUser(int id) async {
+    try {
+      Response response = await dio.get(
+        '/auth/$id',
+        options: Options(
+            headers: {
+              'token' : Shared.token,
+            }
+        ),
+      );
+      return User.fromJson(json.decode(response.data)['user']);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 400) {
+          throw Exception(json.decode(e.response!.data)['message']);
+        } else {
+          throw Exception(e);
+        }
+      } else {
+        throw Exception("No Internet Connection.");
+      }
+    }
+  }
 }

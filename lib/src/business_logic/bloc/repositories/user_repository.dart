@@ -5,6 +5,8 @@ class UserRepository {
   final UserAPI _userAPI = UserAPI();
 
   Future<User> fetchUser({required int id}) async {
+    // return await _userAPI.showUser(id);
+
     return await Future.delayed(const Duration(seconds: 3), () {
       return User(
         id: id,
@@ -13,6 +15,7 @@ class UserRepository {
         phoneNumber: '+963951737433',
       );
     });
+
     // throw Exception('Failed');
   }
 
