@@ -6,7 +6,7 @@ class ProductsRepository {
 
   Future<List<Product>> index() async {
     // return await _productAPI.index();
-    // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    // await Future.delayed(const Duration(seconds: 3), () => throw TawfeerException('Failed'));
     // return await Future.delayed(const Duration(seconds: 3), () => []);
     return await Future.delayed(const Duration(seconds: 3), () {
       return [
@@ -120,7 +120,7 @@ class ProductsRepository {
 
   Future<List<Product>> myProducts() async {
     // return await _productAPI.myProducts();
-    // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    // await Future.delayed(const Duration(seconds: 3), () => throw TawfeerException('Failed'));
     // return await Future.delayed(const Duration(seconds: 3), () => []);
     return await Future.delayed(const Duration(seconds: 3), () {
       return [
@@ -174,7 +174,7 @@ class ProductsRepository {
     //     secondDiscount: 20,
     //     thirdDiscount: 30,
     //   ),);
-    // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    // await Future.delayed(const Duration(seconds: 3), () => throw TawfeerException('Failed'));
     await Future.delayed(const Duration(seconds: 3));
   }
 
@@ -195,19 +195,19 @@ class ProductsRepository {
     //     secondDiscount: 20,
     //     thirdDiscount: 30,
     //   ),);
-    // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    // await Future.delayed(const Duration(seconds: 3), () => throw TawfeerException('Failed'));
     await Future.delayed(const Duration(seconds: 3));
   }
 
   Future<void> deleteProduct({required int id}) async {
     // await _productAPI.destroy(2);
-    // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    // await Future.delayed(const Duration(seconds: 3), () => throw TawfeerException('Failed'));
     await Future.delayed(const Duration(seconds: 3));
   }
 
   Future<Product> getProduct({required int id}) async {
     // return await _productAPI.show(3);
-    // await Future.delayed(const Duration(seconds: 3), () => throw Exception('Failed'));
+    // await Future.delayed(const Duration(seconds: 3), () => throw TawfeerException('Failed'));
     return await Future.delayed(
       const Duration(seconds: 3),
       () => Product(
