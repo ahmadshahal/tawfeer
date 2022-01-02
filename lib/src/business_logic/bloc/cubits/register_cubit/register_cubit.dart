@@ -27,9 +27,9 @@ class RegisterCubit extends Cubit<RegisterState> {
       Shared.myUser = await _userRepository.profile();
       if(isClosed) return;
       emit(RegisterSuccess());
-    } catch (ex) {
+    } on Exception catch (ex) {
       if(isClosed) return;
-      emit(RegisterFailure(exception: ex as Exception));
+      emit(RegisterFailure(exception: ex));
     }
   }
 }

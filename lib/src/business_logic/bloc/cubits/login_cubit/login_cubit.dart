@@ -20,9 +20,9 @@ class LoginCubit extends Cubit<LoginState> {
       Shared.myUser = await _userRepository.profile();
       if (isClosed) return;
       emit(LoginSuccess());
-    } catch (ex) {
+    } on Exception catch (ex) {
       if (isClosed) return;
-      emit(LoginFailure(exception: ex as Exception));
+      emit(LoginFailure(exception: ex));
     }
   }
 }

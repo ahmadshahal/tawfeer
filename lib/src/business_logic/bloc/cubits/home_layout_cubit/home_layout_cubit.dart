@@ -30,9 +30,9 @@ class HomeLayoutCubit extends Cubit<HomeLayoutState> {
       _list = SortingUtility.sortBy(_list, _sortIndex);
       if(isClosed) return;
       emit(HomeLayoutSuccess(list: _list));
-    } catch (ex) {
+    } on Exception catch (ex) {
       if(isClosed) return;
-      emit(HomeLayoutFailure(exception: ex as Exception));
+      emit(HomeLayoutFailure(exception: ex));
     }
   }
 

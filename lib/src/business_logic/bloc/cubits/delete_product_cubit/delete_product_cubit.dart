@@ -13,12 +13,11 @@ class DeleteProductCubit extends Cubit<DeleteProductState> {
     emit(DeleteProductLoading());
     try {
       await _productsRepository.deleteProduct(id: id);
-      if(isClosed) return;
+      if (isClosed) return;
       emit(DeleteProductSuccess());
-    }
-    catch(ex) {
-      if(isClosed) return;
-      emit(DeleteProductFailure(exception: ex as Exception));
+    } on Exception catch (ex) {
+      if (isClosed) return;
+      emit(DeleteProductFailure(exception: ex));
     }
   }
 }
