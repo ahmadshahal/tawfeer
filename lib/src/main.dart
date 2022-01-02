@@ -12,6 +12,7 @@ import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cub
 import 'package:tawfeer/src/business_logic/bloc/cubits/register_cubit/register_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/user_repository.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
+import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 import 'package:tawfeer/src/ui/screens/layouts/home_layout.dart';
 import 'package:tawfeer/src/ui/screens/modules/add_product_screen.dart';
 import 'package:tawfeer/src/ui/screens/modules/edit_product_screen.dart';
@@ -30,23 +31,20 @@ void main() async {
   // You only need to call this method if you need the binding to be
   // initialized before calling [runApp].
   WidgetsFlutterBinding.ensureInitialized();
-
-  // TODO: Reconsider.
   Shared.pref = await SharedPreferences.getInstance();
-  // Shared.pref.remove('token');
+
   Shared.token = Shared.pref.get('token') as String?;
   if (Shared.token != null) {
     try {
       await UserRepository.validateToken(Shared.token!);
       Shared.myUser = await UserRepository().profile();
-    } catch (e) {
-      if (e.toString() == "Exception: Unauthenticated.") {
-        Shared.token = null;
-        Shared.pref.remove('token');
-      }
-      else {
-        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-      }
+    } on ServerException {
+      // Unauthorized.
+      Shared.token = null;
+      Shared.pref.remove('token');
+    } on Exception {
+      // No Internet Connection or something wrong happened.
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     }
   }
   runApp(const MyApp());

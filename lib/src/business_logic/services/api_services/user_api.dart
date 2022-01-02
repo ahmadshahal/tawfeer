@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:tawfeer/src/business_logic/models/user.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
+import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 
 class UserAPI {
   final Dio dio = Dio(
@@ -34,13 +35,13 @@ class UserAPI {
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
         if (e.response!.statusCode == 400) {
-          throw Exception(json.decode(e.response!.data)['message']);
+          throw ServerException(json.decode(e.response!.data)['message']);
         } else {
           throw Exception(e);
         }
       } else {
         // Something happened in setting up or sending the request that triggered an Error.
-        throw Exception("No Internet Connection.");
+        throw NetworkException("No Internet Connection.");
       }
     }
   }
@@ -65,13 +66,13 @@ class UserAPI {
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
         if (e.response!.statusCode == 400) {
-          throw Exception(json.decode(e.response!.data)['message']);
+          throw ServerException(json.decode(e.response!.data)['message']);
         } else {
           throw Exception(e);
         }
       } else {
         // Something happened in setting up or sending the request that triggered an Error.
-        throw Exception("No Internet Connection.");
+        throw NetworkException("No Internet Connection.");
       }
     }
   }
@@ -88,12 +89,12 @@ class UserAPI {
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 400) {
-          throw Exception(json.decode(e.response!.data)['message']);
+          throw ServerException(json.decode(e.response!.data)['message']);
         } else {
           throw Exception(e);
         }
       } else {
-        throw Exception("No Internet Connection.");
+        throw NetworkException("No Internet Connection.");
       }
     }
   }
@@ -110,12 +111,12 @@ class UserAPI {
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 400) {
-          throw Exception(json.decode(e.response!.data)['message']);
+          throw ServerException(json.decode(e.response!.data)['message']);
         } else {
           throw Exception(e);
         }
       } else {
-        throw Exception("No Internet Connection.");
+        throw NetworkException("No Internet Connection.");
       }
     }
   }
@@ -133,12 +134,12 @@ class UserAPI {
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 400) {
-          throw Exception(json.decode(e.response!.data)['message']);
+          throw ServerException(json.decode(e.response!.data)['message']);
         } else {
           throw Exception(e);
         }
       } else {
-        throw Exception("No Internet Connection.");
+        throw NetworkException("No Internet Connection.");
       }
     }
   }
