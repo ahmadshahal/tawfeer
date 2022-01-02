@@ -37,11 +37,11 @@ class UserAPI {
         if (e.response!.statusCode == 400) {
           throw ServerException(json.decode(e.response!.data)['message']);
         } else {
-          throw UnknownException('Something went wrong..');
+          throw UnknownException('Something went wrong');
         }
       } else {
         // Something happened in setting up or sending the request that triggered an Error.
-        throw NetworkException("No Internet Connection.");
+        throw NetworkException("No Internet Connection");
       }
     }
   }
@@ -68,11 +68,11 @@ class UserAPI {
         if (e.response!.statusCode == 400) {
           throw ServerException(json.decode(e.response!.data)['message']);
         } else {
-          throw UnknownException('Something went wrong..');
+          throw UnknownException('Something went wrong');
         }
       } else {
         // Something happened in setting up or sending the request that triggered an Error.
-        throw NetworkException("No Internet Connection.");
+        throw NetworkException("No Internet Connection");
       }
     }
   }
@@ -91,10 +91,10 @@ class UserAPI {
         if (e.response!.statusCode == 400) {
           throw ServerException(json.decode(e.response!.data)['message']);
         } else {
-          throw UnknownException('Something went wrong..');
+          throw UnknownException('Something went wrong');
         }
       } else {
-        throw NetworkException("No Internet Connection.");
+        throw NetworkException("No Internet Connection");
       }
     }
   }
@@ -113,10 +113,10 @@ class UserAPI {
         if (e.response!.statusCode == 400) {
           throw ServerException(json.decode(e.response!.data)['message']);
         } else {
-          throw UnknownException('Something went wrong..');
+          throw UnknownException('Something went wrong');
         }
       } else {
-        throw NetworkException("No Internet Connection.");
+        throw NetworkException("No Internet Connection");
       }
     }
   }
@@ -136,10 +136,10 @@ class UserAPI {
         if (e.response!.statusCode == 400) {
           throw ServerException(json.decode(e.response!.data)['message']);
         } else {
-          throw UnknownException('Something went wrong..');
+          throw UnknownException('Something went wrong');
         }
       } else {
-        throw NetworkException("No Internet Connection.");
+        throw NetworkException("No Internet Connection");
       }
     }
   }

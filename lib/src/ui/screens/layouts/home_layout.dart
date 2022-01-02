@@ -29,8 +29,8 @@ class HomeLayout extends StatelessWidget {
                 return const Loading();
               }
               if (state is HomeLayoutFailure) {
-                return const UserMsg(
-                  text: 'Something went wrong, swipe to refresh.',
+                return UserMsg(
+                  text: state.exception.message + ', swipe to refresh..',
                   imgUrl: 'assets/images/error404.png',
                 );
               }

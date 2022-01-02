@@ -51,7 +51,7 @@ class RegisterScreen extends StatelessWidget {
                         } else if (state is RegisterFailure) {
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text((state.exception.toString()))));
+                              content: Text((state.exception.message))));
                         }
                       },
                       child: _form(context),

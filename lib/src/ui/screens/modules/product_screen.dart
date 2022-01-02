@@ -52,8 +52,8 @@ class ProductScreen extends StatelessWidget {
                     padding: EdgeInsets.only(
                       top: Scaffold.of(context).appBarMaxHeight ?? 80,
                     ),
-                    child: const UserMsg(
-                      text: 'Something went wrong, swipe to refresh.',
+                    child: UserMsg(
+                      text: state.exception.message + ', swipe to refresh..',
                       imgUrl: 'assets/images/error404.png',
                     ),
                   );
