@@ -70,15 +70,20 @@ class ProductsListItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7.0),
         ),
-        child: Image.network(
-          product.imgUrl,
-          errorBuilder:
-              (BuildContext context, Object exception, StackTrace? stackTrace) {
-            return Image.asset(
-              'assets/images/tawfeer_logo.png',
-            );
-          },
-        ),
+        child: product.imgUrl != null
+            ? Image.network(
+                // TODO: Add base URL.
+                product.imgUrl!,
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return Image.asset(
+                    'assets/images/tawfeer_logo.png',
+                  );
+                },
+              )
+            : Image.asset(
+                'assets/images/tawfeer_logo.png',
+              ),
       ),
     );
   }

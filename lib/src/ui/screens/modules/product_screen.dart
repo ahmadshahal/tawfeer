@@ -192,20 +192,33 @@ class ProductScreen extends StatelessWidget {
       height: MediaQuery.of(context).size.height / 2.2,
       width: double.infinity,
       color: MyColors.white,
-      child: Image.network(
-        product.imgUrl,
-        fit: BoxFit.cover,
-        errorBuilder:
-            (BuildContext context, Object exception, StackTrace? stackTrace) {
-          return Padding(
-            padding: const EdgeInsets.all(40.0),
-            child: Image.asset(
-              'assets/images/tawfeer.png',
-              fit: BoxFit.contain,
+      child: product.imgUrl != null
+          ? Image.network(
+              // TODO: Add base URL.
+              product.imgUrl!,
+              fit: BoxFit.cover,
+              errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 50.0, left: 50, right: 50, top: 100),
+                  child: Image.asset(
+                    'assets/images/tawfeer.png',
+                    fit: BoxFit.contain,
+                    height: 50,
+                    width: 50,
+                  ),
+                );
+              },
+            )
+          : Padding(
+              padding: const EdgeInsets.only(bottom: 50.0, left: 50, right: 50, top: 100),
+              child: Image.asset(
+                'assets/images/tawfeer.png',
+                fit: BoxFit.contain,
+                height: 50,
+                width: 50,
+              ),
             ),
-          );
-        },
-      ),
     );
   }
 
@@ -275,12 +288,12 @@ class ProductScreen extends StatelessWidget {
     ).then(
       (int? value) {
         if (value == null) return;
-        if(value == 0) {
+        if (value == 0) {
           Navigator.pushNamed(context, '/edit_product', arguments: product);
         }
         if (value == 1) {
           DeleteProductCubit cubit =
-          BlocProvider.of<DeleteProductCubit>(context);
+              BlocProvider.of<DeleteProductCubit>(context);
           showDialog(
             context: context,
             builder: (context) => _deleteDialog(
@@ -429,8 +442,7 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  AlertDialog _deleteDialog(
-      BuildContext context, DeleteProductCubit cubit) {
+  AlertDialog _deleteDialog(BuildContext context, DeleteProductCubit cubit) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
       title: const Text(

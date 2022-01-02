@@ -35,23 +35,28 @@ class EditProductScreen extends StatelessWidget {
     _controllers[quantityKey]!.text = product.quantity.toString();
     _controllers[priceKey]!.text = product.oldPrice.toString();
     _controllers[descriptionKey]!.text = product.description;
-    _controllers[expireDateKey]!.text = DateFormat.yMMMd().format(product.expireDate);
-    if(product.firstDiscountDate != null) {
-      _controllers[firstDiscountDateKey]!.text = DateFormat.yMMMd().format(product.firstDiscountDate!);
+    _controllers[expireDateKey]!.text =
+        DateFormat.yMMMd().format(product.expireDate);
+    if (product.firstDiscountDate != null) {
+      _controllers[firstDiscountDateKey]!.text =
+          DateFormat.yMMMd().format(product.firstDiscountDate!);
     }
-    if(product.secondDiscountDate != null) {
-      _controllers[secondDiscountDateKey]!.text = DateFormat.yMMMd().format(product.secondDiscountDate!);
+    if (product.secondDiscountDate != null) {
+      _controllers[secondDiscountDateKey]!.text =
+          DateFormat.yMMMd().format(product.secondDiscountDate!);
     }
-    if(product.thirdDiscountDate != null) {
-      _controllers[thirdDiscountDateKey]!.text = DateFormat.yMMMd().format(product.thirdDiscountDate!);
+    if (product.thirdDiscountDate != null) {
+      _controllers[thirdDiscountDateKey]!.text =
+          DateFormat.yMMMd().format(product.thirdDiscountDate!);
     }
-    if(product.firstDiscount != null) {
+    if (product.firstDiscount != null) {
       _controllers[firstDiscountKey]!.text = product.firstDiscount!.toString();
     }
-    if(product.secondDiscount != null) {
-      _controllers[secondDiscountKey]!.text = product.secondDiscount!.toString();
+    if (product.secondDiscount != null) {
+      _controllers[secondDiscountKey]!.text =
+          product.secondDiscount!.toString();
     }
-    if(product.thirdDiscount != null) {
+    if (product.thirdDiscount != null) {
       _controllers[thirdDiscountKey]!.text = product.thirdDiscount!.toString();
     }
   }
@@ -130,19 +135,28 @@ class EditProductScreen extends StatelessWidget {
                                 product: Product.special(
                                   productTitle: _controllers[titleKey]!.text,
                                   ownerId: Shared.myUser!.id,
-                                  description: _controllers[descriptionKey]!.text,
+                                  description:
+                                      _controllers[descriptionKey]!.text,
                                   category: _controllers[categoryKey]!.text,
                                   oldPrice: _controllers[priceKey]!.text,
                                   quantity: _controllers[quantityKey]!.text,
                                   expireDate: _controllers[expireDateKey]!.text,
-                                  firstDiscountDate: _controllers[firstDiscountDateKey]!.text,
-                                  firstDiscount: _controllers[firstDiscountKey]!.text,
-                                  secondDiscountDate: _controllers[secondDiscountDateKey]!.text,
-                                  secondDiscount: _controllers[secondDiscountKey]!.text,
-                                  thirdDiscountDate: _controllers[thirdDiscountDateKey]!.text,
-                                  thirdDiscount: _controllers[thirdDiscountKey]!.text,
+                                  firstDiscountDate:
+                                      _controllers[firstDiscountDateKey]!.text,
+                                  firstDiscount:
+                                      _controllers[firstDiscountKey]!.text,
+                                  secondDiscountDate:
+                                      _controllers[secondDiscountDateKey]!.text,
+                                  secondDiscount:
+                                      _controllers[secondDiscountKey]!.text,
+                                  thirdDiscountDate:
+                                      _controllers[thirdDiscountDateKey]!.text,
+                                  thirdDiscount:
+                                      _controllers[thirdDiscountKey]!.text,
                                   // TODO: Reconsider.
-                                  xFile: BlocProvider.of<ImagePickerCubit>(context).file,
+                                  xFile:
+                                      BlocProvider.of<ImagePickerCubit>(context)
+                                          .file,
                                 ),
                               );
                             }
@@ -213,16 +227,24 @@ class EditProductScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               );
             } else {
-              // TODO: make it null.
-              if(product.imgUrl == "") {
+              if (product.imgUrl == null) {
                 return const Icon(
                   Icons.add_a_photo_rounded,
                   size: 35,
                   color: MyColors.darkGrey,
                 );
-              }
-              else {
-                return Image.network(product.imgUrl);
+              } else {
+                // TODO: Add base URL.
+                return Image.network(
+                  product.imgUrl!,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Image.asset(
+                      'assets/images/tawfeer_logo.png',
+                      fit: BoxFit.contain,
+                    );
+                  },
+                );
               }
             }
           },
@@ -428,17 +450,17 @@ class EditProductScreen extends StatelessWidget {
   }
 
   void _showDatePicker(
-      BuildContext context,
-      TextEditingController controller,
-      DateTime lastDate,
-      ) {
+    BuildContext context,
+    TextEditingController controller,
+    DateTime lastDate,
+  ) {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: lastDate,
     ).then(
-          (DateTime? value) {
+      (DateTime? value) {
         if (value == null) return;
         controller.text = DateFormat.yMMMd().format(value);
       },
@@ -452,7 +474,7 @@ class EditProductScreen extends StatelessWidget {
       firstDate: DateTime.now(),
       lastDate: DateTime(2025),
     ).then(
-          (DateTime? value) {
+      (DateTime? value) {
         if (value == null) return;
         _controllers[expireDateKey]!.text = DateFormat.yMMMd().format(value);
         BlocProvider.of<ExpireDateCubit>(context).expireDateFilled();

@@ -12,10 +12,11 @@ class Product {
   late String category;
   late int quantity;
 
-  late String imgUrl;
   late int seens;
   late double newPrice;
   late double discount;
+
+  String? imgUrl;
 
   DateTime? firstDiscountDate;
   DateTime? secondDiscountDate;
@@ -36,8 +37,8 @@ class Product {
     required this.quantity,
     this.newPrice = 10, // TODO: Reconsider
     this.seens = 0, // TODO: Reconsider
-    this.imgUrl = "", // TODO: Make it Null.
     this.discount = 0, // TODO: Reconsider
+    this.imgUrl,
     this.firstDiscountDate,
     this.secondDiscountDate,
     this.thirdDiscountDate,
