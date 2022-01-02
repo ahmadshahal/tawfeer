@@ -10,7 +10,7 @@ class AddProductSubmitting extends AddProductState {}
 class AddProductSuccess extends AddProductState {}
 
 class AddProductFailure extends AddProductState {
-  final Exception exception;
+  final TawfeerException exception;
 
   AddProductFailure({required this.exception});
 }

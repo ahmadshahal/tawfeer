@@ -10,6 +10,6 @@ class DeleteProductLoading extends DeleteProductState {}
 class DeleteProductSuccess extends DeleteProductState {}
 
 class DeleteProductFailure extends DeleteProductState {
-  final Exception exception;
+  final TawfeerException exception;
   DeleteProductFailure({required this.exception});
 }

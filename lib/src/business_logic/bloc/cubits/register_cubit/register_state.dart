@@ -10,7 +10,7 @@ class RegisterSubmitting extends RegisterState {}
 class RegisterSuccess extends RegisterState {}
 
 class RegisterFailure extends RegisterState {
-  final Exception exception;
+  final TawfeerException exception;
 
   RegisterFailure({required this.exception});
 }

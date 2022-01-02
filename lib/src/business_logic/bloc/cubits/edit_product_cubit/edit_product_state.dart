@@ -10,7 +10,7 @@ class EditProductSubmitting extends EditProductState {}
 class EditProductSuccess extends EditProductState {}
 
 class EditProductFailure extends EditProductState {
-  final Exception exception;
+  final TawfeerException exception;
 
   EditProductFailure({required this.exception});
 }

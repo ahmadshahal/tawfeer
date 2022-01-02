@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/products_repository.dart';
+import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 
 part 'delete_product_state.dart';
 
@@ -15,7 +16,7 @@ class DeleteProductCubit extends Cubit<DeleteProductState> {
       await _productsRepository.deleteProduct(id: id);
       if (isClosed) return;
       emit(DeleteProductSuccess());
-    } on Exception catch (ex) {
+    } on TawfeerException catch (ex) {
       if (isClosed) return;
       emit(DeleteProductFailure(exception: ex));
     }

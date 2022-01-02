@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/products_repository.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 
 part 'edit_product_state.dart';
 
@@ -16,7 +17,7 @@ class EditProductCubit extends Cubit<EditProductState> {
       await _productsRepository.editProduct(product: product);
       if(isClosed) return;
       emit(EditProductSuccess());
-    } on Exception catch(ex) {
+    } on TawfeerException catch(ex) {
       if(isClosed) return;
       emit(EditProductFailure(exception: ex));
     }

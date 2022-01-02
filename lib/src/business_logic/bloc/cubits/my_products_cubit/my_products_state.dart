@@ -13,6 +13,6 @@ class MyProductsSuccess extends MyProductsState {
 }
 
 class MyProductsFailure extends MyProductsState {
-  final Exception exception;
+  final TawfeerException exception;
   const MyProductsFailure({required this.exception});
 }

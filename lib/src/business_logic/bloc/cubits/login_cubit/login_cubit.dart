@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/user_repository.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
+import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 
 part 'login_state.dart';
 
@@ -20,7 +21,7 @@ class LoginCubit extends Cubit<LoginState> {
       Shared.myUser = await _userRepository.profile();
       if (isClosed) return;
       emit(LoginSuccess());
-    } on Exception catch (ex) {
+    } on TawfeerException catch (ex) {
       if (isClosed) return;
       emit(LoginFailure(exception: ex));
     }

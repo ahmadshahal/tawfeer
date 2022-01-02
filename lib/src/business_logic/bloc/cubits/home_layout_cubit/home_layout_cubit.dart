@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:tawfeer/src/business_logic/bloc/repositories/products_repository.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 import 'package:tawfeer/src/business_logic/utils/sorting_utility.dart';
 
 part 'home_layout_state.dart';
@@ -30,7 +31,7 @@ class HomeLayoutCubit extends Cubit<HomeLayoutState> {
       _list = SortingUtility.sortBy(_list, _sortIndex);
       if(isClosed) return;
       emit(HomeLayoutSuccess(list: _list));
-    } on Exception catch (ex) {
+    } on TawfeerException catch (ex) {
       if(isClosed) return;
       emit(HomeLayoutFailure(exception: ex));
     }

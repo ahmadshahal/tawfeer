@@ -13,6 +13,6 @@ class HomeLayoutSuccess extends HomeLayoutState {
 }
 
 class HomeLayoutFailure extends HomeLayoutState {
-  final Exception exception;
+  final TawfeerException exception;
   const HomeLayoutFailure({required this.exception});
 }

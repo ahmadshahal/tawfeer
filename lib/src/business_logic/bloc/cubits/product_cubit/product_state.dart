@@ -14,6 +14,6 @@ class ProductSuccess extends ProductState {
 }
 
 class ProductFailure extends ProductState {
-  final Exception exception;
+  final TawfeerException exception;
   const ProductFailure({required this.exception});
 }

@@ -4,6 +4,7 @@ import 'package:tawfeer/src/business_logic/bloc/repositories/products_repository
 import 'package:tawfeer/src/business_logic/bloc/repositories/user_repository.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/business_logic/models/user.dart';
+import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 
 part 'product_state.dart';
 
@@ -20,7 +21,7 @@ class ProductCubit extends Cubit<ProductState> {
       // If the cubit was Closed while fetching products or users.
       if(isClosed) return;
       emit(ProductSuccess(product: product, owner: user));
-    } on Exception catch (ex) {
+    } on TawfeerException catch (ex) {
       if(isClosed) return;
       emit(ProductFailure(exception: ex));
     }

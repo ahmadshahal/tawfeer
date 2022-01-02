@@ -10,7 +10,7 @@ class LoginSubmitting extends LoginState {}
 class LoginSuccess extends LoginState {}
 
 class LoginFailure extends LoginState {
-  final Exception exception;
+  final TawfeerException exception;
 
   LoginFailure({required this.exception});
 }

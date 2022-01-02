@@ -1,19 +1,20 @@
-class NetworkException implements Exception {
+class TawfeerException implements Exception {
   final String message;
-  NetworkException(this.message);
-
+  TawfeerException(this.message);
   @override
   String toString() {
     return message;
   }
 }
 
-class ServerException implements Exception {
-  final String message;
-  ServerException(this.message);
+class NetworkException extends TawfeerException {
+  NetworkException(String message) : super(message);
+}
 
-  @override
-  String toString() {
-    return message;
-  }
+class ServerException extends TawfeerException {
+  ServerException(String message) : super(message);
+}
+
+class UnknownException extends TawfeerException {
+  UnknownException(String message) : super(message);
 }
