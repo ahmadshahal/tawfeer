@@ -42,6 +42,7 @@ class UserRepository {
   }
 
   Future<void> logout() async {
+    // return await _userAPI.logout();
     return await Future.delayed(const Duration(seconds: 3));
     // throw TawfeerException('Failed');
   }

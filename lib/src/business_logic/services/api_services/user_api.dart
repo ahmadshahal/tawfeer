@@ -46,6 +46,29 @@ class UserAPI {
     }
   }
 
+  Future<void> logout() async {
+    try {
+      await dio.get(
+        '/auth/logout',
+        options: Options(
+          headers: {
+            'token': Shared.token,
+          },
+        ),
+      );
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 400) {
+          throw ServerException(json.decode(e.response!.data)['message']);
+        } else {
+          throw UnknownException('Something went wrong');
+        }
+      } else {
+        throw NetworkException("No Internet Connection");
+      }
+    }
+  }
+
   Future<String> register(String fullName, String email, String password,
       String phoneNumber) async {
     try {
