@@ -45,16 +45,17 @@ class UserAPI {
     }
   }
 
-  Future<String> register(String fullName, String email, String password, String phoneNumber) async {
+  Future<String> register(String fullName, String email, String password,
+      String phoneNumber) async {
     try {
       Response response = await dio.post(
         '/auth/register',
         data: FormData.fromMap(
           {
-            'fullName' : fullName,
+            'fullName': fullName,
             'email': email,
             'password': password,
-            'phoneNumber' : phoneNumber,
+            'phoneNumber': phoneNumber,
           },
         ),
       );
@@ -79,11 +80,9 @@ class UserAPI {
     try {
       Response response = await dio.get(
         '/auth/profile',
-        options: Options(
-          headers: {
-            'token' : Shared.token,
-          }
-        ),
+        options: Options(headers: {
+          'token': Shared.token,
+        }),
       );
       return User.fromJson(json.decode(response.data)['user info']);
     } on DioError catch (e) {
@@ -103,13 +102,34 @@ class UserAPI {
     try {
       Response response = await dio.get(
         '/auth/$id',
-        options: Options(
-            headers: {
-              'token' : Shared.token,
-            }
-        ),
+        options: Options(headers: {
+          'token': Shared.token,
+        }),
       );
       return User.fromJson(json.decode(response.data)['user']);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 400) {
+          throw Exception(json.decode(e.response!.data)['message']);
+        } else {
+          throw Exception(e);
+        }
+      } else {
+        throw Exception("No Internet Connection.");
+      }
+    }
+  }
+
+  Future<void> validateToken(String token) async {
+    try {
+      await dio.get(
+        '/auth/',
+        options: Options(
+          headers: {
+            'token': token,
+          },
+        ),
+      );
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 400) {

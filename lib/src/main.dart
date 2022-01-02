@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/add_product_cubit/add_product_cubit.dart';
@@ -30,11 +31,23 @@ void main() async {
   // initialized before calling [runApp].
   WidgetsFlutterBinding.ensureInitialized();
 
+  // TODO: Reconsider.
   Shared.pref = await SharedPreferences.getInstance();
   // Shared.pref.remove('token');
   Shared.token = Shared.pref.get('token') as String?;
-  if(Shared.token != null) {
-    Shared.myUser = await UserRepository().profile();
+  if (Shared.token != null) {
+    try {
+      await UserRepository.validateToken(Shared.token!);
+      Shared.myUser = await UserRepository().profile();
+    } catch (e) {
+      if (e.toString() == "Exception: Unauthenticated.") {
+        Shared.token = null;
+        Shared.pref.remove('token');
+      }
+      else {
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      }
+    }
   }
   runApp(const MyApp());
 }

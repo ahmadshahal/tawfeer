@@ -51,4 +51,9 @@ class UserRepository {
     return await Future.delayed(const Duration(seconds: 3), () => "=========");
     // throw Exception('Failed');
   }
+
+  static Future<void> validateToken(String token) async {
+    return await UserAPI().validateToken(token);
+    // return await Future.delayed(const Duration(seconds: 1));
+  }
 }
