@@ -200,7 +200,8 @@ class ProductScreen extends StatelessWidget {
               errorBuilder: (BuildContext context, Object exception,
                   StackTrace? stackTrace) {
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 50.0, left: 50, right: 50, top: 100),
+                  padding: const EdgeInsets.only(
+                      bottom: 50.0, left: 50, right: 50, top: 100),
                   child: Image.asset(
                     'assets/images/tawfeer.png',
                     fit: BoxFit.contain,
@@ -211,7 +212,8 @@ class ProductScreen extends StatelessWidget {
               },
             )
           : Padding(
-              padding: const EdgeInsets.only(bottom: 50.0, left: 50, right: 50, top: 100),
+              padding: const EdgeInsets.only(
+                  bottom: 50.0, left: 50, right: 50, top: 100),
               child: Image.asset(
                 'assets/images/tawfeer.png',
                 fit: BoxFit.contain,
@@ -273,36 +275,6 @@ class ProductScreen extends StatelessWidget {
         ),
         const SizedBox(width: 20.0),
       ],
-    );
-  }
-
-  void _showMenu(BuildContext context, Product product) {
-    showMenu<int>(
-      context: context,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
-      position: const RelativeRect.fromLTRB(20.0, 0.0, 0.0, 0.0),
-      items: [
-        _popMenuItem(context, 'Edit', 0, Icons.edit, Colors.black),
-        _popMenuItem(context, 'Delete', 1, Icons.delete_rounded, MyColors.red),
-      ],
-    ).then(
-      (int? value) {
-        if (value == null) return;
-        if (value == 0) {
-          Navigator.pushNamed(context, '/edit_product', arguments: product);
-        }
-        if (value == 1) {
-          DeleteProductCubit cubit =
-              BlocProvider.of<DeleteProductCubit>(context);
-          showDialog(
-            context: context,
-            builder: (context) => _deleteDialog(
-              context,
-              cubit,
-            ),
-          );
-        }
-      },
     );
   }
 
@@ -409,6 +381,45 @@ class ProductScreen extends StatelessWidget {
           style: const TextStyle(fontSize: 14),
         ),
       ],
+    );
+  }
+
+  void _showMenu(BuildContext context, Product product) {
+    showMenu<int>(
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
+      position: const RelativeRect.fromLTRB(20.0, 0.0, 0.0, 0.0),
+      items: [
+        _popMenuItem(context, 'Edit', 0, Icons.edit, Colors.black),
+        _popMenuItem(context, 'Delete', 1, Icons.delete_rounded, MyColors.red),
+      ],
+    ).then(
+      (int? value) {
+        if (value == null) return;
+        if (value == 0) {
+          Navigator.pushNamed(context, '/edit_product', arguments: product)
+              .then(
+            (dynamic value) {
+              if (value == true) {
+                _refreshIndicatorKey.currentState?.show();
+                Shared.homeRefreshIndicatorKey?.currentState?.show();
+                Shared.myProductsRefreshIndicatorKey?.currentState?.show();
+              }
+            },
+          );
+        }
+        if (value == 1) {
+          DeleteProductCubit cubit =
+              BlocProvider.of<DeleteProductCubit>(context);
+          showDialog(
+            context: context,
+            builder: (context) => _deleteDialog(
+              context,
+              cubit,
+            ),
+          );
+        }
+      },
     );
   }
 

@@ -8,10 +8,10 @@ import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 class UserAPI {
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: 'https://b3273d35-bc67-4469-b6e1-1d86090513ef.mock.pstmn.io/api',
-      connectTimeout: 10000,
-      receiveTimeout: 10000,
-      sendTimeout: 10000,
+      baseUrl: 'http://192.168.8.101:8000/api',
+      connectTimeout: 20000,
+      receiveTimeout: 20000,
+      sendTimeout: 20000,
       headers: {
         "Accept": "application/json",
       },
@@ -29,7 +29,7 @@ class UserAPI {
           },
         ),
       );
-      return json.decode(response.data)['token'];
+      return json.decode(response.data.toString())['token'];
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
@@ -159,9 +159,11 @@ class UserAPI {
         if (e.response!.statusCode == 400) {
           throw ServerException(json.decode(e.response!.data)['message']);
         } else {
+          print(e);
           throw UnknownException('Something went wrong');
         }
       } else {
+        print(e);
         throw NetworkException("No Internet Connection");
       }
     }

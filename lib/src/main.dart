@@ -32,7 +32,6 @@ void main() async {
   // initialized before calling [runApp].
   WidgetsFlutterBinding.ensureInitialized();
   Shared.pref = await SharedPreferences.getInstance();
-
   Shared.token = Shared.pref.get('token') as String?;
   if (Shared.token != null) {
     try {
@@ -42,7 +41,8 @@ void main() async {
       // Unauthorized.
       Shared.token = null;
       Shared.pref.remove('token');
-    } on Exception {
+    } on TawfeerException catch(ex) {
+      print(ex);
       // No Internet Connection or something wrong happened.
       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     }
@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
           '/myProducts': (context) {
             return BlocProvider(
               create: (context) => MyProductsCubit()..fetchData(),
-              child: const MyProductsScreen(),
+              child: MyProductsScreen(),
             );
           },
           '/add_product': (context) {

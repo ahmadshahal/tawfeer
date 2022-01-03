@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/my_products_cubit/my_products_cubit.dart';
+import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/components/loading.dart';
 import 'package:tawfeer/src/ui/components/my_list_view.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 
 class MyProductsScreen extends StatelessWidget {
-  const MyProductsScreen({Key? key}) : super(key: key);
+  MyProductsScreen({Key? key}) : super(key: key) {
+    Shared.myProductsRefreshIndicatorKey = _refreshIndicatorKey;
+  }
+
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+  GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +22,7 @@ class MyProductsScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: RefreshIndicator(
+          key: _refreshIndicatorKey,
           onRefresh: () =>
               BlocProvider.of<MyProductsCubit>(context).fetchData(),
           child: BlocBuilder<MyProductsCubit, MyProductsState>(

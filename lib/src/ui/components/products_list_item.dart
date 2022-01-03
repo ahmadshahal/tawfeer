@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 
 class ProductsListItem extends StatelessWidget {
@@ -15,7 +16,15 @@ class ProductsListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/product', arguments: product.id as int);
+        Navigator.pushNamed(context, '/product', arguments: product.id as int)
+            .then(
+          (dynamic value) {
+            if(value == true) {
+              Shared.homeRefreshIndicatorKey?.currentState?.show();
+              Shared.myProductsRefreshIndicatorKey?.currentState?.show();
+            }
+          },
+        );
       },
       child: Container(
         decoration: BoxDecoration(

@@ -2,19 +2,19 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 
 class ProductAPI {
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: 'https://b3273d35-bc67-4469-b6e1-1d86090513ef.mock.pstmn.io/api',
-      connectTimeout: 10000,
-      receiveTimeout: 10000,
-      sendTimeout: 10000,
+      baseUrl: 'http://192.168.8.101:8000/api',
+      connectTimeout: 20000,
+      receiveTimeout: 20000,
+      sendTimeout: 20000,
       headers: {
         "Accept": "application/json",
-        "Authorization":
-            "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTY0MDg1MzU1OSwiZXhwIjoxNjQwODU3MTU5LCJuYmYiOjE2NDA4NTM1NTksImp0aSI6InNrSkg1SGMzM1FMdW01UlgiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.ZAuXkZi8J0ULLZ3O--SpDV-VCHvbhtphxvNob6EVltM",
+        "Authorization": Shared.token,
       },
     ),
   );
