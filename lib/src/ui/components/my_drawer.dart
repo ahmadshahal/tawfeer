@@ -29,6 +29,7 @@ class MyDrawer extends StatelessWidget {
             } else if (state is LogoutSuccess) {
               Shared.token = null;
               Shared.pref.remove('token');
+              Navigator.pop(context);
               Navigator.of(context).pushReplacementNamed('/login');
             } else if (state is LogoutFailure) {
               Navigator.pop(context);
