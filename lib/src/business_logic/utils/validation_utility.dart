@@ -3,7 +3,7 @@ class ValidationUtility {
   static final RegExp emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
   static String? validateEmail(String email) {
-    if (email.isEmpty || (!emailRegExp.hasMatch(email))){
+    if (email.isEmpty || (!emailRegExp.hasMatch(email)) || email.length > 50){
       return "Invalid Email";
     }
     return null;
@@ -20,7 +20,7 @@ class ValidationUtility {
     if(password.isEmpty) {
       return "Password can't be empty";
     }
-    else if(password.length < 5) {
+    else if(password.length < 7) {
       return "Password is too short";
     }
     else if(password.length > 50) {
@@ -30,6 +30,9 @@ class ValidationUtility {
   }
 
   static String? validateRegisterFullName(String fullName) {
+    if(fullName.length > 25) {
+      return "Full Name is too long";
+    }
     if(fullName.isEmpty) {
       return "Full Name can't be empty";
     }
