@@ -1,171 +1,146 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:tawfeer/src/business_logic/models/user.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
+import 'package:http/http.dart' as http;
 
 class UserAPI {
-  final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://192.168.8.101:8000/api',
-      connectTimeout: 20000,
-      receiveTimeout: 20000,
-      sendTimeout: 20000,
-      headers: {
-        "Accept": "application/json",
-      },
-    ),
-  );
+  final String baseURL = 'http://192.168.1.105:8000/api';
 
   Future<String> login(String email, String password) async {
     try {
-      Response response = await dio.post(
-        '/auth/login',
-        data: FormData.fromMap(
-          {
-            'email': email,
-            'password': password,
-          },
-        ),
+      http.Response response = await http.post(
+        Uri.parse('$baseURL/auth/login'),
+        body: {
+          'email': email,
+          'password': password,
+        },
+        headers: {
+          "Accept": "application/json",
+        },
       );
-      return json.decode(response.data.toString())['token'];
-    } on DioError catch (e) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
+      if (response.statusCode == 200) {
+        return (json.decode(response.body) as Map<String, dynamic>)['token'];
+      } else if (response.statusCode == 400) {
+        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
-        // Something happened in setting up or sending the request that triggered an Error.
-        throw NetworkException("No Internet Connection");
+        throw UnknownException("Something went wrong");
       }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 
   Future<void> logout() async {
     try {
-      await dio.get(
-        '/auth/logout',
-        options: Options(
-          headers: {
-            'token': Shared.token,
-          },
-        ),
+      http.Response response = await http.get(
+        Uri.parse('$baseURL/auth/logout'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
       );
-    } on DioError catch (e) {
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
+      if(response.statusCode == 200) {
+        return;
+      } else if (response.statusCode == 401) {
+        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
-        throw NetworkException("No Internet Connection");
+        throw UnknownException("Something went wrong");
       }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 
   Future<String> register(String fullName, String email, String password,
       String phoneNumber) async {
     try {
-      Response response = await dio.post(
-        '/auth/register',
-        data: FormData.fromMap(
-          {
-            'fullName': fullName,
-            'email': email,
-            'password': password,
-            'phoneNumber': phoneNumber,
-          },
-        ),
+      http.Response response = await http.post(
+        Uri.parse('$baseURL/auth/register'),
+        body: {
+          'fullName': fullName,
+          'email': email,
+          'password': password,
+          'phoneNumber': phoneNumber,
+        },
+        headers: {
+          "Accept": "application/json",
+        },
       );
-      return json.decode(response.data)['token'];
-    } on DioError catch (e) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
+      if (response.statusCode == 200) {
+        return (json.decode(response.body) as Map<String, dynamic>)['token'];
+      } else if (response.statusCode == 400) {
+        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
-        // Something happened in setting up or sending the request that triggered an Error.
-        throw NetworkException("No Internet Connection");
+        throw UnknownException("Something went wrong");
       }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 
   Future<User> profile() async {
     try {
-      Response response = await dio.get(
-        '/auth/profile',
-        options: Options(headers: {
-          'token': Shared.token,
-        }),
+      http.Response response = await http.get(
+        Uri.parse('$baseURL/auth/profile'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
       );
-      return User.fromJson(json.decode(response.data)['user info']);
-    } on DioError catch (e) {
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
+      if (response.statusCode == 200) {
+        return User.fromJson((json.decode(response.body) as Map<String, dynamic>)['user info']);
+      } else if (response.statusCode == 401) {
+        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
-        throw NetworkException("No Internet Connection");
+        throw UnknownException("Something went wrong");
       }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 
   Future<User> showUser(int id) async {
     try {
-      Response response = await dio.get(
-        '/auth/$id',
-        options: Options(headers: {
-          'token': Shared.token,
-        }),
+      http.Response response = await http.get(
+        Uri.parse('$baseURL/auth/$id'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
       );
-      return User.fromJson(json.decode(response.data)['user']);
-    } on DioError catch (e) {
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
+      if (response.statusCode == 200) {
+        return User.fromJson((json.decode(response.body) as Map<String, dynamic>)['user']);
+      } else if (response.statusCode == 401) {
+        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
-        throw NetworkException("No Internet Connection");
+        throw UnknownException("Something went wrong");
       }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 
   Future<void> validateToken(String token) async {
     try {
-      await dio.get(
-        '/auth/',
-        options: Options(
-          headers: {
-            'token': token,
-          },
-        ),
+      http.Response response = await http.get(
+        Uri.parse('$baseURL/auth'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": token,
+        },
       );
-    } on DioError catch (e) {
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          print(e);
-          throw UnknownException('Something went wrong');
-        }
+      if(response.statusCode == 200) {
+        return;
+      } else if (response.statusCode == 401) {
+        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
-        print(e);
-        throw NetworkException("No Internet Connection");
+        throw UnknownException("Something went wrong");
       }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 }

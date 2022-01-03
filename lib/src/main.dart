@@ -40,9 +40,7 @@ void main() async {
     } on ServerException {
       // Unauthorized.
       Shared.token = null;
-      Shared.pref.remove('token');
-    } on TawfeerException catch(ex) {
-      print(ex);
+    } on TawfeerException {
       // No Internet Connection or something wrong happened.
       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     }

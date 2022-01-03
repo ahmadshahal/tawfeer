@@ -1,147 +1,170 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 
 class ProductAPI {
-  final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://192.168.8.101:8000/api',
-      connectTimeout: 20000,
-      receiveTimeout: 20000,
-      sendTimeout: 20000,
-      headers: {
-        "Accept": "application/json",
-        "Authorization": Shared.token,
-      },
-    ),
-  );
+  final String baseURL = 'http://192.168.1.105:8000/api';
 
   Future<List<Product>> index() async {
     try {
-      Response response = await dio.get('/products/');
-      return (json.decode(response.data) as List)
-          .map((e) => Product.fromJson(e))
-          .toList();
-    } on DioError catch (e) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
+      http.Response response = await http.get(
+        Uri.parse('$baseURL/products'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        return ((json.decode(response.body)['Products']) as List)
+            .map((e) {
+          return Product.fromJson(e as Map<String, dynamic>);
+        },)
+            .toList();
+      } else if (response.statusCode == 401) {
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
-        // Something happened in setting up or sending the request that triggered an Error.
-        throw NetworkException("No Internet Connection");
+        throw UnknownException("Something went wrong");
       }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 
   Future<List<Product>> myProducts() async {
     try {
-      Response response = await dio.get('/products/myProducts');
-      return ((json.decode(response.data)['My Products : ']) as List)
-          .map((e) => Product.fromJson(e))
-          .toList();
-    } on DioError catch (e) {
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
+      http.Response response = await http.get(
+        Uri.parse('$baseURL/products/myProducts'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        return ((json.decode(response.body))['My Products'] as List)
+            .map((e) => Product.fromJson(e as Map<String, dynamic>))
+            .toList();
+      } else if (response.statusCode == 401) {
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
-        throw NetworkException("No Internet Connection");
+        throw UnknownException("Something went wrong");
       }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 
   Future<Product> show(int id) async {
     try {
-      Response response = await dio.get('/products/$id');
-      return Product.fromJson(json.decode(response.data)["Products"]);
-    } on DioError catch (e) {
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
+      http.Response response = await http.get(
+        Uri.parse('$baseURL/products/$id'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        return Product.fromJson(
+            (json.decode(response.body) as Map<String, dynamic>)['Product']);
+      } else if (response.statusCode == 400 || response.statusCode == 401) {
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
-        throw NetworkException("No Internet Connection");
+        throw UnknownException("Something went wrong");
       }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 
   Future<void> destroy(int id) async {
     try {
-      await dio.delete('/products/$id');
-    } on DioError catch (e) {
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
+      http.Response response = await http.delete(
+        Uri.parse('$baseURL/products/$id'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        return;
+      } else if (response.statusCode == 400 || response.statusCode == 401) {
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
-        throw NetworkException("No Internet Connection");
+        throw UnknownException("Something went wrong");
       }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 
   Future<void> store(Product product) async {
-    Map<String, dynamic> data = product.toJson();
-    if (product.imgFile != null) {
-      data['img'] = await MultipartFile.fromFile(
-        product.imgFile!.path,
-        filename: product.imgFile!.path.split('/').last,
-      );
-    }
     try {
-      await dio.post(
-        '/products/',
-        data: FormData.fromMap(data),
+      var request =
+          http.MultipartRequest('POST', Uri.parse('$baseURL/products'));
+      request.headers.addAll(
+        {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
       );
-    } on DioError catch (e) {
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
-      } else {
-        throw NetworkException("No Internet Connection");
+      request.fields.addAll(product.toJson());
+      if (product.imgFile != null) {
+        var image =
+            await http.MultipartFile.fromPath('img', product.imgFile!.path);
+        request.files.add(image);
       }
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        return;
+      } else if (response.statusCode == 400) {
+        // throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
+        throw ServerException("Wrong Form for image");
+      } else if (response.statusCode == 401) {
+        throw ServerException("Unauthenticated");
+      } else {
+        throw UnknownException("Something went wrong");
+      }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 
   Future<void> update(Product product) async {
-    Map<String, dynamic> data = product.toJson();
-    if (product.imgFile != null) {
-      data['img'] = await MultipartFile.fromFile(
-        product.imgFile!.path,
-        filename: product.imgFile!.path.split('/').last,
-      );
-    }
     try {
-      await dio.put(
-        '/products/${product.id}',
-        data: FormData.fromMap(data),
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('$baseURL/products/${product.id}'));
+      request.headers.addAll(
+        {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
       );
-    } on DioError catch (e) {
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          throw ServerException(json.decode(e.response!.data)['message']);
-        } else {
-          throw UnknownException('Something went wrong');
-        }
-      } else {
-        throw NetworkException("No Internet Connection");
+      request.fields.addAll(product.toJson());
+      if (product.imgFile != null) {
+        var image =
+            await http.MultipartFile.fromPath('img', product.imgFile!.path);
+        request.files.add(image);
       }
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        return;
+      } else if (response.statusCode == 400) {
+        // throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
+        throw ServerException("Wrong Form for image");
+      } else if (response.statusCode == 401) {
+        throw ServerException("Unauthenticated");
+      } else {
+        throw UnknownException("Something went wrong");
+      }
+    } on SocketException {
+      throw NetworkException("No Internet Connection");
     }
   }
 }
