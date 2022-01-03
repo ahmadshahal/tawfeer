@@ -54,7 +54,11 @@ class Product {
     productTitle = json['productName'];
     oldPrice = (json['oldPrice'] as int).toDouble();
     newPrice = (json['currentPrice'] as int).toDouble();
-    description = json['description'];
+    if(json['description'] != null) {
+      description = json['description'];
+    } else {
+      description = "";
+    }
     expireDate = DateTime.parse(json['expireDate']);
     imgUrl = json['imgUrl'];
     category = json['category'];
