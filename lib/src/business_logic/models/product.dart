@@ -69,13 +69,13 @@ class Product {
     thirdDiscount = (json['thirdDiscount'] as int).toDouble();
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, String> toJson() {
     return {
       'productName' : productTitle,
       'description' : description,
       'expireDate' : DateFormat("yyyy-MM-dd").format(expireDate),
-      'oldPrice' : oldPrice,
-      'quantity' : quantity,
+      'oldPrice' : oldPrice.toString(),
+      'quantity' : quantity.toString(),
       'category' : category,
       if(firstDiscountDate != null)
         'firstDate' : DateFormat("yyyy-MM-dd").format(firstDiscountDate!),
@@ -84,11 +84,11 @@ class Product {
       if(thirdDiscountDate != null)
         'thirdDate' : DateFormat("yyyy-MM-dd").format(thirdDiscountDate!),
       if(firstDiscount != null)
-        'firstDiscount' : firstDiscount,
+        'firstDiscount' : firstDiscount.toString(),
       if(secondDiscount != null)
-        'secondDiscount' : secondDiscount,
+        'secondDiscount' : secondDiscount.toString(),
       if(thirdDiscount != null)
-        'thirdDiscount' : thirdDiscount,
+        'thirdDiscount' : thirdDiscount.toString(),
     };
   }
 
