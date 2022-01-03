@@ -194,8 +194,7 @@ class ProductScreen extends StatelessWidget {
       color: MyColors.white,
       child: product.imgUrl != null
           ? Image.network(
-              // TODO: Add base URL.
-              product.imgUrl!,
+              Shared.baseURL + '/' + product.imgUrl!,
               fit: BoxFit.cover,
               errorBuilder: (BuildContext context, Object exception,
                   StackTrace? stackTrace) {

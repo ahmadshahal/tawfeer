@@ -7,7 +7,7 @@ import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 import 'package:http/http.dart' as http;
 
 class UserAPI {
-  final String baseURL = 'http://192.168.1.105:8000/api';
+  final String baseURL = '${Shared.baseURL}/api';
 
   Future<String> login(String email, String password) async {
     try {

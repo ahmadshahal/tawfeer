@@ -235,9 +235,8 @@ class EditProductScreen extends StatelessWidget {
                   color: MyColors.darkGrey,
                 );
               } else {
-                // TODO: Add base URL.
                 return Image.network(
-                  product.imgUrl!,
+                  Shared.baseURL + '/' + product.imgUrl!,
                   errorBuilder: (BuildContext context, Object exception,
                       StackTrace? stackTrace) {
                     return Image.asset(

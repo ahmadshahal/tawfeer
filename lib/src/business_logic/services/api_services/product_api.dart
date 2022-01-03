@@ -7,7 +7,7 @@ import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 
 class ProductAPI {
-  final String baseURL = 'http://192.168.1.105:8000/api';
+  final String baseURL = '${Shared.baseURL}/api';
 
   Future<List<Product>> index() async {
     try {
@@ -125,7 +125,7 @@ class ProductAPI {
         return;
       } else if (response.statusCode == 400) {
         // throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
-        throw ServerException("Wrong Form for image");
+        throw ServerException("Wrong Form of image");
       } else if (response.statusCode == 401) {
         throw ServerException("Unauthenticated");
       } else {

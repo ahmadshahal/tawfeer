@@ -85,8 +85,7 @@ class MyDrawer extends StatelessWidget {
         CircleAvatar(
           radius: 45,
           backgroundImage: Shared.myUser!.imgUrl != null
-              // TODO: Add base URL.
-              ? NetworkImage(Shared.myUser!.imgUrl!) as ImageProvider
+              ? NetworkImage(Shared.baseURL + '/' + Shared.myUser!.imgUrl!) as ImageProvider
               : const AssetImage('assets/images/tawfeer_logo.png'),
           onBackgroundImageError: (Object exception, StackTrace? stackTrace) {},
           backgroundColor: MyColors.lightGrey,
