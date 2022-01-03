@@ -133,6 +133,7 @@ class EditProductScreen extends StatelessWidget {
                             if (_formKey.currentState!.validate()) {
                               BlocProvider.of<EditProductCubit>(context).submit(
                                 product: Product.special(
+                                  id: product.id,
                                   productTitle: _controllers[titleKey]!.text,
                                   ownerId: Shared.myUser!.id,
                                   description:

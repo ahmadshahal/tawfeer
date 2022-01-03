@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class Product {
-  late int? id;
+  int? id;
   late int ownerId;
   late String productTitle;
   late String description;
@@ -60,17 +60,30 @@ class Product {
     category = json['category'];
     quantity = json['quantity'];
     seens = json['seens'];
-    discount = json['currentDiscount'];
-    firstDiscountDate = DateTime.parse(json['firstDate']);
-    secondDiscountDate = DateTime.parse(json['secondDate']);
-    thirdDiscountDate = DateTime.parse(json['thirdDate']);
-    firstDiscount = (json['firstDiscount'] as int).toDouble();
-    secondDiscount = (json['secondDiscount'] as int).toDouble();
-    thirdDiscount = (json['thirdDiscount'] as int).toDouble();
+    discount = (json['currentDiscount'] as int).toDouble();
+    if(json['firstDate'] != null) {
+      firstDiscountDate = DateTime.parse(json['firstDate']);
+    }
+    if(json['secondDate'] != null) {
+      secondDiscountDate = DateTime.parse(json['secondDate']);
+    }
+    if(json['thirdDate'] != null) {
+      thirdDiscountDate = DateTime.parse(json['thirdDate']);
+    }
+    if(json['firstDiscount'] != null) {
+      firstDiscount = (json['firstDiscount'] as int).toDouble();
+    }
+    if(json['secondDiscount'] != null) {
+      secondDiscount = (json['secondDiscount'] as int).toDouble();
+    }
+    if(json['thirdDiscount'] != null) {
+      thirdDiscount = (json['thirdDiscount'] as int).toDouble();
+    }
   }
 
   Map<String, String> toJson() {
     return {
+      'id' : id.toString(),
       'productName' : productTitle,
       'description' : description,
       'expireDate' : DateFormat("yyyy-MM-dd").format(expireDate),
@@ -93,6 +106,7 @@ class Product {
   }
 
   Product.special({
+    this.id,
     required this.ownerId,
     required this.productTitle,
     required this.category,
