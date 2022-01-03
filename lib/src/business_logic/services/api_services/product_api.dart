@@ -125,7 +125,7 @@ class ProductAPI {
         return;
       } else if (response.statusCode == 400) {
         // throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
-        throw ServerException("Wrong Form of image");
+        throw ServerException("Wrong form of image");
       } else if (response.statusCode == 401) {
         throw ServerException("Unauthenticated");
       } else {

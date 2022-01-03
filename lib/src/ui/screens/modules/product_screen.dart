@@ -248,15 +248,16 @@ class ProductScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 20),
-              Text(
-                "\$${product.oldPrice.toString()}",
-                style: const TextStyle(
-                  color: MyColors.darkGrey,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.lineThrough,
-                  fontSize: 16,
+              if (product.newPrice != product.oldPrice)
+                Text(
+                  "\$${product.oldPrice.toString()}",
+                  style: const TextStyle(
+                    color: MyColors.darkGrey,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.lineThrough,
+                    fontSize: 16,
+                  ),
                 ),
-              ),
             ],
           ),
         ],
@@ -284,7 +285,7 @@ class ProductScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(width: 20),
-          _keysColumn(context),
+          _keysColumn(context, product),
           const SizedBox(width: 15),
           Expanded(
             child: _valuesColumn(context, product, owner),
@@ -295,41 +296,42 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _keysColumn(BuildContext context) {
+  Widget _keysColumn(BuildContext context, Product product) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text(
+      children: [
+        const Text(
           'Category:',
           style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
         ),
-        SizedBox(height: 16),
-        Text(
+        const SizedBox(height: 16),
+        const Text(
           'Quantity:',
           style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
         ),
-        SizedBox(height: 16),
-        Text(
-          'Discount:',
-          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
-        ),
-        SizedBox(height: 16),
-        Text(
+        const SizedBox(height: 16),
+        if (product.discount != 0)
+          const Text(
+            'Discount:',
+            style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
+          ),
+        if (product.discount != 0) const SizedBox(height: 16),
+        const Text(
           'Expire Date:',
           style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
         ),
-        SizedBox(height: 16),
-        Text(
+        const SizedBox(height: 16),
+        const Text(
           'Views:',
           style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
         ),
-        SizedBox(height: 16),
-        Text(
+        const SizedBox(height: 16),
+        const Text(
           'Phone Number:',
           style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
         ),
-        SizedBox(height: 16),
-        Text(
+        const SizedBox(height: 16),
+        const Text(
           'Email:',
           style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
         ),
@@ -355,11 +357,12 @@ class ProductScreen extends StatelessWidget {
           style: const TextStyle(fontSize: 14),
         ),
         const SizedBox(height: 16),
-        Text(
-          "${product.discount.toString()}%",
-          style: const TextStyle(fontSize: 14),
-        ),
-        const SizedBox(height: 16),
+        if (product.discount != 0)
+          Text(
+            "${product.discount.toString()}%",
+            style: const TextStyle(fontSize: 14),
+          ),
+        if (product.discount != 0) const SizedBox(height: 16),
         Text(
           DateFormat.yMMMd().format(product.expireDate),
           style: const TextStyle(fontSize: 14),
