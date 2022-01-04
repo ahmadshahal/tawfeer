@@ -30,7 +30,7 @@ class UserRepository {
     return await _userAPI.register(fullName, email, password, phoneNumber);
   }
 
-  static Future<void> validateToken(String token) async {
-    return await UserAPI().validateToken(token);
+  Future<void> validateToken(String token) async {
+    return await _userAPI.validateToken(token);
   }
 }

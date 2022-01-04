@@ -35,8 +35,9 @@ void main() async {
   Shared.token = Shared.pref.get('token') as String?;
   if (Shared.token != null) {
     try {
-      await UserRepository.validateToken(Shared.token!);
-      Shared.myUser = await UserRepository().profile();
+      UserRepository userRepository = UserRepository();
+      await userRepository.validateToken(Shared.token!);
+      Shared.myUser = await userRepository.profile();
     } on ServerException {
       // Unauthorized.
       Shared.token = null;

@@ -7,12 +7,12 @@ import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 
 class ProductAPI {
-  final String baseURL = '${Shared.baseURL}/api';
+  final String _baseURL = '${Shared.baseURL}/api';
 
   Future<List<Product>> index() async {
     try {
       http.Response response = await http.get(
-        Uri.parse('$baseURL/products'),
+        Uri.parse('$_baseURL/products'),
         headers: {
           "Accept": "application/json",
           "Authorization": Shared.token!,
@@ -38,7 +38,7 @@ class ProductAPI {
   Future<List<Product>> myProducts() async {
     try {
       http.Response response = await http.get(
-        Uri.parse('$baseURL/products/myProducts'),
+        Uri.parse('$_baseURL/products/myProducts'),
         headers: {
           "Accept": "application/json",
           "Authorization": Shared.token!,
@@ -62,7 +62,7 @@ class ProductAPI {
   Future<Product> show(int id) async {
     try {
       http.Response response = await http.get(
-        Uri.parse('$baseURL/products/$id'),
+        Uri.parse('$_baseURL/products/$id'),
         headers: {
           "Accept": "application/json",
           "Authorization": Shared.token!,
@@ -85,7 +85,7 @@ class ProductAPI {
   Future<void> destroy(int id) async {
     try {
       http.Response response = await http.delete(
-        Uri.parse('$baseURL/products/$id'),
+        Uri.parse('$_baseURL/products/$id'),
         headers: {
           "Accept": "application/json",
           "Authorization": Shared.token!,
@@ -107,7 +107,7 @@ class ProductAPI {
   Future<void> store(Product product) async {
     try {
       var request =
-          http.MultipartRequest('POST', Uri.parse('$baseURL/products'));
+          http.MultipartRequest('POST', Uri.parse('$_baseURL/products'));
       request.headers.addAll(
         {
           "Accept": "application/json",
@@ -139,7 +139,7 @@ class ProductAPI {
   Future<void> update(Product product) async {
     try {
       var request = http.MultipartRequest(
-          'POST', Uri.parse('$baseURL/products/${product.id}'));
+          'POST', Uri.parse('$_baseURL/products/${product.id}'));
       request.headers.addAll(
         {
           "Accept": "application/json",

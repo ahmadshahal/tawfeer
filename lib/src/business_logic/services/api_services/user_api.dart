@@ -7,12 +7,12 @@ import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 import 'package:http/http.dart' as http;
 
 class UserAPI {
-  final String baseURL = '${Shared.baseURL}/api';
+  final String _baseURL = '${Shared.baseURL}/api';
 
   Future<String> login(String email, String password) async {
     try {
       http.Response response = await http.post(
-        Uri.parse('$baseURL/auth/login'),
+        Uri.parse('$_baseURL/auth/login'),
         body: {
           'email': email,
           'password': password,
@@ -36,7 +36,7 @@ class UserAPI {
   Future<void> logout() async {
     try {
       http.Response response = await http.get(
-        Uri.parse('$baseURL/auth/logout'),
+        Uri.parse('$_baseURL/auth/logout'),
         headers: {
           "Accept": "application/json",
           "Authorization": Shared.token!,
@@ -58,7 +58,7 @@ class UserAPI {
       String phoneNumber) async {
     try {
       http.Response response = await http.post(
-        Uri.parse('$baseURL/auth/register'),
+        Uri.parse('$_baseURL/auth/register'),
         body: {
           'fullName': fullName,
           'email': email,
@@ -84,7 +84,7 @@ class UserAPI {
   Future<User> profile() async {
     try {
       http.Response response = await http.get(
-        Uri.parse('$baseURL/auth/profile'),
+        Uri.parse('$_baseURL/auth/profile'),
         headers: {
           "Accept": "application/json",
           "Authorization": Shared.token!,
@@ -105,7 +105,7 @@ class UserAPI {
   Future<User> showUser(int id) async {
     try {
       http.Response response = await http.get(
-        Uri.parse('$baseURL/auth/$id'),
+        Uri.parse('$_baseURL/auth/$id'),
         headers: {
           "Accept": "application/json",
           "Authorization": Shared.token!,
@@ -126,7 +126,7 @@ class UserAPI {
   Future<void> validateToken(String token) async {
     try {
       http.Response response = await http.get(
-        Uri.parse('$baseURL/auth'),
+        Uri.parse('$_baseURL/auth'),
         headers: {
           "Accept": "application/json",
           "Authorization": token,
