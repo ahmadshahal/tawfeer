@@ -52,8 +52,8 @@ class Product {
     id = json['id'];
     ownerId = json['ownerId'];
     productTitle = json['productName'];
-    oldPrice = (json['oldPrice'] as int).toDouble();
-    newPrice = (json['currentPrice'] as int).toDouble();
+    oldPrice = double.parse((json['oldPrice']).toString());
+    newPrice = double.parse((json['currentPrice']).toString());
     if(json['description'] != null) {
       description = json['description'];
     } else {
@@ -64,7 +64,7 @@ class Product {
     category = json['category'];
     quantity = json['quantity'];
     seens = json['seens'];
-    discount = (json['currentDiscount'] as int).toDouble();
+    discount = double.parse((json['currentDiscount']).toString());
     if(json['firstDate'] != null) {
       firstDiscountDate = DateTime.parse(json['firstDate']);
     }
@@ -75,13 +75,13 @@ class Product {
       thirdDiscountDate = DateTime.parse(json['thirdDate']);
     }
     if(json['firstDiscount'] != null) {
-      firstDiscount = (json['firstDiscount'] as int).toDouble();
+      firstDiscount = double.parse((json['firstDiscount']).toString());
     }
     if(json['secondDiscount'] != null) {
-      secondDiscount = (json['secondDiscount'] as int).toDouble();
+      secondDiscount = double.parse((json['secondDiscount']).toString());
     }
     if(json['thirdDiscount'] != null) {
-      thirdDiscount = (json['thirdDiscount'] as int).toDouble();
+      thirdDiscount = double.parse((json['thirdDiscount']).toString());
     }
   }
 
