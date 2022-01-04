@@ -31,7 +31,7 @@ class ProductAPI {
         throw UnknownException("Something went wrong");
       }
     } on SocketException {
-      throw NetworkException("No Internet Connection");
+      throw NetworkException("No internet connection");
     }
   }
 
@@ -55,7 +55,7 @@ class ProductAPI {
         throw UnknownException("Something went wrong");
       }
     } on SocketException {
-      throw NetworkException("No Internet Connection");
+      throw NetworkException("No internet connection");
     }
   }
 
@@ -78,7 +78,7 @@ class ProductAPI {
         throw UnknownException("Something went wrong");
       }
     } on SocketException {
-      throw NetworkException("No Internet Connection");
+      throw NetworkException("No internet connection");
     }
   }
 
@@ -100,7 +100,7 @@ class ProductAPI {
         throw UnknownException("Something went wrong");
       }
     } on SocketException {
-      throw NetworkException("No Internet Connection");
+      throw NetworkException("No internet connection");
     }
   }
 
@@ -132,7 +132,7 @@ class ProductAPI {
         throw UnknownException("Something went wrong");
       }
     } on SocketException {
-      throw NetworkException("No Internet Connection");
+      throw NetworkException("No internet connection");
     }
   }
 
@@ -164,7 +164,7 @@ class ProductAPI {
         throw UnknownException("Something went wrong");
       }
     } on SocketException {
-      throw NetworkException("No Internet Connection");
+      throw NetworkException("No internet connection");
     }
   }
 }
