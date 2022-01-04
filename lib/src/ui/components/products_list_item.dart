@@ -82,6 +82,7 @@ class ProductsListItem extends StatelessWidget {
         child: product.imgUrl != null
             ? Image.network(
                 Shared.baseURL + '/' + product.imgUrl!,
+                fit: BoxFit.cover,
                 errorBuilder: (BuildContext context, Object exception,
                     StackTrace? stackTrace) {
                   return Image.asset(
