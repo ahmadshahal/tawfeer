@@ -374,7 +374,7 @@ class ProductScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          owner.phoneNumber.toString(),
+          '+963' + owner.phoneNumber.toString(),
           style: const TextStyle(fontSize: 14),
         ),
         const SizedBox(height: 16),
