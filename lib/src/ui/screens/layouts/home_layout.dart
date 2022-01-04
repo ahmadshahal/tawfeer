@@ -40,7 +40,7 @@ class HomeLayout extends StatelessWidget {
               }
               if ((state as HomeLayoutSuccess).list.isEmpty) {
                 return const UserMsg(
-                  text: 'No products for now, swipe to refresh',
+                  text: 'No products for now, swipe to refresh..',
                   imgUrl: 'assets/images/no_items.png',
                 );
               }

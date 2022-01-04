@@ -64,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                         } else if (state is LoginFailure) {
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text((state.exception.message))));
+                              content: Text((state.exception.message + '.'))));
                         }
                       },
                       child: _form(context),

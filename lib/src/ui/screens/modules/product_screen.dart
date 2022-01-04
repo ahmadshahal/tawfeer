@@ -77,7 +77,7 @@ class ProductScreen extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            state.exception.toString(),
+                            state.exception.toString() + '.',
                           ),
                         ),
                       );

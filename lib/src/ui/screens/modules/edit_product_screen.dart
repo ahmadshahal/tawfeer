@@ -109,7 +109,7 @@ class EditProductScreen extends StatelessWidget {
                     } else if (state is EditProductFailure) {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text((state.exception.toString()))),
+                        SnackBar(content: Text((state.exception.toString() + '.'))),
                       );
                     }
                   },

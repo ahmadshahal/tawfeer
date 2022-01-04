@@ -34,7 +34,7 @@ class MyDrawer extends StatelessWidget {
             } else if (state is LogoutFailure) {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text((state.exception.message))));
+                  SnackBar(content: Text((state.exception.message + '.'))));
             }
           },
           child: ListView(

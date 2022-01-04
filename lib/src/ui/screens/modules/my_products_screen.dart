@@ -32,7 +32,7 @@ class MyProductsScreen extends StatelessWidget {
               }
               if (state is MyProductsFailure) {
                 return UserMsg(
-                  text: state.exception.message + ', swipe to refresh',
+                  text: state.exception.message + ', swipe to refresh..',
                   imgUrl: 'assets/images/error404.png',
                 );
               }
