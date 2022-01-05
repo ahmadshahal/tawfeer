@@ -1,7 +1,7 @@
 # Tawfeer
 ### My 3rd year university project.
 A Mobile shopping app created with Flutter that shows products which has an expire date and it is about to expire, connected to a MySQL Database through a Laravel API.
-Packages used: bloC - image picker - http.
+Packages used: bloC - image picker - http - Shared Prefrences.
 
 ![Screenshot_20220105_162530_com example tawfeer](https://user-images.githubusercontent.com/57716361/148248482-2b05fa6e-4bf6-434b-8f2c-e8e99a3c471d.jpg)
 
