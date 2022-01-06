@@ -25,7 +25,7 @@ class ProductScreen extends StatelessWidget {
     return Scaffold(
       // To avoid overflow when showing the screen while
       // the keyboard isn't closed.
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: _appBar(context),
       body: Builder(
@@ -92,7 +92,7 @@ class ProductScreen extends StatelessWidget {
                         // Expanded widget.
                         height: MediaQuery.of(context).size.height,
                         child: DefaultTabController(
-                          length: 2,
+                          length: 3,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -108,6 +108,7 @@ class ProductScreen extends StatelessWidget {
                                 tabs: [
                                   Tab(text: 'Details'),
                                   Tab(text: 'Description'),
+                                  Tab(text: 'Reviews'),
                                 ],
                               ),
                               Expanded(
@@ -125,15 +126,16 @@ class ProductScreen extends StatelessWidget {
                                       SingleChildScrollView(
                                         child: Column(
                                           children: [
-                                            const SizedBox(height: 16),
+                                            const SizedBox(height: 12),
                                             _descriptionText(
                                               context,
                                               state.product,
                                             ),
-                                            const SizedBox(height: 16),
+                                            const SizedBox(height: 12),
                                           ],
                                         ),
                                       ),
+                                      _reviewsColumn(context),
                                     ],
                                   ),
                                 ),
@@ -280,7 +282,7 @@ class ProductScreen extends StatelessWidget {
 
   Widget _detailsRow(BuildContext context, Product product, User owner) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -484,6 +486,78 @@ class ProductScreen extends StatelessWidget {
           child: const Text('Delete'),
         ),
       ],
+    );
+  }
+
+  Widget _reviewsColumn(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: ScrollConfiguration(
+            behavior: NonGlowScrollBehavior(),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 12),
+                  Row(
+                    children: const [
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: Text(
+                          'Money Heist (Spanish: La casa de papel, [la ˈkasa de paˈpel], "The House of Paper") is a Spanish heist crime drama television series created by Álex Pina. The series traces two long-prepared heists led by the Professor (Álvaro Morte), one on the Royal Mint of Spain, and one on the Bank of Spain, told from the perspective of one of the robbers, Tokyo (Úrsula Corberó). The narrative is told in a real-time-like fashion and relies on flashbacks, time-jumps, hidden character motivations, and an unreliable narrator for complexity.',
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: 1,
+          color: MyColors.lightGrey,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: _textField(context),
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  Widget _textField(BuildContext context) {
+    return SizedBox(
+      height: 45,
+      child: TextField(
+        textCapitalization: TextCapitalization.sentences,
+        cursorRadius: const Radius.circular(7.0),
+        style: const TextStyle(fontSize: 14),
+        decoration: InputDecoration(
+          hintText: 'Write a review..',
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+              color: MyColors.primaryColor,
+            ),
+          ),
+          hintStyle: const TextStyle(fontSize: 14),
+          suffixIcon: IconButton(
+            onPressed: () {
+              // TODO.
+            },
+            icon: const Icon(
+              Icons.send_rounded,
+              color: MyColors.primaryColor,
+              size: 21,
+            ),
+            splashRadius: 20.0,
+          ),
+        ),
+      ),
     );
   }
 }
