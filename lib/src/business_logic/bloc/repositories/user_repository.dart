@@ -37,8 +37,6 @@ class UserRepository {
   }
 
   Future<void> updateImg(File imgFile) async {
-    await Future.delayed(
-      const Duration(seconds: 5),
-    );
+    return await _userAPI.updateImage(imgFile);
   }
 }

@@ -24,7 +24,8 @@ class UserAPI {
       if (response.statusCode == 200) {
         return (json.decode(response.body) as Map<String, dynamic>)['token'];
       } else if (response.statusCode == 400) {
-        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
         throw UnknownException("Something went wrong");
       }
@@ -42,10 +43,11 @@ class UserAPI {
           "Authorization": Shared.token!,
         },
       );
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         return;
       } else if (response.statusCode == 401) {
-        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
         throw UnknownException("Something went wrong");
       }
@@ -72,7 +74,8 @@ class UserAPI {
       if (response.statusCode == 200) {
         return (json.decode(response.body) as Map<String, dynamic>)['token'];
       } else if (response.statusCode == 400) {
-        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
         throw UnknownException("Something went wrong");
       }
@@ -91,9 +94,11 @@ class UserAPI {
         },
       );
       if (response.statusCode == 200) {
-        return User.fromJson((json.decode(response.body) as Map<String, dynamic>)['user info']);
+        return User.fromJson(
+            (json.decode(response.body) as Map<String, dynamic>)['user info']);
       } else if (response.statusCode == 401) {
-        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
         throw UnknownException("Something went wrong");
       }
@@ -112,9 +117,11 @@ class UserAPI {
         },
       );
       if (response.statusCode == 200) {
-        return User.fromJson((json.decode(response.body) as Map<String, dynamic>)['user']);
+        return User.fromJson(
+            (json.decode(response.body) as Map<String, dynamic>)['user']);
       } else if (response.statusCode == 401) {
-        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
         throw UnknownException("Something went wrong");
       }
@@ -132,10 +139,38 @@ class UserAPI {
           "Authorization": token,
         },
       );
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         return;
       } else if (response.statusCode == 401) {
-        throw ServerException((json.decode(response.body) as Map<String, dynamic>)['message']);
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
+      } else {
+        throw UnknownException("Something went wrong");
+      }
+    } on SocketException {
+      throw NetworkException("No internet connection");
+    }
+  }
+
+  Future<void> updateImage(File imgFile) async {
+    try {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('$_baseURL/auth/updatePhoto'));
+      request.headers.addAll(
+        {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
+      );
+      var image = await http.MultipartFile.fromPath('img', imgFile.path);
+      request.files.add(image);
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        return;
+      } else if (response.statusCode == 400) {
+        throw ServerException("Wrong form of image");
+      } else if (response.statusCode == 401) {
+        throw ServerException("Unauthenticated");
       } else {
         throw UnknownException("Something went wrong");
       }
