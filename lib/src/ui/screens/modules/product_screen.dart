@@ -138,7 +138,7 @@ class ProductScreen extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      _reviewsColumn(context),
+                                      _reviewsColumn(context, state.reviews),
                                     ],
                                   ),
                                 ),
@@ -500,7 +500,7 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _reviewsColumn(BuildContext context) {
+  Widget _reviewsColumn(BuildContext context, List<Review> list) {
     return Column(
       children: [
         Expanded(
@@ -512,23 +512,7 @@ class ProductScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: ReviewsListView(
-                      list: [
-                        Review(
-                          comment:
-                              'The best product ever found in this world hello hello hello hello hello hello hello hello hello hello !',
-                          ownerFullName: 'Ahmad Al-Shahal',
-                          ownerImgUrl:
-                              'https://scontent.flca1-1.fna.fbcdn.net/v/t1.6435-9/66344627_1304933179673247_145168880992518144_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=3E9OBXBLCrgAX_p42Ks&_nc_ht=scontent.flca1-1.fna&oh=00_AT8pPymRP2FTezalIpTeZjc5lcQwY_TWeetqTKUaHTbX8A&oe=61FBB85A',
-                        ),
-                        Review(
-                          comment: 'The best product ever found in this world!',
-                          ownerFullName: 'Ahmad Al-Shahal',
-                          ownerImgUrl:
-                              'https://scontent.flca1-1.fna.fbcdn.net/v/t1.6435-9/66344627_1304933179673247_145168880992518144_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=3E9OBXBLCrgAX_p42Ks&_nc_ht=scontent.flca1-1.fna&oh=00_AT8pPymRP2FTezalIpTeZjc5lcQwY_TWeetqTKUaHTbX8A&oe=61FBB85A',
-                        ),
-                      ],
-                    ),
+                    child: ReviewsListView(list: list),
                   ),
                   const SizedBox(height: 12),
                 ],
