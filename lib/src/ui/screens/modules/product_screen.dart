@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/add_review_cubit/add_review_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/delete_product_cubit/delete_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
@@ -22,6 +23,8 @@ class ProductScreen extends StatelessWidget {
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
+
+  final TextEditingController _commentTextEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -536,29 +539,54 @@ class ProductScreen extends StatelessWidget {
   Widget _textField(BuildContext context) {
     return SizedBox(
       height: 45,
-      child: TextField(
-        textCapitalization: TextCapitalization.sentences,
-        cursorRadius: const Radius.circular(7.0),
-        style: const TextStyle(fontSize: 14),
-        decoration: InputDecoration(
-          hintText: 'Write a review..',
-          enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
-              width: 2,
-              color: MyColors.primaryColor,
+      child: BlocListener<AddReviewCubit, AddReviewState>(
+        listener: (context, state) {
+          if (state is AddReviewLoading) {
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return const LoadingDialog();
+              },
+            );
+          } else if (state is AddReviewSuccess) {
+            Navigator.pop(context);
+            _refreshIndicatorKey.currentState?.show();
+          } else if (state is AddReviewFailure) {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text((state.exception.toString() + '.'))),
+            );
+          }
+        },
+        child: TextField(
+          controller: _commentTextEditingController,
+          textCapitalization: TextCapitalization.sentences,
+          cursorRadius: const Radius.circular(7.0),
+          style: const TextStyle(fontSize: 14),
+          decoration: InputDecoration(
+            hintText: 'Write a review..',
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                width: 2,
+                color: MyColors.primaryColor,
+              ),
             ),
-          ),
-          hintStyle: const TextStyle(fontSize: 14),
-          suffixIcon: IconButton(
-            onPressed: () {
-              // TODO.
-            },
-            icon: const Icon(
-              Icons.send_rounded,
-              color: MyColors.primaryColor,
-              size: 21,
+            hintStyle: const TextStyle(fontSize: 14),
+            suffixIcon: IconButton(
+              onPressed: () {
+                if(_commentTextEditingController.text.isNotEmpty) {
+                  BlocProvider.of<AddReviewCubit>(context).addReview(_commentTextEditingController.text);
+                  _commentTextEditingController.clear();
+                }
+              },
+              icon: const Icon(
+                Icons.send_rounded,
+                color: MyColors.primaryColor,
+                size: 21,
+              ),
+              splashRadius: 20.0,
             ),
-            splashRadius: 20.0,
           ),
         ),
       ),

@@ -37,4 +37,8 @@ class ProductsRepository {
       Review(comment: "My Fourth Comment", ownerFullName: "Ahmad Shahal"),
     ]);
   }
+
+  Future<void> addReview({required String comment}) async {
+    return await Future.delayed(const Duration(seconds: 3));
+  }
 }

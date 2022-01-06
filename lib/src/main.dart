@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/add_product_cubit/add_product_cubit.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/add_review_cubit/add_review_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/delete_product_cubit/delete_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/expire_date_field_cubit/expire_date_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/home_layout_cubit/home_layout_cubit.dart';
@@ -142,6 +143,9 @@ class MyApp extends StatelessWidget {
                 ),
                 BlocProvider(
                   create: (context) => DeleteProductCubit(),
+                ),
+                BlocProvider(
+                  create: (context) => AddReviewCubit(),
                 ),
               ],
               child: ProductScreen(id: settings.arguments as int),
