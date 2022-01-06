@@ -10,6 +10,7 @@ import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/components/loading_dialog.dart';
 import 'package:tawfeer/src/ui/components/product_loading.dart';
 import 'package:tawfeer/src/ui/components/reviews_list_view.dart';
+import 'package:tawfeer/src/ui/components/rounded_button.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
@@ -103,7 +104,7 @@ class ProductScreen extends StatelessWidget {
                                 (state as ProductSuccess).product,
                               ),
                               const SizedBox(height: 20),
-                              _titlePriceColumn(context, state.product),
+                              _titleRow(context, state.product),
                               const SizedBox(height: 10),
                               const TabBar(
                                 labelColor: Colors.black,
@@ -227,6 +228,24 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
+  Widget _titleRow(BuildContext context, Product product) {
+    return Row(
+      children: [
+        Expanded(
+          child: _titlePriceColumn(context, product),
+        ),
+        const SizedBox(width: 20),
+        // TODO: onTap.
+        const RoundedButton(
+          icon: Icons.favorite,
+          counter: 2,
+          iconColor: MyColors.red,
+        ),
+        const SizedBox(width: 20),
+      ],
+    );
+  }
+
   Widget _titlePriceColumn(BuildContext context, Product product) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -326,11 +345,6 @@ class ProductScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         const Text(
-          'Views:',
-          style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
-        ),
-        const SizedBox(height: 16),
-        const Text(
           'Phone Number:',
           style: TextStyle(fontSize: 14, color: MyColors.darkGrey),
         ),
@@ -369,11 +383,6 @@ class ProductScreen extends StatelessWidget {
         if (product.discount != 0) const SizedBox(height: 16),
         Text(
           DateFormat.yMMMd().format(product.expireDate),
-          style: const TextStyle(fontSize: 14),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          product.seens.toString(),
           style: const TextStyle(fontSize: 14),
         ),
         const SizedBox(height: 16),
@@ -513,11 +522,10 @@ class ProductScreen extends StatelessWidget {
                               'https://scontent.flca1-1.fna.fbcdn.net/v/t1.6435-9/66344627_1304933179673247_145168880992518144_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=3E9OBXBLCrgAX_p42Ks&_nc_ht=scontent.flca1-1.fna&oh=00_AT8pPymRP2FTezalIpTeZjc5lcQwY_TWeetqTKUaHTbX8A&oe=61FBB85A',
                         ),
                         Review(
-                          comment:
-                          'The best product ever found in this world!',
+                          comment: 'The best product ever found in this world!',
                           ownerFullName: 'Ahmad Al-Shahal',
                           ownerImgUrl:
-                          'https://scontent.flca1-1.fna.fbcdn.net/v/t1.6435-9/66344627_1304933179673247_145168880992518144_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=3E9OBXBLCrgAX_p42Ks&_nc_ht=scontent.flca1-1.fna&oh=00_AT8pPymRP2FTezalIpTeZjc5lcQwY_TWeetqTKUaHTbX8A&oe=61FBB85A',
+                              'https://scontent.flca1-1.fna.fbcdn.net/v/t1.6435-9/66344627_1304933179673247_145168880992518144_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=3E9OBXBLCrgAX_p42Ks&_nc_ht=scontent.flca1-1.fna&oh=00_AT8pPymRP2FTezalIpTeZjc5lcQwY_TWeetqTKUaHTbX8A&oe=61FBB85A',
                         ),
                       ],
                     ),
