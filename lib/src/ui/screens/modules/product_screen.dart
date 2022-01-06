@@ -4,10 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/delete_product_cubit/delete_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/business_logic/models/review.dart';
 import 'package:tawfeer/src/business_logic/models/user.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/components/loading_dialog.dart';
 import 'package:tawfeer/src/ui/components/product_loading.dart';
+import 'package:tawfeer/src/ui/components/reviews_list_view.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
@@ -499,16 +501,26 @@ class ProductScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 12),
-                  Row(
-                    children: const [
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: Text(
-                          'Money Heist (Spanish: La casa de papel, [la ˈkasa de paˈpel], "The House of Paper") is a Spanish heist crime drama television series created by Álex Pina. The series traces two long-prepared heists led by the Professor (Álvaro Morte), one on the Royal Mint of Spain, and one on the Bank of Spain, told from the perspective of one of the robbers, Tokyo (Úrsula Corberó). The narrative is told in a real-time-like fashion and relies on flashbacks, time-jumps, hidden character motivations, and an unreliable narrator for complexity.',
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: ReviewsListView(
+                      list: [
+                        Review(
+                          comment:
+                              'The best product ever found in this world hello hello hello hello hello hello hello hello hello hello !',
+                          ownerFullName: 'Ahmad Al-Shahal',
+                          ownerImgUrl:
+                              'https://scontent.flca1-1.fna.fbcdn.net/v/t1.6435-9/66344627_1304933179673247_145168880992518144_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=3E9OBXBLCrgAX_p42Ks&_nc_ht=scontent.flca1-1.fna&oh=00_AT8pPymRP2FTezalIpTeZjc5lcQwY_TWeetqTKUaHTbX8A&oe=61FBB85A',
                         ),
-                      ),
-                      SizedBox(width: 20),
-                    ],
+                        Review(
+                          comment:
+                          'The best product ever found in this world!',
+                          ownerFullName: 'Ahmad Al-Shahal',
+                          ownerImgUrl:
+                          'https://scontent.flca1-1.fna.fbcdn.net/v/t1.6435-9/66344627_1304933179673247_145168880992518144_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=3E9OBXBLCrgAX_p42Ks&_nc_ht=scontent.flca1-1.fna&oh=00_AT8pPymRP2FTezalIpTeZjc5lcQwY_TWeetqTKUaHTbX8A&oe=61FBB85A',
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 12),
                 ],
