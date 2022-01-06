@@ -12,7 +12,9 @@ class MyTextFormField extends StatelessWidget {
   final bool obscureText;
   final bool readOnly;
   final bool enabled;
+  final Color? labelColor;
   final Color? textColor;
+  final Color? prefixColor;
   final int? maxLength;
   final GestureTapCallback? onTap;
   final String? hint;
@@ -27,7 +29,9 @@ class MyTextFormField extends StatelessWidget {
     this.onChanged,
     this.hint,
     this.enabled = true,
-    this.textColor = MyColors.darkGrey,
+    this.labelColor = MyColors.darkGrey,
+    this.textColor = Colors.black,
+    this.prefixColor = Colors.black,
     this.maxLength,
     this.prefixText,
     this.onTap,
@@ -65,8 +69,9 @@ class MyTextFormField extends StatelessWidget {
                 : TextCapitalization.none,
             cursorRadius: const Radius.circular(MyStyles.radius),
             controller: textController,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15.0,
+              color: textColor,
             ),
             obscureText: obscureText,
             keyboardType: textInputType,
@@ -77,8 +82,8 @@ class MyTextFormField extends StatelessWidget {
               errorMaxLines: 2,
               errorStyle: const TextStyle(fontSize: 11),
               prefixText: prefixText,
-              prefixStyle: const TextStyle(
-                color: Colors.black,
+              prefixStyle: TextStyle(
+                color: prefixColor,
                 fontSize: 15.0,
               ),
               hintStyle: const TextStyle(
@@ -91,11 +96,11 @@ class MyTextFormField extends StatelessWidget {
               ),
               labelStyle: TextStyle(
                 fontSize: 14,
-                color: textColor,
+                color: labelColor,
               ),
               floatingLabelStyle: TextStyle(
                 fontSize: 15,
-                color: textColor,
+                color: labelColor,
               ),
             ),
           ),

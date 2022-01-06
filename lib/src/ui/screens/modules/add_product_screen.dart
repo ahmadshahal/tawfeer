@@ -361,7 +361,7 @@ class AddProductScreen extends StatelessWidget {
                 readOnly: true,
                 enabled: state,
                 validate: validateDate,
-                textColor: state ? MyColors.darkGrey : Colors.grey[500],
+                labelColor: state ? MyColors.darkGrey : Colors.grey[500],
                 onTap: () {
                   _showDatePicker(
                     context,
@@ -380,7 +380,7 @@ class AddProductScreen extends StatelessWidget {
                 prefixText: '%',
                 enabled: state,
                 validate: validateDiscount,
-                textColor: state ? MyColors.darkGrey : Colors.grey[500],
+                labelColor: state ? MyColors.darkGrey : Colors.grey[500],
                 textController: discountController,
                 textInputType: TextInputType.number,
               ),
