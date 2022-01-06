@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/logout_cubit/logout_cubit.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/profile_image_picker_cubit/update_image_cubit.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
@@ -80,27 +82,69 @@ class MyDrawer extends StatelessWidget {
   }
 
   Widget _userDataColumn(BuildContext context) {
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 45,
-          backgroundImage: Shared.myUser!.imgUrl != null
-              ? NetworkImage(Shared.baseURL + '/' + Shared.myUser!.imgUrl!) as ImageProvider
-              : const AssetImage('assets/images/tawfeer_logo.png'),
-          onBackgroundImageError: (Object exception, StackTrace? stackTrace) {},
-          backgroundColor: MyColors.lightGrey,
-        ),
-        const SizedBox(height: 15),
-        Text(
-          Shared.myUser!.fullName,
-          style: const TextStyle(fontSize: 16.0),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          Shared.myUser!.email,
-          style: const TextStyle(fontSize: 14.0),
-        ),
-      ],
+    return BlocListener<UpdateImageCubit, UpdatedImageState>(
+      listener: (context, state) {
+        if (state is UpdateImageLoading) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return const LoadingDialog();
+            },
+          );
+        } else if (state is UpdateImageSuccess) {
+          Navigator.pop(context);
+        } else if (state is UpdateImageFailure) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text((state.exception.message + '.'))));
+        }
+      },
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              _showBottomSheet(
+                context: context,
+                cameraCallBack: () {
+                  BlocProvider.of<UpdateImageCubit>(context)
+                      .pickImage(ImageSource.camera);
+                },
+                galleryCallBack: () {
+                  BlocProvider.of<UpdateImageCubit>(context)
+                      .pickImage(ImageSource.gallery);
+                },
+              );
+            },
+            child:
+                BlocBuilder<UpdateImageCubit, UpdatedImageState>(
+              builder: (context, state) {
+                return CircleAvatar(
+                  radius: 45,
+                  backgroundImage: Shared.myUser!.imgUrl != null
+                      ? NetworkImage(
+                              Shared.baseURL + '/' + Shared.myUser!.imgUrl!)
+                          as ImageProvider
+                      : const AssetImage('assets/images/tawfeer_logo.png'),
+                  onBackgroundImageError:
+                      (Object exception, StackTrace? stackTrace) {},
+                  backgroundColor: MyColors.lightGrey,
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 15),
+          Text(
+            Shared.myUser!.fullName,
+            style: const TextStyle(fontSize: 16.0),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            Shared.myUser!.email,
+            style: const TextStyle(fontSize: 14.0),
+          ),
+        ],
+      ),
     );
   }
 
@@ -130,6 +174,39 @@ class MyDrawer extends StatelessWidget {
           child: const Text('Logout'),
         ),
       ],
+    );
+  }
+
+  void _showBottomSheet({
+    required BuildContext context,
+    required Function cameraCallBack,
+    required Function galleryCallBack,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_album),
+              title: const Text('Gallery', style: TextStyle(fontSize: 15)),
+              onTap: () {
+                Navigator.pop(context);
+                galleryCallBack();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Camera', style: TextStyle(fontSize: 15)),
+              onTap: () {
+                Navigator.pop(context);
+                cameraCallBack();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

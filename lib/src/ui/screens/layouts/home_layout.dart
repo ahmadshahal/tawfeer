@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/home_layout_cubit/home_layout_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/logout_cubit/logout_cubit.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/profile_image_picker_cubit/update_image_cubit.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/components/loading.dart';
 import 'package:tawfeer/src/ui/components/my_drawer.dart';
@@ -14,6 +15,7 @@ class HomeLayout extends StatelessWidget {
   HomeLayout({Key? key}) : super(key: key) {
     Shared.homeRefreshIndicatorKey = _refreshIndicatorKey;
   }
+
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
@@ -66,8 +68,15 @@ class HomeLayout extends StatelessWidget {
         ),
       ),
       floatingActionButton: _floatingActionButton(context),
-      drawer: BlocProvider(
-        create: (context) => LogoutCubit(),
+      drawer: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => LogoutCubit(),
+          ),
+          BlocProvider(
+            create: (context) => UpdateImageCubit(),
+          ),
+        ],
         child: const MyDrawer(),
       ),
     );

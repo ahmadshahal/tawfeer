@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tawfeer/src/business_logic/models/user.dart';
 import 'package:tawfeer/src/business_logic/services/api_services/user_api.dart';
 
@@ -32,5 +34,11 @@ class UserRepository {
 
   Future<void> validateToken(String token) async {
     return await _userAPI.validateToken(token);
+  }
+
+  Future<void> updateImg(File imgFile) async {
+    await Future.delayed(
+      const Duration(seconds: 5),
+    );
   }
 }
