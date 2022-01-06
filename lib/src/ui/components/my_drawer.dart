@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/logout_cubit/logout_cubit.dart';
-import 'package:tawfeer/src/business_logic/bloc/cubits/profile_image_picker_cubit/update_image_cubit.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/update_image_cubit/update_image_cubit.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
