@@ -38,10 +38,10 @@ class ProductsRepository {
   }
 
   Future<void> addLike({required int id}) async {
-    return await Future.delayed(const Duration(seconds: 3));
+    return await _productAPI.addLike(id);
   }
 
   Future<void> removeLike({required int id}) async {
-    return await Future.delayed(const Duration(seconds: 3));
+    return await _productAPI.removeLike(id);
   }
 }

@@ -219,4 +219,48 @@ class ProductAPI {
       throw NetworkException("No internet connection");
     }
   }
+
+  Future<void> addLike(int id) async {
+    try {
+      http.Response response = await http.get(
+        Uri.parse('$_baseURL/products/like/$id'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        return;
+      } else if (response.statusCode == 401) {
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
+      } else {
+        throw UnknownException("Something went wrong");
+      }
+    } on SocketException {
+      throw NetworkException("No internet connection");
+    }
+  }
+
+  Future<void> removeLike(int id) async {
+    try {
+      http.Response response = await http.get(
+        Uri.parse('$_baseURL/products/dislike/$id'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        return;
+      } else if (response.statusCode == 401) {
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
+      } else {
+        throw UnknownException("Something went wrong");
+      }
+    } on SocketException {
+      throw NetworkException("No internet connection");
+    }
+  }
 }
