@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:tawfeer/src/business_logic/models/product.dart';
+import 'package:tawfeer/src/business_logic/models/review.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/business_logic/utils/exceptions.dart';
 
@@ -160,6 +161,55 @@ class ProductAPI {
         throw ServerException("Wrong Form for image");
       } else if (response.statusCode == 401) {
         throw ServerException("Unauthenticated");
+      } else {
+        throw UnknownException("Something went wrong");
+      }
+    } on SocketException {
+      throw NetworkException("No internet connection");
+    }
+  }
+
+  Future<List<Review>> getReviews(int id) async {
+    try {
+      http.Response response = await http.get(
+        Uri.parse('$_baseURL/products/getComments/$id'),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        return ((json.decode(response.body))['comments'] as List)
+            .map((e) => Review.fromJson(e as Map<String, dynamic>))
+            .toList();
+      } else if (response.statusCode == 401) {
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
+      } else {
+        throw UnknownException("Something went wrong");
+      }
+    } on SocketException {
+      throw NetworkException("No internet connection");
+    }
+  }
+
+  Future<void> addReview(String comment, int id) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse('$_baseURL/products/addComment/$id'),
+        body: {
+          'comment': comment,
+        },
+        headers: {
+          "Accept": "application/json",
+          "Authorization": Shared.token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        return;
+      } else if (response.statusCode == 401) {
+        throw ServerException(
+            (json.decode(response.body) as Map<String, dynamic>)['message']);
       } else {
         throw UnknownException("Something went wrong");
       }

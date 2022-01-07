@@ -24,7 +24,8 @@ class ProductScreen extends StatelessWidget {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
-  final TextEditingController _commentTextEditingController = TextEditingController();
+  final TextEditingController _commentTextEditingController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -575,8 +576,11 @@ class ProductScreen extends StatelessWidget {
             hintStyle: const TextStyle(fontSize: 14),
             suffixIcon: IconButton(
               onPressed: () {
-                if(_commentTextEditingController.text.isNotEmpty) {
-                  BlocProvider.of<AddReviewCubit>(context).addReview(_commentTextEditingController.text);
+                if (_commentTextEditingController.text.isNotEmpty) {
+                  BlocProvider.of<AddReviewCubit>(context).addReview(
+                    comment: _commentTextEditingController.text,
+                    id: id,
+                  );
                   _commentTextEditingController.clear();
                 }
               },

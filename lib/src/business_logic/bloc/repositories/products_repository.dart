@@ -30,15 +30,10 @@ class ProductsRepository {
   }
 
   Future<List<Review>> getReviews({required int id}) async {
-    return await Future.delayed(const Duration(seconds: 3), () => [
-      Review(comment: "My First Comment", ownerFullName: "Ahmad Shahal"),
-      Review(comment: "My Second Comment", ownerFullName: "Ahmad Shahal"),
-      Review(comment: "My Third Comment", ownerFullName: "Ahmad Shahal"),
-      Review(comment: "My Fourth Comment", ownerFullName: "Ahmad Shahal"),
-    ]);
+    return await _productAPI.getReviews(id);
   }
 
-  Future<void> addReview({required String comment}) async {
-    return await Future.delayed(const Duration(seconds: 3));
+  Future<void> addReview({required String comment, required int id}) async {
+    return await _productAPI.addReview(comment, id);
   }
 }

@@ -14,8 +14,8 @@ class Review {
   Review.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     comment = json['comment'];
-    ownerFullName = json['ownerFullName'];
-    ownerImgUrl = json['ownerImgUrl'];
+    ownerFullName = json['userName'];
+    ownerImgUrl = json['imgUrl'];
   }
 
   Map<String, dynamic> toJson() {

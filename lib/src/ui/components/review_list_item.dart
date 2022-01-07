@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tawfeer/src/business_logic/models/review.dart';
+import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 
 class ReviewListItem extends StatelessWidget {
@@ -43,9 +44,7 @@ class ReviewListItem extends StatelessWidget {
       radius: 20,
       backgroundImage: review.ownerImgUrl != null
           ? NetworkImage(
-              // TODO.
-              /* Shared.baseURL + '/' + */
-              review.ownerImgUrl!,
+              Shared.baseURL + '/' + review.ownerImgUrl!,
             ) as ImageProvider
           : const AssetImage('assets/images/tawfeer_logo.png'),
       onBackgroundImageError: (Object exception, StackTrace? stackTrace) {},

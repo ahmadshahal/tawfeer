@@ -10,10 +10,10 @@ class AddReviewCubit extends Cubit<AddReviewState> {
 
   final ProductsRepository _productsRepository = ProductsRepository();
 
-  Future<void> addReview(String comment) async {
+  Future<void> addReview({required String comment, required int id}) async {
     emit(AddReviewLoading());
     try {
-      await _productsRepository.addReview(comment: comment);
+      await _productsRepository.addReview(comment: comment, id: id);
       if (isClosed) return;
       emit(AddReviewSuccess());
     } on TawfeerException catch (ex) {
