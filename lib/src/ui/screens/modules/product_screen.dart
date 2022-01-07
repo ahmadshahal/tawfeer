@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:tawfeer/src/business_logic/bloc/cubits/like_review_cubit/like_review_cubit.dart';
-import 'package:tawfeer/src/business_logic/bloc/cubits/delete_product_cubit/delete_product_cubit.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/like_review_delete_cubit/like_review_delete_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
 import 'package:tawfeer/src/business_logic/models/review.dart';
@@ -66,40 +65,41 @@ class ProductScreen extends StatelessWidget {
                   );
                 }
                 // ProductSuccess.
-                return BlocListener<DeleteProductCubit, DeleteProductState>(
-                  listener: (context, state) {
-                    if (state is DeleteProductLoading) {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (context) {
-                          return const LoadingDialog();
-                        },
-                      );
-                    } else if (state is DeleteProductSuccess) {
-                      Navigator.pop(context);
-                      Navigator.pop(context, true);
-                    } else if (state is DeleteProductFailure) {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            state.exception.toString() + '.',
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                  child: ScrollConfiguration(
-                    behavior: NonGlowScrollBehavior(),
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: SizedBox(
-                        // So I can add a SingleChildScrollView even though I have an
-                        // Expanded widget.
-                        height: MediaQuery.of(context).size.height,
-                        child: DefaultTabController(
-                          length: 3,
+                return ScrollConfiguration(
+                  behavior: NonGlowScrollBehavior(),
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: SizedBox(
+                      // So I can add a SingleChildScrollView even though I have an
+                      // Expanded widget.
+                      height: MediaQuery.of(context).size.height,
+                      child: DefaultTabController(
+                        length: 3,
+                        child: BlocListener<LikeReviewDeleteCubit, LikeReviewDeleteState>(
+                          listener: (context, state) {
+                            if (state is LikeReviewDeleteLoading) {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) {
+                                  return const LoadingDialog();
+                                },
+                              );
+                            } else if (state is LikeReviewSuccess) {
+                              Navigator.pop(context);
+                              _refreshIndicatorKey.currentState?.show();
+                            }
+                            else if(state is DeleteProductSuccess) {
+                              Navigator.pop(context);
+                              Navigator.pop(context, true);
+                            }
+                            else if (state is LikeReviewDeleteFailure) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text((state.exception.toString() + '.'))),
+                              );
+                            }
+                          },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -233,48 +233,26 @@ class ProductScreen extends StatelessWidget {
   }
 
   Widget _titleRow(BuildContext context, Product product) {
-    return BlocListener<LikeReviewCubit, LikeReviewState>(
-      listener: (context, state) {
-        if (state is LikeReviewLoading) {
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return const LoadingDialog();
-            },
-          );
-        } else if (state is LikeReviewSuccess) {
-          Navigator.pop(context);
-          _refreshIndicatorKey.currentState?.show();
-        } else if (state is LikeReviewFailure) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text((state.exception.toString() + '.'))),
-          );
-        }
-      },
-      child: Row(
-        children: [
-          Expanded(
-            child: _titlePriceColumn(context, product),
-          ),
-          const SizedBox(width: 20),
-          RoundedButton(
-            onTap: () {
-              if (product.liked!) {
-                BlocProvider.of<LikeReviewCubit>(context).removeLike(id: id);
-              } else {
-                BlocProvider.of<LikeReviewCubit>(context).addLike(id: id);
-              }
-            },
-            icon:
-                product.liked! ? Icons.favorite : Icons.favorite_border_rounded,
-            counter: product.likes,
-            iconColor: product.liked! ? MyColors.red : Colors.black,
-          ),
-          const SizedBox(width: 20),
-        ],
-      ),
+    return Row(
+      children: [
+        Expanded(
+          child: _titlePriceColumn(context, product),
+        ),
+        const SizedBox(width: 20),
+        RoundedButton(
+          onTap: () {
+            if (product.liked!) {
+              BlocProvider.of<LikeReviewDeleteCubit>(context).removeLike(id: id);
+            } else {
+              BlocProvider.of<LikeReviewDeleteCubit>(context).addLike(id: id);
+            }
+          },
+          icon: product.liked! ? Icons.favorite : Icons.favorite_border_rounded,
+          counter: product.likes,
+          iconColor: product.liked! ? MyColors.red : Colors.black,
+        ),
+        const SizedBox(width: 20),
+      ],
     );
   }
 
@@ -456,8 +434,7 @@ class ProductScreen extends StatelessWidget {
           );
         }
         if (value == 1) {
-          DeleteProductCubit cubit =
-              BlocProvider.of<DeleteProductCubit>(context);
+          LikeReviewDeleteCubit cubit = BlocProvider.of<LikeReviewDeleteCubit>(context);
           showDialog(
             context: context,
             builder: (context) => _deleteDialog(
@@ -500,7 +477,7 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  AlertDialog _deleteDialog(BuildContext context, DeleteProductCubit cubit) {
+  AlertDialog _deleteDialog(BuildContext context, LikeReviewDeleteCubit cubit) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
       title: const Text(
@@ -585,7 +562,7 @@ class ProductScreen extends StatelessWidget {
           suffixIcon: IconButton(
             onPressed: () {
               if (_commentTextEditingController.text.isNotEmpty) {
-                BlocProvider.of<LikeReviewCubit>(context).addReview(
+                BlocProvider.of<LikeReviewDeleteCubit>(context).addReview(
                   comment: _commentTextEditingController.text,
                   id: id,
                 );
