@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:tawfeer/src/business_logic/bloc/cubits/add_review_cubit/add_review_cubit.dart';
+import 'package:tawfeer/src/business_logic/bloc/cubits/like_review_cubit/like_review_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/delete_product_cubit/delete_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/product_cubit/product_cubit.dart';
 import 'package:tawfeer/src/business_logic/models/product.dart';
@@ -233,20 +233,48 @@ class ProductScreen extends StatelessWidget {
   }
 
   Widget _titleRow(BuildContext context, Product product) {
-    return Row(
-      children: [
-        Expanded(
-          child: _titlePriceColumn(context, product),
-        ),
-        const SizedBox(width: 20),
-        // TODO: onTap.
-        RoundedButton(
-          icon: product.liked! ? Icons.favorite : Icons.favorite_border_rounded,
-          counter: product.likes,
-          iconColor: product.liked! ? MyColors.red : Colors.black,
-        ),
-        const SizedBox(width: 20),
-      ],
+    return BlocListener<LikeReviewCubit, LikeReviewState>(
+      listener: (context, state) {
+        if (state is LikeReviewLoading) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return const LoadingDialog();
+            },
+          );
+        } else if (state is LikeReviewSuccess) {
+          Navigator.pop(context);
+          _refreshIndicatorKey.currentState?.show();
+        } else if (state is LikeReviewFailure) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text((state.exception.toString() + '.'))),
+          );
+        }
+      },
+      child: Row(
+        children: [
+          Expanded(
+            child: _titlePriceColumn(context, product),
+          ),
+          const SizedBox(width: 20),
+          RoundedButton(
+            onTap: () {
+              if (product.liked!) {
+                BlocProvider.of<LikeReviewCubit>(context).removeLike(id: id);
+              } else {
+                BlocProvider.of<LikeReviewCubit>(context).addLike(id: id);
+              }
+            },
+            icon:
+                product.liked! ? Icons.favorite : Icons.favorite_border_rounded,
+            counter: product.likes,
+            iconColor: product.liked! ? MyColors.red : Colors.black,
+          ),
+          const SizedBox(width: 20),
+        ],
+      ),
     );
   }
 
@@ -540,57 +568,36 @@ class ProductScreen extends StatelessWidget {
   Widget _textField(BuildContext context) {
     return SizedBox(
       height: 45,
-      child: BlocListener<AddReviewCubit, AddReviewState>(
-        listener: (context, state) {
-          if (state is AddReviewLoading) {
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return const LoadingDialog();
-              },
-            );
-          } else if (state is AddReviewSuccess) {
-            Navigator.pop(context);
-            _refreshIndicatorKey.currentState?.show();
-          } else if (state is AddReviewFailure) {
-            Navigator.pop(context);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text((state.exception.toString() + '.'))),
-            );
-          }
-        },
-        child: TextField(
-          controller: _commentTextEditingController,
-          textCapitalization: TextCapitalization.sentences,
-          cursorRadius: const Radius.circular(7.0),
-          style: const TextStyle(fontSize: 14),
-          decoration: InputDecoration(
-            hintText: 'Write a review..',
-            enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(
-                width: 2,
-                color: MyColors.primaryColor,
-              ),
+      child: TextField(
+        controller: _commentTextEditingController,
+        textCapitalization: TextCapitalization.sentences,
+        cursorRadius: const Radius.circular(7.0),
+        style: const TextStyle(fontSize: 14),
+        decoration: InputDecoration(
+          hintText: 'Write a review..',
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+              color: MyColors.primaryColor,
             ),
-            hintStyle: const TextStyle(fontSize: 14),
-            suffixIcon: IconButton(
-              onPressed: () {
-                if (_commentTextEditingController.text.isNotEmpty) {
-                  BlocProvider.of<AddReviewCubit>(context).addReview(
-                    comment: _commentTextEditingController.text,
-                    id: id,
-                  );
-                  _commentTextEditingController.clear();
-                }
-              },
-              icon: const Icon(
-                Icons.send_rounded,
-                color: MyColors.primaryColor,
-                size: 21,
-              ),
-              splashRadius: 20.0,
+          ),
+          hintStyle: const TextStyle(fontSize: 14),
+          suffixIcon: IconButton(
+            onPressed: () {
+              if (_commentTextEditingController.text.isNotEmpty) {
+                BlocProvider.of<LikeReviewCubit>(context).addReview(
+                  comment: _commentTextEditingController.text,
+                  id: id,
+                );
+                _commentTextEditingController.clear();
+              }
+            },
+            icon: const Icon(
+              Icons.send_rounded,
+              color: MyColors.primaryColor,
+              size: 21,
             ),
+            splashRadius: 20.0,
           ),
         ),
       ),

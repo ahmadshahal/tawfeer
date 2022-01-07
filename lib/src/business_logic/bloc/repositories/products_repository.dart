@@ -36,4 +36,12 @@ class ProductsRepository {
   Future<void> addReview({required String comment, required int id}) async {
     return await _productAPI.addReview(comment, id);
   }
+
+  Future<void> addLike({required int id}) async {
+    return await Future.delayed(const Duration(seconds: 3));
+  }
+
+  Future<void> removeLike({required int id}) async {
+    return await Future.delayed(const Duration(seconds: 3));
+  }
 }

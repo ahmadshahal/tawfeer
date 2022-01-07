@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/add_product_cubit/add_product_cubit.dart';
-import 'package:tawfeer/src/business_logic/bloc/cubits/add_review_cubit/add_review_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/delete_product_cubit/delete_product_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/expire_date_field_cubit/expire_date_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/home_layout_cubit/home_layout_cubit.dart';
@@ -26,6 +25,7 @@ import 'package:tawfeer/src/ui/utils/utility.dart';
 
 import 'business_logic/bloc/cubits/edit_product_cubit/edit_product_cubit.dart';
 import 'business_logic/bloc/cubits/image_picker_cubit/image_picker_cubit.dart';
+import 'business_logic/bloc/cubits/like_review_cubit/like_review_cubit.dart';
 import 'business_logic/models/product.dart';
 
 void main() async {
@@ -145,7 +145,7 @@ class MyApp extends StatelessWidget {
                   create: (context) => DeleteProductCubit(),
                 ),
                 BlocProvider(
-                  create: (context) => AddReviewCubit(),
+                  create: (context) => LikeReviewCubit(),
                 ),
               ],
               child: ProductScreen(id: settings.arguments as int),
