@@ -22,10 +22,10 @@ import 'package:tawfeer/src/ui/screens/modules/register_screen.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/utility.dart';
 
-import 'business_logic/bloc/cubits/edit_product_cubit/edit_product_cubit.dart';
-import 'business_logic/bloc/cubits/image_picker_cubit/image_picker_cubit.dart';
-import 'business_logic/bloc/cubits/like_review_delete_cubit/like_review_delete_cubit.dart';
-import 'business_logic/models/product.dart';
+import 'src/business_logic/bloc/cubits/edit_product_cubit/edit_product_cubit.dart';
+import 'src/business_logic/bloc/cubits/image_picker_cubit/image_picker_cubit.dart';
+import 'src/business_logic/bloc/cubits/like_review_delete_cubit/like_review_delete_cubit.dart';
+import 'src/business_logic/models/product.dart';
 
 void main() async {
   // You only need to call this method if you need the binding to be
