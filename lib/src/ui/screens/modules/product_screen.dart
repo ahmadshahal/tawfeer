@@ -8,7 +8,7 @@ import 'package:tawfeer/src/business_logic/models/review.dart';
 import 'package:tawfeer/src/business_logic/models/user.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
 import 'package:tawfeer/src/ui/components/loading_dialog.dart';
-import 'package:tawfeer/src/ui/components/product_loading.dart';
+import 'package:tawfeer/src/ui/components/product_loading_shimmer.dart';
 import 'package:tawfeer/src/ui/components/reviews_list_view.dart';
 import 'package:tawfeer/src/ui/components/rounded_button.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
@@ -46,12 +46,15 @@ class ProductScreen extends StatelessWidget {
             child: BlocBuilder<ProductCubit, ProductState>(
               builder: (context, state) {
                 if (state is ProductInitial) {
+                  return const ProductLoadingShimmer();
+                  /*
                   return Padding(
                     padding: EdgeInsets.only(
                       top: Scaffold.of(context).appBarMaxHeight ?? 80,
                     ),
                     child: const ProductLoading(),
                   );
+                  */
                 }
                 if (state is ProductFailure) {
                   return Padding(
@@ -165,6 +168,7 @@ class ProductScreen extends StatelessWidget {
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
       elevation: 0.0,
+      // Colors.transparent
       backgroundColor: Colors.black.withOpacity(0.3),
       leading: IconButton(
         onPressed: () {
