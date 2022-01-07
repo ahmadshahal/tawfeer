@@ -23,7 +23,6 @@ class LikeReviewDeleteCubit extends Cubit<LikeReviewDeleteState> {
   }
 
   Future<void> addReview({required String comment, required int id}) async {
-    emit(LikeReviewDeleteLoading());
     try {
       await _productsRepository.addReview(comment: comment, id: id);
       if (isClosed) return;
@@ -35,7 +34,6 @@ class LikeReviewDeleteCubit extends Cubit<LikeReviewDeleteState> {
   }
 
   Future<void> addLike({required int id}) async {
-    emit(LikeReviewDeleteLoading());
     try {
       await _productsRepository.addLike(id: id);
       if (isClosed) return;
@@ -47,7 +45,6 @@ class LikeReviewDeleteCubit extends Cubit<LikeReviewDeleteState> {
   }
 
   Future<void> removeLike({required int id}) async {
-    emit(LikeReviewDeleteLoading());
     try {
       await _productsRepository.removeLike(id: id);
       if (isClosed) return;

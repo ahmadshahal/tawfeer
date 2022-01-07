@@ -89,7 +89,6 @@ class ProductScreen extends StatelessWidget {
                                 },
                               );
                             } else if (state is LikeReviewSuccess) {
-                              Navigator.pop(context);
                               _refreshIndicatorKey.currentState?.show();
                             }
                             else if(state is DeleteProductSuccess) {
