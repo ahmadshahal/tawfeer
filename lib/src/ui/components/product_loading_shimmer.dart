@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tawfeer/src/ui/components/shimmer_skeleton.dart';
+import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/utils/non_glow_scroll_behavior.dart';
 
 class ProductLoadingShimmer extends StatelessWidget {
@@ -7,7 +8,7 @@ class ProductLoadingShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color baseColor = const Color(0xFFededed);
+    Color baseColor = MyColors.lightGrey;
     Color highlightColor = const Color(0xFFebebeb);
     return ScrollConfiguration(
       behavior: NonGlowScrollBehavior(),

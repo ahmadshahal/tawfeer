@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tawfeer/src/ui/components/shimmer_skeleton.dart';
+import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 
 class ShimmerProductListItem extends StatelessWidget {
   const ShimmerProductListItem({
@@ -16,8 +17,8 @@ class ShimmerProductListItem extends StatelessWidget {
         const ShimmerSkeleton(
           width: double.infinity,
           height: 82.0,
-          baseColor: Color(0xFFededed),
-          highlightColor: Color(0xFFededed),
+          baseColor: MyColors.lightGrey,
+          highlightColor: MyColors.lightGrey,
         ),
         Row(
           children: [
