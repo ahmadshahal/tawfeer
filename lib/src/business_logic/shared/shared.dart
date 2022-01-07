@@ -9,5 +9,6 @@ class Shared {
   static late SharedPreferences pref;
   static GlobalKey<RefreshIndicatorState>? homeRefreshIndicatorKey;
   static GlobalKey<RefreshIndicatorState>? myProductsRefreshIndicatorKey;
-  static String baseURL = 'http://192.168.1.105:8000';
+  static String baseURL = 'https://tawfeerapp.000webhostapp.com';
+  // 'http://192.168.1.105:8000'
 }
