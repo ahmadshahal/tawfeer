@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/my_products_cubit/my_products_cubit.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
-import 'package:tawfeer/src/ui/components/loading.dart';
 import 'package:tawfeer/src/ui/components/my_list_view.dart';
+import 'package:tawfeer/src/ui/components/shimmer_products_list.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 
@@ -28,7 +28,8 @@ class MyProductsScreen extends StatelessWidget {
           child: BlocBuilder<MyProductsCubit, MyProductsState>(
             builder: (context, state) {
               if (state is MyProductsInitial) {
-                return const Loading();
+                // return const Loading();
+                return const ShimmerProductsList();
               }
               if (state is MyProductsFailure) {
                 return UserMsg(

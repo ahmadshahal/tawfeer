@@ -4,9 +4,9 @@ import 'package:tawfeer/src/business_logic/bloc/cubits/home_layout_cubit/home_la
 import 'package:tawfeer/src/business_logic/bloc/cubits/logout_cubit/logout_cubit.dart';
 import 'package:tawfeer/src/business_logic/bloc/cubits/update_image_cubit/update_image_cubit.dart';
 import 'package:tawfeer/src/business_logic/shared/shared.dart';
-import 'package:tawfeer/src/ui/components/loading.dart';
 import 'package:tawfeer/src/ui/components/my_drawer.dart';
 import 'package:tawfeer/src/ui/components/my_list_view.dart';
+import 'package:tawfeer/src/ui/components/shimmer_products_list.dart';
 import 'package:tawfeer/src/ui/components/user_msg.dart';
 import 'package:tawfeer/src/ui/themes/styles/colors.dart';
 import 'package:tawfeer/src/ui/components/custom_search_delegate.dart';
@@ -32,7 +32,8 @@ class HomeLayout extends StatelessWidget {
           child: BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
             builder: (context, state) {
               if (state is HomeLayoutInitial) {
-                return const Loading();
+                // return const Loading();
+                return const ShimmerProductsList();
               }
               if (state is HomeLayoutFailure) {
                 return UserMsg(
