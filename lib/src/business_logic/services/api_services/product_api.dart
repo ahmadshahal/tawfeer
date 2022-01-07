@@ -87,8 +87,8 @@ class ProductAPI {
 
   Future<void> destroy(int id) async {
     try {
-      http.Response response = await http.delete(
-        Uri.parse('$_baseURL/products/$id'),
+      http.Response response = await http.post(
+        Uri.parse('$_baseURL/products/delete/$id'),
         headers: {
           "Accept": "application/json",
           "Authorization": Shared.token!,
@@ -110,7 +110,7 @@ class ProductAPI {
   Future<void> store(Product product) async {
     try {
       var request =
-          http.MultipartRequest('POST', Uri.parse('$_baseURL/products'));
+          http.MultipartRequest('POST', Uri.parse('$_baseURL/products/store'));
       request.headers.addAll(
         {
           "Accept": "application/json",
@@ -142,7 +142,7 @@ class ProductAPI {
   Future<void> update(Product product) async {
     try {
       var request = http.MultipartRequest(
-          'POST', Uri.parse('$_baseURL/products/${product.id}'));
+          'POST', Uri.parse('$_baseURL/products/update/${product.id}'));
       request.headers.addAll(
         {
           "Accept": "application/json",
