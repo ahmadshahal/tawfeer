@@ -15,6 +15,7 @@ class Product {
   late int seens;
   late double newPrice;
   late double discount;
+  late int likes;
 
   String? imgUrl;
 
@@ -25,6 +26,9 @@ class Product {
   double? secondDiscount;
   double? thirdDiscount;
   File? imgFile;
+
+  // Gets initialized outside constructors in the request function.
+  bool? liked;
 
   Product({
     this.id,
@@ -38,6 +42,7 @@ class Product {
     this.newPrice = 10, // TODO: Reconsider
     this.seens = 0, // TODO: Reconsider
     this.discount = 0, // TODO: Reconsider
+    this.likes = 0,
     this.imgUrl,
     this.firstDiscountDate,
     this.secondDiscountDate,
@@ -64,6 +69,7 @@ class Product {
     category = json['category'];
     quantity = json['quantity'];
     seens = json['seens'];
+    likes = json['likes'];
     discount = double.parse((json['currentDiscount']).toString());
     if(json['firstDate'] != null) {
       firstDiscountDate = DateTime.parse(json['firstDate']);

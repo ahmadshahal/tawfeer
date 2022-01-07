@@ -70,8 +70,10 @@ class ProductAPI {
         },
       );
       if (response.statusCode == 200) {
-        return Product.fromJson(
-            (json.decode(response.body) as Map<String, dynamic>)['Product']);
+        Map<String, dynamic> responseBody = (json.decode(response.body) as Map<String, dynamic>);
+        Product product = Product.fromJson(responseBody['Product']);
+        product.liked = responseBody['Liked'];
+        return product;
       } else if (response.statusCode == 400 || response.statusCode == 401) {
         throw ServerException(
             (json.decode(response.body) as Map<String, dynamic>)['message']);

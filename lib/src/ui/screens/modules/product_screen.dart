@@ -240,10 +240,10 @@ class ProductScreen extends StatelessWidget {
         ),
         const SizedBox(width: 20),
         // TODO: onTap.
-        const RoundedButton(
-          icon: Icons.favorite,
-          counter: 2,
-          iconColor: MyColors.red,
+        RoundedButton(
+          icon: product.liked! ? Icons.favorite : Icons.favorite_border_rounded,
+          counter: product.likes,
+          iconColor: product.liked! ? MyColors.red : Colors.black,
         ),
         const SizedBox(width: 20),
       ],
