@@ -7,7 +7,7 @@ class ProductLoadingShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color baseColor = Colors.grey[300]!;
+    Color baseColor = const Color(0xFFededed);
     Color highlightColor = const Color(0xFFebebeb);
     return ScrollConfiguration(
       behavior: NonGlowScrollBehavior(),
