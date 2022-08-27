@@ -5,7 +5,7 @@ An E-Commerce Mobile Application offering three main usecases:
 * Search for a product.
 
 ## Technologies
-Tawfeer is built using Flutter cross-platform framework with Bloc state management using repositories pattern, Image picker, Http package and Shared Prefrences.
+Tawfeer is built using Flutter cross-platform framework with Bloc state management using repositories pattern, Image picker, Http package, and Shared Prefrences.
 
 ## Preview
 ![image1](https://user-images.githubusercontent.com/57716361/187024351-7123d456-6ded-49cc-8850-bb0c9ac478c1.jpeg)
