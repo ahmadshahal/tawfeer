@@ -1,18 +1,17 @@
-# Tawfeer
-### My 3rd year university project.
-A Mobile shopping app created with Flutter that shows products which has an expire date and it is about to expire, connected to a MySQL Database through a Laravel API.
-Packages used: bloC - image picker - http - Shared Prefrences.
+## Intro
+An E-Commerce Mobile Application.
 
-![Screenshot_20220105_162530_com example tawfeer](https://user-images.githubusercontent.com/57716361/148248482-2b05fa6e-4bf6-434b-8f2c-e8e99a3c471d.jpg)
+It is offering three main usecases:
+* Post and view products.
+* Like products and comment on them.
+* Search for a product.
 
-![Screenshot_20220105_162533_com example tawfeer](https://user-images.githubusercontent.com/57716361/148248593-ebece0fa-c0e8-4b27-aa44-1ca3b219a050.jpg)
+## Technologies
+Tawfeer is built using Flutter cross-platform framework with Bloc state management using repositories pattern, Image picker, Http package and Shared Prefrences.
 
-![Screenshot_20220105_162444_com example tawfeer](https://user-images.githubusercontent.com/57716361/148248703-bf115654-5076-4a7c-a238-fda9071564a1.jpg)
-
-![Screenshot_20220107_122024_com example tawfeer](https://user-images.githubusercontent.com/57716361/148530874-e881c064-e420-4d38-8d2a-3a7bb28d7ff3.jpg)
-
-![Screenshot_20220107_122017_com example tawfeer](https://user-images.githubusercontent.com/57716361/148530752-2d6b84c5-0046-4f6b-bea0-8951f9cebff4.jpg)
-
-![Screenshot_20220105_162524_com example tawfeer](https://user-images.githubusercontent.com/57716361/148248967-f435f1f2-fa38-4216-b7dc-0a465f233e8c.jpg)
-
-![Screenshot_20220107_122316_com example tawfeer](https://user-images.githubusercontent.com/57716361/148530969-10afe619-3ccf-4849-a77a-e3953d290e00.jpg)
+## Preview
+![image1](https://user-images.githubusercontent.com/57716361/187024351-7123d456-6ded-49cc-8850-bb0c9ac478c1.jpeg)
+![image2](https://user-images.githubusercontent.com/57716361/187024354-b0d26513-4c8b-45b1-8f2b-f5c0435d174d.jpeg)
+![image3](https://user-images.githubusercontent.com/57716361/187024356-a6d4c565-00f2-4642-99d6-914bfa376f26.jpeg)
+![image4](https://user-images.githubusercontent.com/57716361/187024358-7338a1e0-3b34-4921-929f-cc277d7f70fe.jpeg)
+![image5](https://user-images.githubusercontent.com/57716361/187024391-1fc79f5d-2bc9-465d-8f94-8699f84fcb28.jpeg)
