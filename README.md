@@ -1,7 +1,5 @@
 ## Intro
-An E-Commerce Mobile Application.
-
-It is offering three main usecases:
+An E-Commerce Mobile Application offering three main usecases:
 * Post and view products.
 * Like products and comment on them.
 * Search for a product.
