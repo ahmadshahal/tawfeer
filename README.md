@@ -1,11 +1,18 @@
 ## Intro
-An E-Commerce Mobile Application offering three main usecases:
+An E-Commerce mobile application designed to provide users with a convenient and user-friendly shopping experience.
+
+## Features
 * Post and view products.
 * Like products and comment on them.
 * Search for a product.
 
-## Technologies
-Tawfeer is built using Flutter cross-platform framework with Bloc state management using repositories pattern, Image picker, Http package, and Shared Prefrences.
+## Technologies Used
+* Flutter
+* Dart
+* BloC
+* Image Picker
+* Http
+* Shared Prefrences
 
 ## Preview
 ![image1](https://user-images.githubusercontent.com/57716361/187024351-7123d456-6ded-49cc-8850-bb0c9ac478c1.jpeg)
